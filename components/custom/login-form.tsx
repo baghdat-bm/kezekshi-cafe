@@ -29,6 +29,7 @@ export default function CustomLoginForm() {
 
       router.push("/dashboard");
     } catch (err) {
+      console.error(err);
       setError("Неверный логин или пароль");
     }
   };
