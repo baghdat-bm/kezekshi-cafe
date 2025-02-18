@@ -1,5 +1,19 @@
+'use client';
 
-export default async function DashboardPage() {
+import { useAuthStore } from '@/lib/auth-store';
+import DishCategories from '@/components/custom/DishCategories';
 
-  return <div>Добро пожаловать в панель управления!</div>;
+export default function DashboardPage() {
+  const token = useAuthStore((state) => state.accessToken);
+
+  if (!token) return <p>Загрузка...</p>;
+
+  return (
+      <main className="flex flex-col items-center p-6">
+        <div>Добро пожаловать!</div>
+        <h1 className="text-2xl font-bold mb-6">Категории блюд</h1>
+        <DishCategories token={token} />
+      </main>
+  );
 }
+

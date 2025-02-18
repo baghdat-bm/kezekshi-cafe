@@ -17,3 +17,18 @@ export const setAuthToken = (token: string | null) => {
     delete api.defaults.headers.common["Authorization"];
   }
 };
+
+// сервис для получения списка категорий блюд
+export const fetchDishCategories = async (token: string) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/dishes-categories/`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Ошибка при загрузке категорий блюд:', error);
+    return [];
+  }
+};

@@ -1,0 +1,34 @@
+'use client';
+
+import { useEffect } from 'react';
+import { useDishCategoryStore } from '@/lib/store';
+
+interface DishCategoriesProps {
+    token: string;
+}
+
+const DishCategories: React.FC<DishCategoriesProps> = ({ token }) => {
+    const { categories, fetchCategories } = useDishCategoryStore();
+
+    useEffect(() => {
+        fetchCategories(token);
+    }, [token]);
+
+    return (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4">
+            {categories.map((category) => (
+                <div
+                    key={category.id}
+                    className="flex flex-col items-center justify-center p-4 rounded-lg shadow-lg"
+                    style={{ backgroundColor: category.color }}
+                >
+                    <img src={category.logo} alt={category.name_ru}
+                         className="w-20 h-20 object-cover mb-2" />
+                    <span className="text-white font-bold text-lg">{category.name_ru}</span>
+                </div>
+            ))}
+        </div>
+    );
+};
+
+export default DishCategories;
