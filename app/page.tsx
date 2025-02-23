@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useAuthStore } from "@/lib/auth-store";
-import { Button } from "@/components/ui/button";
-import { Pizza, Coffee } from "lucide-react";
+import { useAuthStore } from '@/lib/auth-store';
+import DishCategories from '@/components/custom/DishCategories';
 
-export default function Home() {
-  const { logout } = useAuthStore(); // Получаем функцию logout из Zustand
+export default function DashboardPage() {
+    const token = useAuthStore((state) => state.accessToken);
 
-  return (
-    <div className="flex gap-4">
-      <Pizza size={32} className="text-red-500" />
-      <Coffee size={32} className="text-yellow-500" />
+    if (!token) return <p>Загрузка...</p>;
 
-      <Button onClick={logout}>Выйти</Button>
-    </div>
-  );
+    return (
+        <main className="flex flex-col items-center p-6">
+            <div>Добро пожаловать!</div>
+            <h1 className="text-2xl font-bold mb-6">Категории блюд</h1>
+            <DishCategories token={token} />
+        </main>
+    );
 }

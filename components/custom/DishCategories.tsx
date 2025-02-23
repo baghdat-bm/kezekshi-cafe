@@ -22,9 +22,10 @@ const DishCategories: React.FC<DishCategoriesProps> = ({ token }) => {
                     className="flex flex-col items-center justify-center p-4 rounded-lg shadow-lg"
                     style={{ backgroundColor: category.color }}
                 >
-                    <img src={category.logo} alt={category.name_ru}
+                    <img src={category.logo || '/images/food.png'} alt={category.name}
                          className="w-20 h-20 object-cover mb-2" />
-                    <span className="text-white font-bold text-lg">{category.name_ru}</span>
+
+                    <span className="text-white font-bold text-lg">{category.name}</span>
                 </div>
             ))}
         </div>

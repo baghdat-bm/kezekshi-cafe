@@ -4,9 +4,7 @@ import {fetchDishCategories} from '@/lib/api';
 interface DishCategory {
     id: number;
     dish_order: number;
-    name_kz: string;
-    name_ru: string;
-    name_en: string;
+    name: string;
     logo: string;
     color: string;
 }
