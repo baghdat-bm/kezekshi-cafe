@@ -10,8 +10,6 @@ export default function DashboardPage() {
 
     return (
         <main className="flex flex-col items-center p-6">
-            <div>Добро пожаловать!</div>
-            <h1 className="text-2xl font-bold mb-6">Категории блюд</h1>
             <DishCategories token={token} />
         </main>
     );
