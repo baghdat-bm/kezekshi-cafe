@@ -1,7 +1,7 @@
 'use client';
 
-import { useAuthStore } from '@/lib/auth-store';
-import DishCategories from '@/components/custom/DishCategories';
+import { useAuthStore } from '@/lib/store/auth';
+import DishCategories from '@/components/custom/categories/DishCategories';
 
 export default function DashboardPage() {
     const token = useAuthStore((state) => state.accessToken);

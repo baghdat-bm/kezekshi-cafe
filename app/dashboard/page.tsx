@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthStore } from "@/lib/auth-store";
+import { useAuthStore } from "@/lib/store/auth";
 import { Button } from "@/components/ui/button";
 import { Pizza, Coffee } from "lucide-react";
 

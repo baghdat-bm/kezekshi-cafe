@@ -1,9 +1,12 @@
 import {create} from 'zustand';
-import {createDishCategory, deleteDishCategory, fetchDishCategories, updateDishCategory} from '@/lib/api';
+import {createItem, deleteItem, fetchItems, updateItem} from '@/lib/service/dish-categories';
 
 interface DishCategory {
     id: number;
     name: string;
+    name_kz?: string | null;
+    name_ru?: string | null;
+    name_en?: string | null;
     logo: string;
     color: string;
     measurement_unit?: number | null;
@@ -22,19 +25,19 @@ export const useDishCategoryStore = create<DishCategoryStore>((set, get) => ({
 
     // Получение списка категорий
     fetchCategories: async () => {
-        const data = await fetchDishCategories();
+        const data = await fetchItems();
         set({ categories: data });
     },
 
     // Добавление новой категории
     addCategory: async (categoryData) => {
-        const newCategory = await createDishCategory(categoryData);
+        const newCategory = await createItem(categoryData);
         set({ categories: [...get().categories, newCategory] });
     },
 
     // Обновление категории
     updateCategory: async (id, categoryData) => {
-        const updatedCategory = await updateDishCategory(id, categoryData);
+        const updatedCategory = await updateItem(id, categoryData);
         set({
             categories: get().categories.map((cat) => (cat.id === id ? updatedCategory : cat)),
         });
@@ -42,7 +45,7 @@ export const useDishCategoryStore = create<DishCategoryStore>((set, get) => ({
 
     // Удаление категории
     deleteCategory: async (id) => {
-        await deleteDishCategory(id);
+        await deleteItem(id);
         set({
             categories: get().categories.filter((cat) => cat.id !== id),
         });

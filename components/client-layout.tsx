@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useAuthStore } from "@/lib/auth-store";
+import { useAuthStore } from "@/lib/store/auth";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {

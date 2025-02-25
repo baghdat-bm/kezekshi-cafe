@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDishCategoryStore } from '@/lib/store';
+import { useDishCategoryStore } from '@/lib/store/dish-categories';
 
 const CreateCategory = () => {
     const { addCategory } = useDishCategoryStore();
@@ -8,11 +8,12 @@ const CreateCategory = () => {
     const [color, setColor] = useState('#000000');
     const [measurementUnit, setMeasurementUnit] = useState('');
 
+    // @ts-ignore
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newCategory = {
             name,
-            logo: logo.trim() !== '' ? logo : null,
+            logo: logo.trim() !== '' ? logo : undefined,
             color,
             measurement_unit: measurementUnit.trim() !== '' ? Number(measurementUnit) : null,
         };

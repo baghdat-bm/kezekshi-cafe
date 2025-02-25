@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useDishCategoryStore } from '@/lib/store';
+import { useDishCategoryStore } from '@/lib/store/dish-categories';
 
 interface DishCategoriesProps {
     token: string;

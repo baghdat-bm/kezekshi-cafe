@@ -1,7 +1,8 @@
 "use client"
 
 import React, { useEffect } from 'react';
-import { useDishCategoryStore } from '@/lib/store';
+import Image from 'next/image';
+import { useDishCategoryStore } from '@/lib/store/dish-categories';
 
 const ListCategories = () => {
     const { categories, fetchCategories, deleteCategory } = useDishCategoryStore();
@@ -10,7 +11,7 @@ const ListCategories = () => {
         fetchCategories();
     }, [fetchCategories]);
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (id: number) => {
         try {
             await deleteCategory(id);
         } catch (error) {
@@ -20,7 +21,7 @@ const ListCategories = () => {
 
     return (
         <div>
-            <table border="1" cellPadding="5" className="table-none md:table-fixed">
+            <table cellPadding="5" className="table-none md:table-fixed">
                 <thead>
                 <tr>
                     <th>ID</th>
@@ -37,7 +38,14 @@ const ListCategories = () => {
                         <td>{category.id}</td>
                         <td>{category.name}</td>
                         <td>
-                            {category.logo && <img src={category.logo} alt={category.name} width="50" />}
+                            {category.logo && (
+                                <Image
+                                    src={category.logo}
+                                    alt={category.name}
+                                    width={50}
+                                    height={50}
+                                />
+                            )}
                         </td>
                         <td style={{ backgroundColor: category.color }}>{category.color}</td>
                         <td>{category.measurement_unit}</td>

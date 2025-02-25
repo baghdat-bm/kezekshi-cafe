@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/lib/auth-store";
+import { useAuthStore } from "@/lib/store/auth";
 import Cookies from "js-cookie";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
