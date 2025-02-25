@@ -2,7 +2,7 @@ import axios from "axios";
 import {useAuthStore} from '@/lib/store/auth';
 import {API_BASE_URL} from "@/lib/service/base";
 
-const API_URL = `${API_BASE_URL}/measurement-units/`;
+const API_URL = `${API_BASE_URL}/contractors/`;
 
 // сервис для получения списка элементов
 export const fetchItems = async () => {
@@ -15,7 +15,7 @@ export const fetchItems = async () => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при загрузке единиц измерения:', error);
+        console.error('Ошибка при загрузке контрагентов:', error);
         return [];
     }
 };
@@ -31,7 +31,7 @@ export const fetchItem = async (id: number) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при загрузке единицы измерения:', error);
+        console.error('Ошибка при загрузке контрагента:', error);
         return [];
     }
 };
@@ -45,7 +45,7 @@ export const createItem = async (itemData: any) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при создании единицы измерения:', error);
+        console.error('Ошибка при создании контрагента:', error);
         throw error;
     }
 };
@@ -59,7 +59,7 @@ export const updateItem = async (id: number, itemData: any) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при обновлении единицы измерения:', error);
+        console.error('Ошибка при обновлении контрагента:', error);
         throw error;
     }
 };
@@ -72,7 +72,7 @@ export const deleteItem = async (id: number) => {
             headers: {Authorization: `Bearer ${token}`},
         });
     } catch (error) {
-        console.error('Ошибка при удалении единицы измерения:', error);
+        console.error('Ошибка при удалении контрагента:', error);
         throw error;
     }
 };

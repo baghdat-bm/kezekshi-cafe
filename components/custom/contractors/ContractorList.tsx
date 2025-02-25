@@ -3,9 +3,9 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
-import UnitDeleteButton from './UnitDeleteButton';
+import ContractorDeleteButton from './ContractorDeleteButton';
 
-const UnitList = () => {
+const ContractorList = () => {
     const { units, fetchUnits, deleteUnit } = useMeasurementUnitStore();
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const UnitList = () => {
                             </Link>
                         </td>
                         <td>
-                            <UnitDeleteButton id={unit.id} onDelete={deleteUnit} />
+                            <ContractorDeleteButton id={unit.id} onDelete={deleteUnit} />
                         </td>
                     </tr>
                 ))}
@@ -44,4 +44,4 @@ const UnitList = () => {
     );
 };
 
-export default UnitList;
+export default ContractorList;
