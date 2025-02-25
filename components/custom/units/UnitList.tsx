@@ -29,7 +29,7 @@ const UnitList = () => {
                     <tr key={unit.id}>
                         <td>{unit.id}</td>
                         <td>
-                            <Link href={`/app/admin/units/${unit.id}`}>
+                            <Link href={`/admin/units/${unit.id}`}>
                                 {unit.name_kz || unit.name_ru || unit.name_en || unit.name || 'Без названия'}
                             </Link>
                         </td>

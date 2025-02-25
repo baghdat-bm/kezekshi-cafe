@@ -42,7 +42,7 @@ const UnitCreate = () => {
                     <input name="name_en" value={form.name_en} onChange={handleChange} />
                 </div>
                 <button type="submit">Создать</button>
-                <button type="button" onClick={() => router.push('/units')}>
+                <button type="button" onClick={() => router.push('/admin/units')}>
                     Отмена
                 </button>
             </form>

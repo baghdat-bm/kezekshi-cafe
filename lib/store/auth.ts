@@ -4,13 +4,32 @@ import axios from "axios";
 import {API_BASE_URL} from "@/lib/service/base";
 
 const AUTH_API_URL = `${API_BASE_URL}/token/`;
+const USER_DATA_URL = `${API_BASE_URL}/user-data/`;
+
+interface UserData {
+    user_id: number;
+    user_name: string;
+    profile_id: number;
+    user_phone: string;
+    user_photo: string;
+    user_iin: string;
+    school_id: number;
+    school_name_kz: string;
+    school_name_ru: string;
+    school_name_en: string;
+    school_bin: string;
+    warehouse_id: number;
+    warehouse_name: string;
+}
 
 interface AuthState {
     accessToken: string | null;
     refreshToken: string | null;
     isAuthenticated: boolean | null;
     isLoading: boolean;
+    userData: UserData | null;
     login: (username: string, password: string) => Promise<{ access: string; refresh: string }>;
+    fetchUserData: () => Promise<UserData | null>;
     refreshAccessToken: () => Promise<void>;
     logout: () => void;
 }
@@ -22,44 +41,68 @@ export const useAuthStore = create(
             refreshToken: null,
             isAuthenticated: null,
             isLoading: true,
+            userData: null,
 
             login: async (username, password) => {
                 try {
-                    const response = await axios.post(AUTH_API_URL, {username, password});
-                    const {access, refresh} = response.data;
+                    const response = await axios.post(AUTH_API_URL, { username, password });
+                    const { access, refresh } = response.data;
 
-                    set({accessToken: access, refreshToken: refresh, isAuthenticated: true, isLoading: false});
+                    set({
+                        accessToken: access,
+                        refreshToken: refresh,
+                        isAuthenticated: true,
+                        isLoading: false,
+                    });
                     axios.defaults.headers.common["Authorization"] = `Bearer ${access}`;
 
-                    return {access, refresh}; // Возвращаем токены для сохранения в cookies
+                    // После успешной авторизации получаем данные пользователя
+                    await get().fetchUserData();
+
+                    return { access, refresh };
                 } catch (error) {
                     console.error("Ошибка авторизации:", error);
                     throw new Error("Ошибка входа, проверьте данные");
                 }
             },
 
+            fetchUserData: async () => {
+                try {
+                    const response = await axios.get(USER_DATA_URL);
+                    const userData: UserData = response.data;
+                    set({ userData });
+                    return userData;
+                } catch (error) {
+                    console.error("Ошибка получения данных пользователя:", error);
+                    return null;
+                }
+            },
+
             refreshAccessToken: async () => {
                 try {
-                    set({isLoading: true});
+                    set({ isLoading: true });
                     const refreshToken = get().refreshToken;
                     if (!refreshToken) {
-                        set({isAuthenticated: false, isLoading: false});
+                        set({ isAuthenticated: false, isLoading: false });
                         return;
                     }
 
-                    const response = await axios.post(`${AUTH_API_URL}refresh/`, {refresh: refreshToken});
-                    const {access} = response.data;
+                    const response = await axios.post(`${AUTH_API_URL}refresh/`, { refresh: refreshToken });
+                    const { access } = response.data;
 
-                    set({accessToken: access, isAuthenticated: true, isLoading: false});
+                    set({ accessToken: access, isAuthenticated: true, isLoading: false });
                     axios.defaults.headers.common["Authorization"] = `Bearer ${access}`;
+
+                    // После обновления токена обновляем данные пользователя
+                    await get().fetchUserData();
                 } catch (error) {
                     console.error("Ошибка обновления токена:", error);
-                    set({isAuthenticated: false, isLoading: false});
+                    set({ isAuthenticated: false, isLoading: false });
                 }
             },
 
             logout: () => {
-                set({accessToken: null, refreshToken: null, isAuthenticated: false, isLoading: false});
+                set({ accessToken: null, refreshToken: null, isAuthenticated: false, isLoading: false, userData: null });
                 delete axios.defaults.headers.common["Authorization"];
                 document.cookie = "accessToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
                 document.cookie = "refreshToken=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
