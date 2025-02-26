@@ -2,20 +2,20 @@
 
 import React, { useEffect } from 'react';
 import Link from 'next/link';
-import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
+import { useContractorStore } from '@/lib/store/contractors';
 import ContractorDeleteButton from './ContractorDeleteButton';
 
 const ContractorList = () => {
-    const { units, fetchUnits, deleteUnit } = useMeasurementUnitStore();
+    const { contractors, fetchContractors, deleteContractor } = useContractorStore();
 
     useEffect(() => {
-        fetchUnits();
-    }, [fetchUnits]);
+        fetchContractors();
+    }, [fetchContractors]);
 
     return (
         <div>
-            <h1>Список единиц измерения</h1>
-            <Link href="/admin/units/new">Создать новую единицу измерения</Link>
+            <h1>Список контрагентов</h1>
+            <Link href="/admin/contractors/new">Создать нового контрагента</Link>
             <table>
                 <thead>
                 <tr>
@@ -25,16 +25,16 @@ const ContractorList = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {units.map((unit) => (
-                    <tr key={unit.id}>
-                        <td>{unit.id}</td>
+                {contractors.map((contractor) => (
+                    <tr key={contractor.id}>
+                        <td>{contractor.id}</td>
                         <td>
-                            <Link href={`/admin/units/${unit.id}`}>
-                                {unit.name_kz || unit.name_ru || unit.name_en || unit.name || 'Без названия'}
+                            <Link href={`/admin/contractors/${contractor.id}`}>
+                                {contractor.name || 'Без названия'}
                             </Link>
                         </td>
                         <td>
-                            <ContractorDeleteButton id={unit.id} onDelete={deleteUnit} />
+                            <ContractorDeleteButton id={contractor.id} onDelete={deleteContractor} />
                         </td>
                     </tr>
                 ))}

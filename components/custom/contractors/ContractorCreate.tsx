@@ -13,15 +13,40 @@ const ContractorCreate = () => {
         check_account: '',
     });
 
+    interface Errors {
+        name: string;
+    }
+
+    const [errors, setErrors] = useState<Errors>({
+        name: '',
+    });
+
     const { addContractor } = useContractorStore();
     const router = useRouter();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
+        // очищаем ошибку для изменяемого поля
+        setErrors({ ...errors, [e.target.name]: '' });
+    };
+
+    const validate = () => {
+        let valid = true;
+        const newErrors: Errors = {
+            name: '',
+        };
+
+        if (!form.name.trim()) {
+            newErrors.name = 'Это поле обязательно для заполнения';
+            valid = false;
+        }
+        setErrors(newErrors);
+        return valid;
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!validate()) return;
         await addContractor(form);
         router.push('/admin/contractors');
     };
@@ -33,10 +58,15 @@ const ContractorCreate = () => {
                 <div>
                     <label>Название:</label>
                     <input name="name" value={form.name} onChange={handleChange} />
+                    {errors.name && <p style={{ color: 'red' }}>{errors.name}</p>}
                 </div>
                 <div>
                     <label>БИК:</label>
                     <input name="bik" value={form.bik} onChange={handleChange} />
+                </div>
+                <div>
+                    <label>Банк:</label>
+                    <input name="bank" value={form.bank} onChange={handleChange} />
                 </div>
                 <div>
                     <label>Кор.счет:</label>

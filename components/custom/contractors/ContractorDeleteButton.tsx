@@ -2,14 +2,14 @@
 
 import React from 'react';
 
-interface UnitDeleteButtonProps {
+interface ContractorDeleteButtonProps {
     id: number;
     onDelete: (id: number) => void;
 }
 
-const ContractorDeleteButton: React.FC<UnitDeleteButtonProps> = ({ id, onDelete }) => {
+const ContractorDeleteButton: React.FC<ContractorDeleteButtonProps> = ({ id, onDelete }) => {
     const handleDelete = async () => {
-        if (confirm('Вы уверены, что хотите удалить эту единицу измерения?')) {
+        if (confirm('Вы уверены, что хотите удалить этого контрагента?')) {
             await onDelete(id);
         }
     };

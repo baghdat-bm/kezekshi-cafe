@@ -1,5 +1,5 @@
-import ContractorList from '@/components/custom/units/ContractorList';
+import UnitList from '@/components/custom/units/UnitList';
 
 export default function UnitsPage() {
-    return <ContractorList />;
+    return <UnitList />;
 }
