@@ -39,9 +39,9 @@ const ContractorEdit = () => {
             setForm({
                 id: selectedContractor.id,
                 name: selectedContractor.name || '',
-                bik: selectedContractor.bik || '',
-                bank: selectedContractor.bank || '',
-                corr_account: selectedContractor.corr_account || '',
+                logo: selectedContractor.bik || '',
+                color: selectedContractor.bank || '',
+                measurement_unit: selectedContractor.corr_account || '',
                 check_account: selectedContractor.check_account || '',
             });
         }
@@ -56,7 +56,7 @@ const ContractorEdit = () => {
     const validate = () => {
         let valid = true;
         const newErrors: Errors = {
-            name: '',
+            name_kz: '',
         };
 
         if (!form.name.trim()) {

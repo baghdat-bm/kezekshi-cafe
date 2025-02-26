@@ -1,18 +1,27 @@
+'use client';
+
 import React, { useState } from 'react';
 import { useDishCategoryStore } from '@/lib/store/dish-categories';
+import {useRouter} from "next/navigation";
 
 const CreateCategory = () => {
+    const router = useRouter();
+
     const { addCategory } = useDishCategoryStore();
-    const [name, setName] = useState('');
+    const [name_kz, setNameKz] = useState('');
+    const [name_ru, setNameRu] = useState('');
+    const [name_en, setNameEn] = useState('');
     const [logo, setLogo] = useState('');
-    const [color, setColor] = useState('#000000');
+    const [color, setColor] = useState('#4e6ee0');
     const [measurementUnit, setMeasurementUnit] = useState('');
 
     // @ts-ignore
     const handleSubmit = async (e) => {
         e.preventDefault();
         const newCategory = {
-            name,
+            name_kz: name_kz,
+            name_ru: name_ru,
+            name_en: name_en || '',
             logo: logo.trim() !== '' ? logo : undefined,
             color,
             measurement_unit: measurementUnit.trim() !== '' ? Number(measurementUnit) : null,
@@ -21,9 +30,11 @@ const CreateCategory = () => {
         try {
             await addCategory(newCategory);
             alert('Категория успешно добавлена!');
-            setName('');
+            setNameKz('');
+            setNameRu('');
+            setNameEn('');
             setLogo('');
-            setColor('#000000');
+            setColor('#4e6ee0');
             setMeasurementUnit('');
         } catch (error) {
             console.error('Ошибка при создании категории:', error);
@@ -35,11 +46,19 @@ const CreateCategory = () => {
             <h1>Добавить новую категорию</h1>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Название: </label>
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+                    <label>Название (каз): </label>
+                    <input type="text" value={name_kz} onChange={(e) => setNameKz(e.target.value)} required />
                 </div>
                 <div>
-                    <label>Логотип (URL): </label>
+                    <label>Название (рус): </label>
+                    <input type="text" value={name_ru} onChange={(e) => setNameRu(e.target.value)} required />
+                </div>
+                <div>
+                    <label>Название (англ): </label>
+                    <input type="text" value={name_en} onChange={(e) => setNameEn(e.target.value)} required />
+                </div>
+                <div>
+                    <label>Рисунок: </label>
                     <input type="text" value={logo} onChange={(e) => setLogo(e.target.value)} />
                 </div>
                 <div>
@@ -55,6 +74,9 @@ const CreateCategory = () => {
                     />
                 </div>
                 <button type="submit">Добавить категорию</button>
+                <button type="button" onClick={() => router.push('/admin/categories')}>
+                    Отмена
+                </button>
             </form>
         </div>
     );

@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image';
 import { useDishCategoryStore } from '@/lib/store/dish-categories';
+import Link from "next/link";
 
 const ListCategories = () => {
     const { categories, fetchCategories, deleteCategory } = useDishCategoryStore();
@@ -21,6 +22,8 @@ const ListCategories = () => {
 
     return (
         <div>
+            <h1>Список категории блюд</h1>
+            <Link href="/admin/categories/new">Создать новую категорию блюд</Link>
             <table cellPadding="5" className="table-none md:table-fixed">
                 <thead>
                 <tr>
@@ -36,7 +39,11 @@ const ListCategories = () => {
                 {categories.map(category => (
                     <tr key={category.id}>
                         <td>{category.id}</td>
-                        <td>{category.name}</td>
+                        <td>
+                            <Link href={`/admin/categories/${category.id}`}>
+                                {category.name || 'Без названия'}
+                            </Link>
+                        </td>
                         <td>
                             {category.logo && (
                                 <Image
