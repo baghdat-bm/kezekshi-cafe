@@ -1,6 +1,7 @@
 import axios from "axios";
 
-export const API_BASE_URL = "http://localhost:8000/ru/school-api"; // url бэкенд
+export const API_BASE_URL = "http://localhost:8000/ru/school-api"; // url справочников
+export const API_DOCS_URL = "http://localhost:8000/ru/food-api"; // url документов
 
 
 export const api = axios.create({

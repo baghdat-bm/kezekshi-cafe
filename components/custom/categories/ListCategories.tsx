@@ -2,22 +2,34 @@
 
 import React, { useEffect } from 'react';
 import Image from 'next/image';
-import { useDishCategoryStore } from '@/lib/store/dish-categories';
 import Link from "next/link";
+import { useDishCategoryStore } from '@/lib/store/dish-categories';
+import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
 
 const ListCategories = () => {
     const { categories, fetchCategories, deleteCategory } = useDishCategoryStore();
+    const { units, fetchUnits } = useMeasurementUnitStore();
 
     useEffect(() => {
         fetchCategories();
-    }, [fetchCategories]);
+        fetchUnits();
+    }, [fetchCategories, fetchUnits]);
 
     const handleDelete = async (id: number) => {
+        const isConfirmed = window.confirm("Вы уверены, что хотите удалить эту категорию?");
+        if (!isConfirmed) return;
         try {
             await deleteCategory(id);
         } catch (error) {
             console.error('Ошибка при удалении категории:', error);
         }
+    };
+
+    // Функция для получения названия единицы измерения по id
+    const getUnitName = (unitId: number | null) => {
+        if (!unitId) return '-';
+        const unit = units.find((u) => u.id === unitId);
+        return unit ? unit.name_ru || unit.name : '-';
     };
 
     return (
@@ -36,7 +48,7 @@ const ListCategories = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {categories.map(category => (
+                {categories.map((category) => (
                     <tr key={category.id}>
                         <td>{category.id}</td>
                         <td>
@@ -55,7 +67,7 @@ const ListCategories = () => {
                             )}
                         </td>
                         <td style={{ backgroundColor: category.color }}>{category.color}</td>
-                        <td>{category.measurement_unit}</td>
+                        <td>{getUnitName(category.measurement_unit)}</td>
                         <td>
                             <button onClick={() => handleDelete(category.id)}>Удалить</button>
                         </td>
