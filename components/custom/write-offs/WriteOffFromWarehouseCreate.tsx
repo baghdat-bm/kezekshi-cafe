@@ -1,44 +1,35 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useIncomingInvoiceStore } from '@/lib/store/incoming-invoices';
+import { useWriteOffFromWarehouseStore } from '@/lib/store/write-off-from-warehouses';
 import { useWarehouseStore } from '@/lib/store/warehouses';
-import { useContractorStore } from '@/lib/store/contractors';
+import { useWritingOffReasonStore } from '@/lib/store/writing-off-reasons';
 import { useDishStore } from '@/lib/store/dishes';
-import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
 
-const InvoiceCreate = () => {
+const WriteOffFromWarehouseCreate = () => {
     const router = useRouter();
-    const { addIncomingInvoice } = useIncomingInvoiceStore();
+    const { addWriteOffFromWarehouse } = useWriteOffFromWarehouseStore();
     const { warehouses, fetchWarehouses } = useWarehouseStore();
-    const { contractors, fetchContractors } = useContractorStore();
+    const { writingOffReasons, fetchWritingOffReasons } = useWritingOffReasonStore();
     const { dishes, fetchDishes } = useDishStore();
-    const { units, fetchUnits } = useMeasurementUnitStore();
 
     const [formData, setFormData] = useState({
         number: '',
         date: '',
         accepted: false,
         warehouse: '',
-        supplier: '',
+        writing_off_reason: '',
         commentary: '',
-        amount: '',
-        shipping_cost: '',
-        paid_amount: '',
-        invoice_dish_items: [] as Array<{
+        write_off_dish_items: [] as Array<{
             dish: string;
             quantity: string;
-            measurement_unit: string;
-            cost_price: string;
-            sale_price: string;
         }>,
     });
 
     useEffect(() => {
         fetchWarehouses();
-        fetchContractors();
+        fetchWritingOffReasons();
         fetchDishes();
-        fetchUnits();
     }, []);
 
     const handleChange = (
@@ -52,7 +43,7 @@ const InvoiceCreate = () => {
     };
 
     const handleItemChange = (index: number, field: string, value: string) => {
-        const updatedItems = [...formData.invoice_dish_items];
+        const updatedItems = [...formData.write_off_dish_items];
         updatedItems[index] = { ...updatedItems[index], [field]: value };
         setFormData(prev => ({ ...prev, write_off_dish_items: updatedItems }));
     };
@@ -61,14 +52,14 @@ const InvoiceCreate = () => {
         setFormData(prev => ({
             ...prev,
             write_off_dish_items: [
-                ...prev.invoice_dish_items,
+                ...prev.write_off_dish_items,
                 { dish: '', quantity: '', measurement_unit: '', cost_price: '', sale_price: '' },
             ],
         }));
     };
 
     const handleRemoveItem = (index: number) => {
-        const updatedItems = formData.invoice_dish_items.filter((_, i) => i !== index);
+        const updatedItems = formData.write_off_dish_items.filter((_, i) => i !== index);
         setFormData(prev => ({ ...prev, write_off_dish_items: updatedItems }));
     };
 
@@ -78,29 +69,23 @@ const InvoiceCreate = () => {
         const payload = {
             ...formData,
             warehouse: Number(formData.warehouse),
-            supplier: Number(formData.supplier),
-            amount: parseFloat(formData.amount),
-            shipping_cost: parseFloat(formData.shipping_cost),
-            paid_amount: parseFloat(formData.paid_amount),
-            invoice_dish_items: formData.invoice_dish_items.map(item => ({
+            writing_off_reason: Number(formData.writing_off_reason),
+            write_off_dish_items: formData.write_off_dish_items.map(item => ({
                 dish: Number(item.dish),
                 quantity: parseFloat(item.quantity),
-                measurement_unit: Number(item.measurement_unit),
-                cost_price: parseFloat(item.cost_price),
-                sale_price: parseFloat(item.sale_price),
             })),
         };
 
-        await addIncomingInvoice(payload);
-        router.push('/operations/invoices');
+        await addWriteOffFromWarehouse(payload);
+        router.push('/operations/write-offs');
     };
 
     return (
         <div>
-            <h1>Создать накладную</h1>
+            <h1>Создать списание со склада</h1>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Номер накладной:</label>
+                    <label>Номер:</label>
                     <input type="text" name="number" value={formData.number} onChange={handleChange} required />
                 </div>
                 <div>
@@ -123,10 +108,10 @@ const InvoiceCreate = () => {
                     </select>
                 </div>
                 <div>
-                    <label>Поставщик:</label>
-                    <select name="supplier" value={formData.supplier} onChange={handleChange} required>
-                        <option value="">Выберите поставщика</option>
-                        {contractors.map(ct => (
+                    <label>Причина списания:</label>
+                    <select name="writing_off_reason" value={formData.writing_off_reason} onChange={handleChange} required>
+                        <option value="">Выберите причину</option>
+                        {writingOffReasons.map(ct => (
                             <option key={ct.id} value={ct.id}>
                                 {ct.name}
                             </option>
@@ -137,33 +122,18 @@ const InvoiceCreate = () => {
                     <label>Комментарий:</label>
                     <textarea name="commentary" value={formData.commentary} onChange={handleChange} />
                 </div>
-                <div>
-                    <label>Сумма:</label>
-                    <input type="number" step="0.01" name="amount" value={formData.amount} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Стоимость доставки:</label>
-                    <input type="number" step="0.01" name="shipping_cost" value={formData.shipping_cost} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Оплаченная сумма:</label>
-                    <input type="number" step="0.01" name="paid_amount" value={formData.paid_amount} onChange={handleChange} required />
-                </div>
 
-                <h2>Позиции накладной</h2>
+                <h2>Позиции списания</h2>
                 <table>
                     <thead>
                     <tr>
                         <th>Блюдо</th>
                         <th>Количество</th>
-                        <th>Ед. измерения</th>
-                        <th>Себестоимость</th>
-                        <th>Цена продажи</th>
                         <th>Действия</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {formData.invoice_dish_items.map((item, index) => (
+                    {formData.write_off_dish_items.map((item, index) => (
                         <tr key={index}>
                             <td>
                                 <select
@@ -189,38 +159,6 @@ const InvoiceCreate = () => {
                                 />
                             </td>
                             <td>
-                                <select
-                                    value={item.measurement_unit}
-                                    onChange={(e) => handleItemChange(index, 'measurement_unit', e.target.value)}
-                                    required
-                                >
-                                    <option value="">Выберите единицу измерения</option>
-                                    {units.map(unit => (
-                                        <option key={unit.id} value={unit.id}>
-                                            {unit.name_ru || unit.name_en || unit.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </td>
-                            <td>
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    value={item.cost_price}
-                                    onChange={(e) => handleItemChange(index, 'cost_price', e.target.value)}
-                                    required
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    value={item.sale_price}
-                                    onChange={(e) => handleItemChange(index, 'sale_price', e.target.value)}
-                                    required
-                                />
-                            </td>
-                            <td>
                                 <button type="button" onClick={() => handleRemoveItem(index)}>
                                     Удалить
                                 </button>
@@ -233,11 +171,11 @@ const InvoiceCreate = () => {
                     Добавить позицию
                 </button>
                 <div>
-                    <button type="submit">Создать накладную</button>
+                    <button type="submit">Создать списание</button>
                 </div>
             </form>
         </div>
     );
 };
 
-export default InvoiceCreate;
+export default WriteOffFromWarehouseCreate;

@@ -3,11 +3,16 @@ import {createItem, deleteItem, fetchItems, fetchItem, updateItem} from '@/lib/s
 
 interface IncomingInvoice {
     id: number;
-    name: string;
-    bik?: string | null;
-    bank?: string | null;
-    corr_account?: string | null;
-    check_account?: string | null;
+    number: string;
+    date: string;
+    accepted: boolean;
+    warehouse: number;
+    supplier: number;
+    commentary: string;
+    amount: number;
+    shipping_cost: number;
+    paid_amount: number;
+    author: number;
 }
 
 interface IncomingInvoiceStore {

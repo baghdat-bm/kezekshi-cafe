@@ -1,71 +1,59 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { useIncomingInvoiceStore } from '@/lib/store/incoming-invoices';
+import { useWriteOffFromWarehouseStore } from '@/lib/store/write-off-from-warehouses';
 import { useWarehouseStore } from '@/lib/store/warehouses';
-import { useContractorStore } from '@/lib/store/contractors';
 import { useDishStore } from '@/lib/store/dishes';
-import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
+import { useWritingOffReasonStore } from '@/lib/store/writing-off-reasons';
 
-const InvoiceEdit = () => {
+const WritingOffReasonEdit = () => {
     const router = useRouter();
     const params = useParams();
     const invoiceId = params.id;
-    const { selectedIncomingInvoice, fetchIncomingInvoice, updateIncomingInvoice } = useIncomingInvoiceStore();
+    const { selectedWriteOffFromWarehouse, fetchWriteOffFromWarehouse, updateWriteOffFromWarehouse } = useWriteOffFromWarehouseStore();
     const { warehouses, fetchWarehouses } = useWarehouseStore();
-    const { contractors, fetchContractors } = useContractorStore();
+    const { writingOffReasons, fetchWritingOffReasons } = useWritingOffReasonStore();
     const { dishes, fetchDishes } = useDishStore();
-    const { units, fetchUnits } = useMeasurementUnitStore();
 
     const [formData, setFormData] = useState({
         number: '',
         date: '',
         accepted: false,
         warehouse: '',
-        supplier: '',
+        writing_off_reason: '',
         commentary: '',
-        amount: '',
-        shipping_cost: '',
-        paid_amount: '',
-        invoice_dish_items: [] as Array<{
+        write_off_dish_items: [] as Array<{
             dish: string;
             quantity: string;
-            measurement_unit: string;
-            cost_price: string;
-            sale_price: string;
         }>,
     });
 
     useEffect(() => {
         fetchWarehouses();
-        fetchContractors();
+        fetchWritingOffReasons();
         fetchDishes();
-        fetchUnits();
     }, []);
 
     useEffect(() => {
         if (invoiceId) {
-            fetchIncomingInvoice(Number(invoiceId));
+            fetchWriteOffFromWarehouse(Number(invoiceId));
         }
     }, [invoiceId]);
 
     useEffect(() => {
-        if (selectedIncomingInvoice) {
+        if (selectedWriteOffFromWarehouse) {
             setFormData({
-                number: selectedIncomingInvoice.number || '',
+                number: selectedWriteOffFromWarehouse.number || '',
                 // Приводим дату к формату datetime-local (например, "2025-02-21T10:30")
-                date: selectedIncomingInvoice.date ? selectedIncomingInvoice.date.slice(0, 16) : '',
-                accepted: selectedIncomingInvoice.accepted || false,
-                warehouse: String(selectedIncomingInvoice.warehouse) || '',
-                supplier: String(selectedIncomingInvoice.supplier) || '',
-                commentary: selectedIncomingInvoice.commentary || '',
-                amount: selectedIncomingInvoice.amount || '',
-                shipping_cost: selectedIncomingInvoice.shipping_cost || '',
-                paid_amount: selectedIncomingInvoice.paid_amount || '',
-                write_off_dish_items: selectedIncomingInvoice.invoice_dish_items || [],
+                date: selectedWriteOffFromWarehouse.date ? selectedWriteOffFromWarehouse.date.slice(0, 16) : '',
+                accepted: selectedWriteOffFromWarehouse.accepted || false,
+                warehouse: String(selectedWriteOffFromWarehouse.warehouse) || '',
+                writing_off_reason: String(selectedWriteOffFromWarehouse.writing_off_reason) || '',
+                commentary: selectedWriteOffFromWarehouse.commentary || '',
+                write_off_dish_items: selectedWriteOffFromWarehouse.write_off_dish_items || [],
             });
         }
-    }, [selectedIncomingInvoice]);
+    }, [selectedWriteOffFromWarehouse]);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -78,7 +66,7 @@ const InvoiceEdit = () => {
     };
 
     const handleItemChange = (index: number, field: string, value: string) => {
-        const updatedItems = [...formData.invoice_dish_items];
+        const updatedItems = [...formData.write_off_dish_items];
         updatedItems[index] = { ...updatedItems[index], [field]: value };
         setFormData(prev => ({ ...prev, write_off_dish_items: updatedItems }));
     };
@@ -87,14 +75,14 @@ const InvoiceEdit = () => {
         setFormData(prev => ({
             ...prev,
             write_off_dish_items: [
-                ...prev.invoice_dish_items,
-                { dish: '', quantity: '', measurement_unit: '', cost_price: '', sale_price: '' },
+                ...prev.write_off_dish_items,
+                { dish: '', quantity: '' },
             ],
         }));
     };
 
     const handleRemoveItem = (index: number) => {
-        const updatedItems = formData.invoice_dish_items.filter((_, i) => i !== index);
+        const updatedItems = formData.write_off_dish_items.filter((_, i) => i !== index);
         setFormData(prev => ({ ...prev, write_off_dish_items: updatedItems }));
     };
 
@@ -104,21 +92,15 @@ const InvoiceEdit = () => {
         const payload = {
             ...formData,
             warehouse: Number(formData.warehouse),
-            supplier: Number(formData.supplier),
-            amount: parseFloat(formData.amount),
-            shipping_cost: parseFloat(formData.shipping_cost),
-            paid_amount: parseFloat(formData.paid_amount),
-            invoice_dish_items: formData.invoice_dish_items.map(item => ({
+            writing_off_reason: Number(formData.writing_off_reason),
+            invoice_dish_items: formData.write_off_dish_items.map(item => ({
                 dish: Number(item.dish),
                 quantity: parseFloat(item.quantity),
-                measurement_unit: Number(item.measurement_unit),
-                cost_price: parseFloat(item.cost_price),
-                sale_price: parseFloat(item.sale_price),
             })),
         };
 
-        await updateIncomingInvoice(Number(invoiceId), payload);
-        router.push('/operations/invoices');
+        await updateWriteOffFromWarehouse(Number(invoiceId), payload);
+        router.push('/operations/write-offs');
     };
 
     return (
@@ -149,10 +131,10 @@ const InvoiceEdit = () => {
                     </select>
                 </div>
                 <div>
-                    <label>Поставщик:</label>
-                    <select name="supplier" value={formData.supplier} onChange={handleChange} required>
-                        <option value="">Выберите поставщика</option>
-                        {contractors.map(ct => (
+                    <label>Причина списания:</label>
+                    <select name="writing_off_reason" value={formData.writing_off_reason} onChange={handleChange} required>
+                        <option value="">Выберите причину</option>
+                        {writingOffReasons.map(ct => (
                             <option key={ct.id} value={ct.id}>
                                 {ct.name}
                             </option>
@@ -163,33 +145,18 @@ const InvoiceEdit = () => {
                     <label>Комментарий:</label>
                     <textarea name="commentary" value={formData.commentary} onChange={handleChange} />
                 </div>
-                <div>
-                    <label>Сумма:</label>
-                    <input type="number" step="0.01" name="amount" value={formData.amount} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Стоимость доставки:</label>
-                    <input type="number" step="0.01" name="shipping_cost" value={formData.shipping_cost} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Оплаченная сумма:</label>
-                    <input type="number" step="0.01" name="paid_amount" value={formData.paid_amount} onChange={handleChange} required />
-                </div>
 
-                <h2>Позиции накладной</h2>
+                <h2>Позиции списания</h2>
                 <table>
                     <thead>
                     <tr>
                         <th>Блюдо</th>
                         <th>Количество</th>
-                        <th>Ед. измерения</th>
-                        <th>Себестоимость</th>
-                        <th>Цена продажи</th>
                         <th>Действия</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {formData.invoice_dish_items.map((item, index) => (
+                    {formData.write_off_dish_items.map((item, index) => (
                         <tr key={index}>
                             <td>
                                 <select value={item.dish} onChange={(e) => handleItemChange(index, 'dish', e.target.value)} required>
@@ -203,22 +170,6 @@ const InvoiceEdit = () => {
                             </td>
                             <td>
                                 <input type="number" step="0.01" value={item.quantity} onChange={(e) => handleItemChange(index, 'quantity', e.target.value)} required />
-                            </td>
-                            <td>
-                                <select value={item.measurement_unit} onChange={(e) => handleItemChange(index, 'measurement_unit', e.target.value)} required>
-                                    <option value="">Выберите единицу измерения</option>
-                                    {units.map(unit => (
-                                        <option key={unit.id} value={unit.id}>
-                                            {unit.name_ru || unit.name_en || unit.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </td>
-                            <td>
-                                <input type="number" step="0.01" value={item.cost_price} onChange={(e) => handleItemChange(index, 'cost_price', e.target.value)} required />
-                            </td>
-                            <td>
-                                <input type="number" step="0.01" value={item.sale_price} onChange={(e) => handleItemChange(index, 'sale_price', e.target.value)} required />
                             </td>
                             <td>
                                 <button type="button" onClick={() => handleRemoveItem(index)}>
@@ -240,4 +191,4 @@ const InvoiceEdit = () => {
     );
 };
 
-export default InvoiceEdit;
+export default WritingOffReasonEdit;
