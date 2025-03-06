@@ -2,7 +2,7 @@ import axios from "axios";
 import {useAuthStore} from '@/lib/store/auth';
 import {API_DOCS_URL} from "@/lib/service/base";
 
-const API_URL = `${API_DOCS_URL}/incoming-invoices/`;
+const API_URL = `${API_DOCS_URL}/selling-dishes/`;
 
 // сервис для получения списка элементов
 export const fetchItems = async () => {
@@ -15,7 +15,7 @@ export const fetchItems = async () => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при загрузке Приходных накладных:', error);
+        console.error('Ошибка при загрузке Продаж блюд:', error);
         return [];
     }
 };
@@ -31,7 +31,7 @@ export const fetchItem = async (id: number) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при загрузке Приходной накладной:', error);
+        console.error('Ошибка при загрузке Продажи блюд:', error);
         return [];
     }
 };
@@ -45,7 +45,7 @@ export const createItem = async (itemData: any) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при создании Приходной накладной:', error);
+        console.error('Ошибка при создании Продажи блюд:', error);
         throw error;
     }
 };
@@ -59,7 +59,7 @@ export const updateItem = async (id: number, itemData: any) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при обновлении Приходной накладной:', error);
+        console.error('Ошибка при обновлении Продажи блюд:', error);
         throw error;
     }
 };
@@ -72,7 +72,7 @@ export const deleteItem = async (id: number) => {
             headers: {Authorization: `Bearer ${token}`},
         });
     } catch (error) {
-        console.error('Ошибка при удалении Приходной накладной:', error);
+        console.error('Ошибка при удалении Продажи блюд:', error);
         throw error;
     }
 };

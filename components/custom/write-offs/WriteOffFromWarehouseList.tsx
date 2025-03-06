@@ -1,4 +1,4 @@
-// components/WriteOffFromWarehouseList.tsx
+// components/SellingDishesList.tsx
 'use client'
 
 import React, { useEffect } from 'react';

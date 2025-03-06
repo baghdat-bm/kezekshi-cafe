@@ -1,8 +1,8 @@
 import axios from "axios";
 import {useAuthStore} from '@/lib/store/auth';
-import {API_DOCS_URL} from "@/lib/service/base";
+import {API_BASE_URL} from "@/lib/service/base";
 
-const API_URL = `${API_DOCS_URL}/incoming-invoices/`;
+const API_URL = `${API_BASE_URL}/students/`;
 
 // сервис для получения списка элементов
 export const fetchItems = async () => {
@@ -15,7 +15,7 @@ export const fetchItems = async () => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при загрузке Приходных накладных:', error);
+        console.error('Ошибка при загрузке списка учащихся:', error);
         return [];
     }
 };
@@ -31,35 +31,35 @@ export const fetchItem = async (id: number) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при загрузке Приходной накладной:', error);
+        console.error('Ошибка при загрузке учащегося:', error);
         return [];
     }
 };
 
 // Создание нового элемента
-export const createItem = async (itemData: any) => {
+export const createItem = async (categoryData: any) => {
     const token = useAuthStore.getState().accessToken;
     try {
-        const response = await axios.post(`${API_URL}`, itemData, {
+        const response = await axios.post(`${API_URL}`, categoryData, {
             headers: {Authorization: `Bearer ${token}`},
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при создании Приходной накладной:', error);
+        console.error('Ошибка при создании учащегося:', error);
         throw error;
     }
 };
 
 // Обновление элемента
-export const updateItem = async (id: number, itemData: any) => {
+export const updateItem = async (id: number, categoryData: any) => {
     const token = useAuthStore.getState().accessToken;
     try {
-        const response = await axios.put(`${API_URL}${id}/`, itemData, {
+        const response = await axios.put(`${API_URL}${id}/`, categoryData, {
             headers: {Authorization: `Bearer ${token}`},
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при обновлении Приходной накладной:', error);
+        console.error('Ошибка при обновлении учащегося:', error);
         throw error;
     }
 };
@@ -72,7 +72,7 @@ export const deleteItem = async (id: number) => {
             headers: {Authorization: `Bearer ${token}`},
         });
     } catch (error) {
-        console.error('Ошибка при удалении Приходной накладной:', error);
+        console.error('Ошибка при удалении учащегося:', error);
         throw error;
     }
 };
