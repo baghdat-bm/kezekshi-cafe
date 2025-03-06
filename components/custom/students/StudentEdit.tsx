@@ -1,16 +1,26 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useContractorStore } from '@/lib/store/contractors';
+import React, { useState, useEffect } from 'react';
+import { useRouter, useParams } from 'next/navigation';
+import { useStudentStore } from '@/lib/store/students';
 
-const ContractorCreate = () => {
+const StudentEdit = () => {
+    const router = useRouter();
+    const params = useParams();
+    const studentId = Number(params.id);
+
+    const { selectedStudent, fetchStudent, updateStudent } = useStudentStore();
+
     const [form, setForm] = useState({
-        name: '',
-        bik: '',
-        bank: '',
-        corr_account: '',
-        check_account: '',
+        id: studentId,
+        full_name: '',
+        phone: '',
+        iin: '',
+        parent: '',
+        personal_account: '',
+        birthday: '',
+        balance: '',
+        photo: ''
     });
 
     interface Errors {
@@ -21,8 +31,24 @@ const ContractorCreate = () => {
         name: '',
     });
 
-    const { addContractor } = useContractorStore();
-    const router = useRouter();
+    useEffect(() => {
+        if (studentId) {
+            fetchStudent(studentId);
+        }
+    }, [studentId, fetchStudent]);
+
+    useEffect(() => {
+        if (selectedStudent) {
+            setForm({
+                id: selectedStudent.id,
+                name: selectedStudent.name || '',
+                logo: selectedStudent.bik || '',
+                color: selectedStudent.bank || '',
+                measurement_unit: selectedStudent.corr_account || '',
+                check_account: selectedStudent.check_account || '',
+            });
+        }
+    }, [selectedStudent]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -33,7 +59,7 @@ const ContractorCreate = () => {
     const validate = () => {
         let valid = true;
         const newErrors: Errors = {
-            name: '',
+            name_kz: '',
         };
 
         if (!form.name.trim()) {
@@ -47,14 +73,17 @@ const ContractorCreate = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!validate()) return;
-        await addContractor(form);
-        router.push('/admin/contractors');
+        await updateStudent(form.id, form);
+        router.push('/admin/students');
     };
 
     return (
         <div>
-            <h1>Создание контрагента</h1>
+            <h1>Редактирование контрагента</h1>
             <form onSubmit={handleSubmit}>
+                {/* Скрытое поле id */}
+                <input type="hidden" name="id" value={form.id} />
+                {/* Поле name не отображается */}
                 <div>
                     <label>Название:</label>
                     <input name="name" value={form.name} onChange={handleChange} />
@@ -76,8 +105,8 @@ const ContractorCreate = () => {
                     <label>Расчетный счет:</label>
                     <input name="check_account" value={form.check_account} onChange={handleChange} />
                 </div>
-                <button type="submit">Создать</button>
-                <button type="button" onClick={() => router.push('/admin/contractors')}>
+                <button type="submit">Сохранить изменения</button>
+                <button type="button" onClick={() => router.push('/admin/students')}>
                     Отмена
                 </button>
             </form>
@@ -85,4 +114,4 @@ const ContractorCreate = () => {
     );
 };
 
-export default ContractorCreate;
+export default StudentEdit;

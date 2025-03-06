@@ -7,7 +7,7 @@ interface ContractorDeleteButtonProps {
     onDelete: (id: number) => void;
 }
 
-const ContractorDeleteButton: React.FC<ContractorDeleteButtonProps> = ({ id, onDelete }) => {
+const StudentDeleteButton: React.FC<ContractorDeleteButtonProps> = ({ id, onDelete }) => {
     const handleDelete = async () => {
         if (confirm('Вы уверены, что хотите удалить этого контрагента?')) {
             await onDelete(id);
@@ -17,4 +17,4 @@ const ContractorDeleteButton: React.FC<ContractorDeleteButtonProps> = ({ id, onD
     return <button onClick={handleDelete}>Удалить</button>;
 };
 
-export default ContractorDeleteButton;
+export default StudentDeleteButton;
