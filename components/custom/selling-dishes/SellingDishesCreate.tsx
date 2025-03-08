@@ -3,14 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSellingDishesStore } from '@/lib/store/selling-dishes';
 import { useWarehouseStore } from '@/lib/store/warehouses';
-import { useWritingOffReasonStore } from '@/lib/store/writing-off-reasons';
+import { useStudentStore } from '@/lib/store/students';
 import { useDishStore } from '@/lib/store/dishes';
 
 const SellingDishesCreate = () => {
     const router = useRouter();
     const { addSellingDishes } = useSellingDishesStore();
     const { warehouses, fetchWarehouses } = useWarehouseStore();
-    const { writingOffReasons, fetchWritingOffReasons } = useWritingOffReasonStore();
+    const { students, fetchStudents } = useStudentStore();
     const { dishes, fetchDishes } = useDishStore();
 
     const [formData, setFormData] = useState({
@@ -18,17 +18,21 @@ const SellingDishesCreate = () => {
         date: '',
         accepted: false,
         warehouse: '',
-        writing_off_reason: '',
+        student: '',
+        amount: 0,
+        paid_amount: 0,
         commentary: '',
-        write_off_dish_items: [] as Array<{
+        selling_dish_items: [] as Array<{
             dish: string;
             quantity: string;
+            sale_price: string
+            amount: string;
         }>,
     });
 
     useEffect(() => {
         fetchWarehouses();
-        fetchWritingOffReasons();
+        fetchStudents();
         fetchDishes();
     }, []);
 
@@ -43,24 +47,24 @@ const SellingDishesCreate = () => {
     };
 
     const handleItemChange = (index: number, field: string, value: string) => {
-        const updatedItems = [...formData.write_off_dish_items];
+        const updatedItems = [...formData.selling_dish_items];
         updatedItems[index] = { ...updatedItems[index], [field]: value };
-        setFormData(prev => ({ ...prev, write_off_dish_items: updatedItems }));
+        setFormData(prev => ({ ...prev, selling_dish_items: updatedItems }));
     };
 
     const handleAddItem = () => {
         setFormData(prev => ({
             ...prev,
-            write_off_dish_items: [
-                ...prev.write_off_dish_items,
-                { dish: '', quantity: '', measurement_unit: '', cost_price: '', sale_price: '' },
+            selling_dish_items: [
+                ...prev.selling_dish_items,
+                { dish: '', quantity: '', sale_price: '', amount: '' },
             ],
         }));
     };
 
     const handleRemoveItem = (index: number) => {
-        const updatedItems = formData.write_off_dish_items.filter((_, i) => i !== index);
-        setFormData(prev => ({ ...prev, write_off_dish_items: updatedItems }));
+        const updatedItems = formData.selling_dish_items.filter((_, i) => i !== index);
+        setFormData(prev => ({ ...prev, selling_dish_items: updatedItems }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -69,10 +73,14 @@ const SellingDishesCreate = () => {
         const payload = {
             ...formData,
             warehouse: Number(formData.warehouse),
-            writing_off_reason: Number(formData.writing_off_reason),
-            write_off_dish_items: formData.write_off_dish_items.map(item => ({
+            student: Number(formData.student),
+            amount: parseFloat(String(formData.amount)),
+            paid_amount: parseFloat(String(formData.paid_amount)),
+            selling_dish_items: formData.selling_dish_items.map(item => ({
                 dish: Number(item.dish),
                 quantity: parseFloat(item.quantity),
+                sale_price: parseFloat(item.sale_price),
+                amount: parseFloat(item.amount),
             })),
         };
 
@@ -82,7 +90,7 @@ const SellingDishesCreate = () => {
 
     return (
         <div>
-            <h1>Создать списание со склада</h1>
+            <h1>Создать продажу блюд</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Номер:</label>
@@ -108,32 +116,42 @@ const SellingDishesCreate = () => {
                     </select>
                 </div>
                 <div>
-                    <label>Причина списания:</label>
-                    <select name="writing_off_reason" value={formData.writing_off_reason} onChange={handleChange} required>
-                        <option value="">Выберите причину</option>
-                        {writingOffReasons.map(ct => (
+                    <label>Учащийся:</label>
+                    <select name="student" value={formData.student} onChange={handleChange} required>
+                        <option value="">Выберите учащегося</option>
+                        {students.map(ct => (
                             <option key={ct.id} value={ct.id}>
-                                {ct.name}
+                                {ct.full_name}
                             </option>
                         ))}
                     </select>
+                </div>
+                <div>
+                    <label>Сумма:</label>
+                    <input type="number" step="0.01" name="amount" value={formData.amount} onChange={handleChange} required />
+                </div>
+                <div>
+                    <label>Оплаченная сумма:</label>
+                    <input type="number" step="0.01" name="paid_amount" value={formData.paid_amount} onChange={handleChange} required />
                 </div>
                 <div>
                     <label>Комментарий:</label>
                     <textarea name="commentary" value={formData.commentary} onChange={handleChange} />
                 </div>
 
-                <h2>Позиции списания</h2>
+                <h2>Блюда</h2>
                 <table>
                     <thead>
                     <tr>
                         <th>Блюдо</th>
                         <th>Количество</th>
+                        <th>Цена</th>
+                        <th>Сумма</th>
                         <th>Действия</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {formData.write_off_dish_items.map((item, index) => (
+                    {formData.selling_dish_items.map((item, index) => (
                         <tr key={index}>
                             <td>
                                 <select
@@ -159,6 +177,24 @@ const SellingDishesCreate = () => {
                                 />
                             </td>
                             <td>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    value={item.sale_price}
+                                    onChange={(e) => handleItemChange(index, 'sale_price', e.target.value)}
+                                    required
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    value={item.amount}
+                                    onChange={(e) => handleItemChange(index, 'amount', e.target.value)}
+                                    required
+                                />
+                            </td>
+                            <td>
                                 <button type="button" onClick={() => handleRemoveItem(index)}>
                                     Удалить
                                 </button>
@@ -168,10 +204,10 @@ const SellingDishesCreate = () => {
                     </tbody>
                 </table>
                 <button type="button" onClick={handleAddItem}>
-                    Добавить позицию
+                    Добавить блюдо
                 </button>
                 <div>
-                    <button type="submit">Создать списание</button>
+                    <button type="submit">Создать продажу</button>
                 </div>
             </form>
         </div>

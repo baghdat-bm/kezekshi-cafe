@@ -134,10 +134,6 @@ const InvoiceCreate = () => {
                     </select>
                 </div>
                 <div>
-                    <label>Комментарий:</label>
-                    <textarea name="commentary" value={formData.commentary} onChange={handleChange} />
-                </div>
-                <div>
                     <label>Сумма:</label>
                     <input type="number" step="0.01" name="amount" value={formData.amount} onChange={handleChange} required />
                 </div>
@@ -148,6 +144,10 @@ const InvoiceCreate = () => {
                 <div>
                     <label>Оплаченная сумма:</label>
                     <input type="number" step="0.01" name="paid_amount" value={formData.paid_amount} onChange={handleChange} required />
+                </div>
+                <div>
+                    <label>Комментарий:</label>
+                    <textarea name="commentary" value={formData.commentary} onChange={handleChange} />
                 </div>
 
                 <h2>Позиции накладной</h2>

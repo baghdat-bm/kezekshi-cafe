@@ -50,7 +50,7 @@ const WritingOffReasonEdit = () => {
                 warehouse: String(selectedWriteOffFromWarehouse.warehouse) || '',
                 writing_off_reason: String(selectedWriteOffFromWarehouse.writing_off_reason) || '',
                 commentary: selectedWriteOffFromWarehouse.commentary || '',
-                write_off_dish_items: selectedWriteOffFromWarehouse.write_off_dish_items || [],
+                selling_dish_items: selectedWriteOffFromWarehouse.write_off_dish_items || [],
             });
         }
     }, [selectedWriteOffFromWarehouse]);
@@ -68,13 +68,13 @@ const WritingOffReasonEdit = () => {
     const handleItemChange = (index: number, field: string, value: string) => {
         const updatedItems = [...formData.write_off_dish_items];
         updatedItems[index] = { ...updatedItems[index], [field]: value };
-        setFormData(prev => ({ ...prev, write_off_dish_items: updatedItems }));
+        setFormData(prev => ({ ...prev, selling_dish_items: updatedItems }));
     };
 
     const handleAddItem = () => {
         setFormData(prev => ({
             ...prev,
-            write_off_dish_items: [
+            selling_dish_items: [
                 ...prev.write_off_dish_items,
                 { dish: '', quantity: '' },
             ],
@@ -83,7 +83,7 @@ const WritingOffReasonEdit = () => {
 
     const handleRemoveItem = (index: number) => {
         const updatedItems = formData.write_off_dish_items.filter((_, i) => i !== index);
-        setFormData(prev => ({ ...prev, write_off_dish_items: updatedItems }));
+        setFormData(prev => ({ ...prev, selling_dish_items: updatedItems }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {

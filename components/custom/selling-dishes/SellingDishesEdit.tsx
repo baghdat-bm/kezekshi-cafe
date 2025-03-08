@@ -1,18 +1,18 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
-import { useWriteOffFromWarehouseStore } from '@/lib/store/write-off-from-warehouses';
+import { useSellingDishesStore } from '@/lib/store/selling-dishes';
 import { useWarehouseStore } from '@/lib/store/warehouses';
 import { useDishStore } from '@/lib/store/dishes';
-import { useWritingOffReasonStore } from '@/lib/store/writing-off-reasons';
+import { useStudentStore } from '@/lib/store/students';
 
-const WritingOffReasonEdit = () => {
+const SellingDishesEdit = () => {
     const router = useRouter();
     const params = useParams();
-    const invoiceId = params.id;
-    const { selectedWriteOffFromWarehouse, fetchWriteOffFromWarehouse, updateWriteOffFromWarehouse } = useWriteOffFromWarehouseStore();
+    const documentId = params.id;
+    const { selectedSellingDishes, fetchSellingDishes, updateSellingDishes } = useSellingDishesStore();
     const { warehouses, fetchWarehouses } = useWarehouseStore();
-    const { writingOffReasons, fetchWritingOffReasons } = useWritingOffReasonStore();
+    const { students, fetchStudents } = useStudentStore();
     const { dishes, fetchDishes } = useDishStore();
 
     const [formData, setFormData] = useState({
@@ -20,40 +20,46 @@ const WritingOffReasonEdit = () => {
         date: '',
         accepted: false,
         warehouse: '',
-        writing_off_reason: '',
+        student: '',
+        amount: 0,
+        paid_amount: 0,
         commentary: '',
-        write_off_dish_items: [] as Array<{
+        selling_dish_items: [] as Array<{
             dish: string;
             quantity: string;
+            sale_price: string
+            amount: string;
         }>,
     });
 
     useEffect(() => {
         fetchWarehouses();
-        fetchWritingOffReasons();
+        fetchStudents();
         fetchDishes();
     }, []);
 
     useEffect(() => {
-        if (invoiceId) {
-            fetchWriteOffFromWarehouse(Number(invoiceId));
+        if (documentId) {
+            fetchSellingDishes(Number(documentId));
         }
-    }, [invoiceId]);
+    }, [documentId]);
 
     useEffect(() => {
-        if (selectedWriteOffFromWarehouse) {
+        if (selectedSellingDishes) {
             setFormData({
-                number: selectedWriteOffFromWarehouse.number || '',
+                number: selectedSellingDishes.number || '',
                 // Приводим дату к формату datetime-local (например, "2025-02-21T10:30")
-                date: selectedWriteOffFromWarehouse.date ? selectedWriteOffFromWarehouse.date.slice(0, 16) : '',
-                accepted: selectedWriteOffFromWarehouse.accepted || false,
-                warehouse: String(selectedWriteOffFromWarehouse.warehouse) || '',
-                writing_off_reason: String(selectedWriteOffFromWarehouse.writing_off_reason) || '',
-                commentary: selectedWriteOffFromWarehouse.commentary || '',
-                write_off_dish_items: selectedWriteOffFromWarehouse.write_off_dish_items || [],
+                date: selectedSellingDishes.date ? selectedSellingDishes.date.slice(0, 16) : '',
+                accepted: selectedSellingDishes.accepted || false,
+                warehouse: String(selectedSellingDishes.warehouse) || '',
+                student: String(selectedSellingDishes.student) || '',
+                amount: selectedSellingDishes.amount || 0,
+                paid_amount: selectedSellingDishes.paid_amount || 0,
+                commentary: selectedSellingDishes.commentary || '',
+                selling_dish_items: selectedSellingDishes.selling_dish_items || [],
             });
         }
-    }, [selectedWriteOffFromWarehouse]);
+    }, [selectedSellingDishes]);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -66,24 +72,24 @@ const WritingOffReasonEdit = () => {
     };
 
     const handleItemChange = (index: number, field: string, value: string) => {
-        const updatedItems = [...formData.write_off_dish_items];
+        const updatedItems = [...formData.selling_dish_items];
         updatedItems[index] = { ...updatedItems[index], [field]: value };
-        setFormData(prev => ({ ...prev, write_off_dish_items: updatedItems }));
+        setFormData(prev => ({ ...prev, selling_dish_items: updatedItems }));
     };
 
     const handleAddItem = () => {
         setFormData(prev => ({
             ...prev,
-            write_off_dish_items: [
-                ...prev.write_off_dish_items,
-                { dish: '', quantity: '' },
+            selling_dish_items: [
+                ...prev.selling_dish_items,
+                { dish: '', quantity: '', sale_price: '', amount: '' },
             ],
         }));
     };
 
     const handleRemoveItem = (index: number) => {
-        const updatedItems = formData.write_off_dish_items.filter((_, i) => i !== index);
-        setFormData(prev => ({ ...prev, write_off_dish_items: updatedItems }));
+        const updatedItems = formData.selling_dish_items.filter((_, i) => i !== index);
+        setFormData(prev => ({ ...prev, selling_dish_items: updatedItems }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -92,23 +98,27 @@ const WritingOffReasonEdit = () => {
         const payload = {
             ...formData,
             warehouse: Number(formData.warehouse),
-            writing_off_reason: Number(formData.writing_off_reason),
-            invoice_dish_items: formData.write_off_dish_items.map(item => ({
+            student: Number(formData.student),
+            amount: parseFloat(String(formData.amount)),
+            paid_amount: parseFloat(String(formData.paid_amount)),
+            selling_dish_items: formData.selling_dish_items.map(item => ({
                 dish: Number(item.dish),
                 quantity: parseFloat(item.quantity),
+                sale_price: parseFloat(item.sale_price),
+                amount: parseFloat(item.amount),
             })),
         };
 
-        await updateWriteOffFromWarehouse(Number(invoiceId), payload);
-        router.push('/operations/write-offs');
+        await updateSellingDishes(Number(documentId), payload);
+        router.push('/operations/selling-dishes');
     };
 
     return (
         <div>
-            <h1>Редактировать накладную</h1>
+            <h1>Редактировать продажу блюд</h1>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Номер накладной:</label>
+                    <label>Номер:</label>
                     <input type="text" name="number" value={formData.number} onChange={handleChange} required />
                 </div>
                 <div>
@@ -131,32 +141,42 @@ const WritingOffReasonEdit = () => {
                     </select>
                 </div>
                 <div>
-                    <label>Причина списания:</label>
-                    <select name="writing_off_reason" value={formData.writing_off_reason} onChange={handleChange} required>
-                        <option value="">Выберите причину</option>
-                        {writingOffReasons.map(ct => (
+                    <label>Учащийся:</label>
+                    <select name="student" value={formData.student} onChange={handleChange} required>
+                        <option value="">Выберите учащегося</option>
+                        {students.map(ct => (
                             <option key={ct.id} value={ct.id}>
-                                {ct.name}
+                                {ct.full_name}
                             </option>
                         ))}
                     </select>
+                </div>
+                <div>
+                    <label>Сумма:</label>
+                    <input type="number" step="0.01" name="amount" value={formData.amount} onChange={handleChange} required />
+                </div>
+                <div>
+                    <label>Оплаченная сумма:</label>
+                    <input type="number" step="0.01" name="paid_amount" value={formData.paid_amount} onChange={handleChange} required />
                 </div>
                 <div>
                     <label>Комментарий:</label>
                     <textarea name="commentary" value={formData.commentary} onChange={handleChange} />
                 </div>
 
-                <h2>Позиции списания</h2>
+                <h2>Блюда</h2>
                 <table>
                     <thead>
                     <tr>
                         <th>Блюдо</th>
                         <th>Количество</th>
+                        <th>Цена</th>
+                        <th>Сумма</th>
                         <th>Действия</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {formData.write_off_dish_items.map((item, index) => (
+                    {formData.selling_dish_items.map((item, index) => (
                         <tr key={index}>
                             <td>
                                 <select value={item.dish} onChange={(e) => handleItemChange(index, 'dish', e.target.value)} required>
@@ -172,6 +192,24 @@ const WritingOffReasonEdit = () => {
                                 <input type="number" step="0.01" value={item.quantity} onChange={(e) => handleItemChange(index, 'quantity', e.target.value)} required />
                             </td>
                             <td>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    value={item.sale_price}
+                                    onChange={(e) => handleItemChange(index, 'sale_price', e.target.value)}
+                                    required
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    value={item.amount}
+                                    onChange={(e) => handleItemChange(index, 'amount', e.target.value)}
+                                    required
+                                />
+                            </td>
+                            <td>
                                 <button type="button" onClick={() => handleRemoveItem(index)}>
                                     Удалить
                                 </button>
@@ -181,7 +219,7 @@ const WritingOffReasonEdit = () => {
                     </tbody>
                 </table>
                 <button type="button" onClick={handleAddItem}>
-                    Добавить позицию
+                    Добавить блюдо
                 </button>
                 <div>
                     <button type="submit">Сохранить изменения</button>
@@ -191,4 +229,4 @@ const WritingOffReasonEdit = () => {
     );
 };
 
-export default WritingOffReasonEdit;
+export default SellingDishesEdit;

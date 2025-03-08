@@ -45,13 +45,13 @@ const WriteOffFromWarehouseCreate = () => {
     const handleItemChange = (index: number, field: string, value: string) => {
         const updatedItems = [...formData.write_off_dish_items];
         updatedItems[index] = { ...updatedItems[index], [field]: value };
-        setFormData(prev => ({ ...prev, write_off_dish_items: updatedItems }));
+        setFormData(prev => ({ ...prev, selling_dish_items: updatedItems }));
     };
 
     const handleAddItem = () => {
         setFormData(prev => ({
             ...prev,
-            write_off_dish_items: [
+            selling_dish_items: [
                 ...prev.write_off_dish_items,
                 { dish: '', quantity: '', measurement_unit: '', cost_price: '', sale_price: '' },
             ],
@@ -60,7 +60,7 @@ const WriteOffFromWarehouseCreate = () => {
 
     const handleRemoveItem = (index: number) => {
         const updatedItems = formData.write_off_dish_items.filter((_, i) => i !== index);
-        setFormData(prev => ({ ...prev, write_off_dish_items: updatedItems }));
+        setFormData(prev => ({ ...prev, selling_dish_items: updatedItems }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {

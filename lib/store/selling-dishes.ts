@@ -12,6 +12,7 @@ interface SellingDishes {
     amount: number;
     paid_amount: number;
     author: number;
+    selling_dish_items: []
 }
 
 interface SellingDishesStore {
