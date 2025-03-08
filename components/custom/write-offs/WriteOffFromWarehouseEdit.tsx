@@ -9,7 +9,7 @@ import { useWritingOffReasonStore } from '@/lib/store/writing-off-reasons';
 const WritingOffReasonEdit = () => {
     const router = useRouter();
     const params = useParams();
-    const invoiceId = params.id;
+    const documentId = params.id;
     const { selectedWriteOffFromWarehouse, fetchWriteOffFromWarehouse, updateWriteOffFromWarehouse } = useWriteOffFromWarehouseStore();
     const { warehouses, fetchWarehouses } = useWarehouseStore();
     const { writingOffReasons, fetchWritingOffReasons } = useWritingOffReasonStore();
@@ -35,10 +35,10 @@ const WritingOffReasonEdit = () => {
     }, []);
 
     useEffect(() => {
-        if (invoiceId) {
-            fetchWriteOffFromWarehouse(Number(invoiceId));
+        if (documentId) {
+            fetchWriteOffFromWarehouse(Number(documentId));
         }
-    }, [invoiceId]);
+    }, [documentId]);
 
     useEffect(() => {
         if (selectedWriteOffFromWarehouse) {
@@ -50,7 +50,7 @@ const WritingOffReasonEdit = () => {
                 warehouse: String(selectedWriteOffFromWarehouse.warehouse) || '',
                 writing_off_reason: String(selectedWriteOffFromWarehouse.writing_off_reason) || '',
                 commentary: selectedWriteOffFromWarehouse.commentary || '',
-                selling_dish_items: selectedWriteOffFromWarehouse.write_off_dish_items || [],
+                movement_dishes_dish_item: selectedWriteOffFromWarehouse.write_off_dish_items || [],
             });
         }
     }, [selectedWriteOffFromWarehouse]);
@@ -68,13 +68,13 @@ const WritingOffReasonEdit = () => {
     const handleItemChange = (index: number, field: string, value: string) => {
         const updatedItems = [...formData.write_off_dish_items];
         updatedItems[index] = { ...updatedItems[index], [field]: value };
-        setFormData(prev => ({ ...prev, selling_dish_items: updatedItems }));
+        setFormData(prev => ({ ...prev, movement_dishes_dish_item: updatedItems }));
     };
 
     const handleAddItem = () => {
         setFormData(prev => ({
             ...prev,
-            selling_dish_items: [
+            movement_dishes_dish_item: [
                 ...prev.write_off_dish_items,
                 { dish: '', quantity: '' },
             ],
@@ -83,7 +83,7 @@ const WritingOffReasonEdit = () => {
 
     const handleRemoveItem = (index: number) => {
         const updatedItems = formData.write_off_dish_items.filter((_, i) => i !== index);
-        setFormData(prev => ({ ...prev, selling_dish_items: updatedItems }));
+        setFormData(prev => ({ ...prev, movement_dishes_dish_item: updatedItems }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -99,7 +99,7 @@ const WritingOffReasonEdit = () => {
             })),
         };
 
-        await updateWriteOffFromWarehouse(Number(invoiceId), payload);
+        await updateWriteOffFromWarehouse(Number(documentId), payload);
         router.push('/operations/write-offs');
     };
 

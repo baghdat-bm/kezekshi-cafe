@@ -1,26 +1,25 @@
 'use client';
+
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useWriteOffFromWarehouseStore } from '@/lib/store/write-off-from-warehouses';
+import { useMovementDishesStore } from '@/lib/store/movement-dishes';
 import { useWarehouseStore } from '@/lib/store/warehouses';
-import { useWritingOffReasonStore } from '@/lib/store/writing-off-reasons';
 import { useDishStore } from '@/lib/store/dishes';
 
-const WriteOffFromWarehouseCreate = () => {
+const MovementDishesCreate = () => {
     const router = useRouter();
-    const { addWriteOffFromWarehouse } = useWriteOffFromWarehouseStore();
+    const { addMovementDishes } = useMovementDishesStore();
     const { warehouses, fetchWarehouses } = useWarehouseStore();
-    const { writingOffReasons, fetchWritingOffReasons } = useWritingOffReasonStore();
     const { dishes, fetchDishes } = useDishStore();
 
     const [formData, setFormData] = useState({
         number: '',
         date: '',
         accepted: false,
-        warehouse: '',
-        writing_off_reason: '',
+        warehouse_from: '',
+        warehouse_to: '',
         commentary: '',
-        write_off_dish_items: [] as Array<{
+        movement_dish_items: [] as Array<{
             dish: string;
             quantity: string;
         }>,
@@ -28,7 +27,6 @@ const WriteOffFromWarehouseCreate = () => {
 
     useEffect(() => {
         fetchWarehouses();
-        fetchWritingOffReasons();
         fetchDishes();
     }, []);
 
@@ -43,24 +41,24 @@ const WriteOffFromWarehouseCreate = () => {
     };
 
     const handleItemChange = (index: number, field: string, value: string) => {
-        const updatedItems = [...formData.write_off_dish_items];
+        const updatedItems = [...formData.movement_dish_items];
         updatedItems[index] = { ...updatedItems[index], [field]: value };
-        setFormData(prev => ({ ...prev, movement_dishes_dish_item: updatedItems }));
+        setFormData(prev => ({ ...prev, movement_dish_items: updatedItems }));
     };
 
     const handleAddItem = () => {
         setFormData(prev => ({
             ...prev,
-            movement_dishes_dish_item: [
-                ...prev.write_off_dish_items,
-                { dish: '', quantity: ''},
+            movement_dish_items: [
+                ...prev.movement_dish_items,
+                { dish: '', quantity: '' },
             ],
         }));
     };
 
     const handleRemoveItem = (index: number) => {
-        const updatedItems = formData.write_off_dish_items.filter((_, i) => i !== index);
-        setFormData(prev => ({ ...prev, movement_dishes_dish_item: updatedItems }));
+        const updatedItems = formData.movement_dish_items.filter((_, i) => i !== index);
+        setFormData(prev => ({ ...prev, movement_dish_items: updatedItems }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -68,21 +66,21 @@ const WriteOffFromWarehouseCreate = () => {
 
         const payload = {
             ...formData,
-            warehouse: Number(formData.warehouse),
-            writing_off_reason: Number(formData.writing_off_reason),
-            write_off_dish_items: formData.write_off_dish_items.map(item => ({
+            warehouse_from: Number(formData.warehouse_from),
+            warehouse_to: Number(formData.warehouse_to),
+            movement_dish_items: formData.movement_dish_items.map(item => ({
                 dish: Number(item.dish),
                 quantity: parseFloat(item.quantity),
             })),
         };
 
-        await addWriteOffFromWarehouse(payload);
-        router.push('/operations/write-offs');
+        await addMovementDishes(payload);
+        router.push('/operations/movement-dishes');
     };
 
     return (
         <div>
-            <h1>Создать списание со склада</h1>
+            <h1>Создать перемещение на склад</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Номер:</label>
@@ -97,8 +95,8 @@ const WriteOffFromWarehouseCreate = () => {
                     <input type="checkbox" name="accepted" checked={formData.accepted} onChange={handleChange} />
                 </div>
                 <div>
-                    <label>Склад:</label>
-                    <select name="warehouse" value={formData.warehouse} onChange={handleChange} required>
+                    <label>Склад отправитель:</label>
+                    <select name="warehouse_from" value={formData.warehouse_from} onChange={handleChange} required>
                         <option value="">Выберите склад</option>
                         {warehouses.map(wh => (
                             <option key={wh.id} value={wh.id}>
@@ -108,12 +106,12 @@ const WriteOffFromWarehouseCreate = () => {
                     </select>
                 </div>
                 <div>
-                    <label>Причина списания:</label>
-                    <select name="writing_off_reason" value={formData.writing_off_reason} onChange={handleChange} required>
-                        <option value="">Выберите причину</option>
-                        {writingOffReasons.map(ct => (
-                            <option key={ct.id} value={ct.id}>
-                                {ct.name}
+                    <label>Склад получатель:</label>
+                    <select name="warehouse_to" value={formData.warehouse_to} onChange={handleChange} required>
+                        <option value="">Выберите склад</option>
+                        {warehouses.map(wh => (
+                            <option key={wh.id} value={wh.id}>
+                                {wh.name}
                             </option>
                         ))}
                     </select>
@@ -123,7 +121,7 @@ const WriteOffFromWarehouseCreate = () => {
                     <textarea name="commentary" value={formData.commentary} onChange={handleChange} />
                 </div>
 
-                <h2>Позиции списания</h2>
+                <h2>Блюда</h2>
                 <table>
                     <thead>
                     <tr>
@@ -133,7 +131,7 @@ const WriteOffFromWarehouseCreate = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {formData.write_off_dish_items.map((item, index) => (
+                    {formData.movement_dish_items.map((item, index) => (
                         <tr key={index}>
                             <td>
                                 <select
@@ -171,11 +169,11 @@ const WriteOffFromWarehouseCreate = () => {
                     Добавить блюдо
                 </button>
                 <div>
-                    <button type="submit">Создать списание</button>
+                    <button type="submit">Создать перемещение</button>
                 </div>
             </form>
         </div>
     );
 };
 
-export default WriteOffFromWarehouseCreate;
+export default MovementDishesCreate;

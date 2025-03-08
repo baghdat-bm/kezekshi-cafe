@@ -1,26 +1,26 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useWriteOffFromWarehouseStore } from '@/lib/store/write-off-from-warehouses';
+import { useRouter, useParams } from 'next/navigation';
+import { useMovementDishesStore } from '@/lib/store/movement-dishes';
 import { useWarehouseStore } from '@/lib/store/warehouses';
-import { useWritingOffReasonStore } from '@/lib/store/writing-off-reasons';
 import { useDishStore } from '@/lib/store/dishes';
 
-const WriteOffFromWarehouseCreate = () => {
+const MovementDishesEdit = () => {
     const router = useRouter();
-    const { addWriteOffFromWarehouse } = useWriteOffFromWarehouseStore();
+    const params = useParams();
+    const documentId = params.id;
+    const { selectedMovementDishes, fetchMovementDishes, updateMovementDishes } = useMovementDishesStore();
     const { warehouses, fetchWarehouses } = useWarehouseStore();
-    const { writingOffReasons, fetchWritingOffReasons } = useWritingOffReasonStore();
     const { dishes, fetchDishes } = useDishStore();
 
     const [formData, setFormData] = useState({
         number: '',
         date: '',
         accepted: false,
-        warehouse: '',
-        writing_off_reason: '',
+        warehouse_from: '',
+        warehouse_to: '',
         commentary: '',
-        write_off_dish_items: [] as Array<{
+        movement_dish_items: [] as Array<{
             dish: string;
             quantity: string;
         }>,
@@ -28,9 +28,29 @@ const WriteOffFromWarehouseCreate = () => {
 
     useEffect(() => {
         fetchWarehouses();
-        fetchWritingOffReasons();
         fetchDishes();
     }, []);
+
+    useEffect(() => {
+        if (documentId) {
+            fetchMovementDishes(Number(documentId));
+        }
+    }, [documentId]);
+
+    useEffect(() => {
+        if (selectedMovementDishes) {
+            setFormData({
+                number: selectedMovementDishes.number || '',
+                // Приводим дату к формату datetime-local (например, "2025-02-21T10:30")
+                date: selectedMovementDishes.date ? selectedMovementDishes.date.slice(0, 16) : '',
+                accepted: selectedMovementDishes.accepted || false,
+                warehouse_from: String(selectedMovementDishes.warehouse_from) || '',
+                warehouse_to: String(selectedMovementDishes.warehouse_to) || '',
+                commentary: selectedMovementDishes.commentary || '',
+                movement_dish_items: selectedMovementDishes.movement_dish_items || [],
+            });
+        }
+    }, [selectedMovementDishes]);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -43,24 +63,24 @@ const WriteOffFromWarehouseCreate = () => {
     };
 
     const handleItemChange = (index: number, field: string, value: string) => {
-        const updatedItems = [...formData.write_off_dish_items];
+        const updatedItems = [...formData.movement_dish_items];
         updatedItems[index] = { ...updatedItems[index], [field]: value };
-        setFormData(prev => ({ ...prev, movement_dishes_dish_item: updatedItems }));
+        setFormData(prev => ({ ...prev, movement_dish_items: updatedItems }));
     };
 
     const handleAddItem = () => {
         setFormData(prev => ({
             ...prev,
-            movement_dishes_dish_item: [
-                ...prev.write_off_dish_items,
-                { dish: '', quantity: ''},
+            movement_dish_items: [
+                ...prev.movement_dish_items,
+                { dish: '', quantity: '' },
             ],
         }));
     };
 
     const handleRemoveItem = (index: number) => {
-        const updatedItems = formData.write_off_dish_items.filter((_, i) => i !== index);
-        setFormData(prev => ({ ...prev, movement_dishes_dish_item: updatedItems }));
+        const updatedItems = formData.movement_dish_items.filter((_, i) => i !== index);
+        setFormData(prev => ({ ...prev, movement_dish_items: updatedItems }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -68,24 +88,24 @@ const WriteOffFromWarehouseCreate = () => {
 
         const payload = {
             ...formData,
-            warehouse: Number(formData.warehouse),
-            writing_off_reason: Number(formData.writing_off_reason),
-            write_off_dish_items: formData.write_off_dish_items.map(item => ({
+            warehouse_from: Number(formData.warehouse_from),
+            warehouse_to: Number(formData.warehouse_to),
+            invoice_dish_items: formData.movement_dish_items.map(item => ({
                 dish: Number(item.dish),
                 quantity: parseFloat(item.quantity),
             })),
         };
 
-        await addWriteOffFromWarehouse(payload);
-        router.push('/operations/write-offs');
+        await updateMovementDishes(Number(documentId), payload);
+        router.push('/operations/movement-dishes');
     };
 
     return (
         <div>
-            <h1>Создать списание со склада</h1>
+            <h1>Редактировать накладную</h1>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Номер:</label>
+                    <label>Номер накладной:</label>
                     <input type="text" name="number" value={formData.number} onChange={handleChange} required />
                 </div>
                 <div>
@@ -97,8 +117,8 @@ const WriteOffFromWarehouseCreate = () => {
                     <input type="checkbox" name="accepted" checked={formData.accepted} onChange={handleChange} />
                 </div>
                 <div>
-                    <label>Склад:</label>
-                    <select name="warehouse" value={formData.warehouse} onChange={handleChange} required>
+                    <label>Склад отправитель:</label>
+                    <select name="warehouse_from" value={formData.warehouse_from} onChange={handleChange} required>
                         <option value="">Выберите склад</option>
                         {warehouses.map(wh => (
                             <option key={wh.id} value={wh.id}>
@@ -108,10 +128,10 @@ const WriteOffFromWarehouseCreate = () => {
                     </select>
                 </div>
                 <div>
-                    <label>Причина списания:</label>
-                    <select name="writing_off_reason" value={formData.writing_off_reason} onChange={handleChange} required>
-                        <option value="">Выберите причину</option>
-                        {writingOffReasons.map(ct => (
+                    <label>Склад получатель:</label>
+                    <select name="warehouse_to" value={formData.warehouse_to} onChange={handleChange} required>
+                        <option value="">Выберите склад</option>
+                        {warehouses.map(ct => (
                             <option key={ct.id} value={ct.id}>
                                 {ct.name}
                             </option>
@@ -123,7 +143,7 @@ const WriteOffFromWarehouseCreate = () => {
                     <textarea name="commentary" value={formData.commentary} onChange={handleChange} />
                 </div>
 
-                <h2>Позиции списания</h2>
+                <h2>Блюда</h2>
                 <table>
                     <thead>
                     <tr>
@@ -133,14 +153,10 @@ const WriteOffFromWarehouseCreate = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {formData.write_off_dish_items.map((item, index) => (
+                    {formData.movement_dish_items.map((item, index) => (
                         <tr key={index}>
                             <td>
-                                <select
-                                    value={item.dish}
-                                    onChange={(e) => handleItemChange(index, 'dish', e.target.value)}
-                                    required
-                                >
+                                <select value={item.dish} onChange={(e) => handleItemChange(index, 'dish', e.target.value)} required>
                                     <option value="">Выберите блюдо</option>
                                     {dishes.map(dish => (
                                         <option key={dish.id} value={dish.id}>
@@ -150,13 +166,7 @@ const WriteOffFromWarehouseCreate = () => {
                                 </select>
                             </td>
                             <td>
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    value={item.quantity}
-                                    onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                                    required
-                                />
+                                <input type="number" step="0.01" value={item.quantity} onChange={(e) => handleItemChange(index, 'quantity', e.target.value)} required />
                             </td>
                             <td>
                                 <button type="button" onClick={() => handleRemoveItem(index)}>
@@ -171,11 +181,11 @@ const WriteOffFromWarehouseCreate = () => {
                     Добавить блюдо
                 </button>
                 <div>
-                    <button type="submit">Создать списание</button>
+                    <button type="submit">Сохранить изменения</button>
                 </div>
             </form>
         </div>
     );
 };
 
-export default WriteOffFromWarehouseCreate;
+export default MovementDishesEdit;
