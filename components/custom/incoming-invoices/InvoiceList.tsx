@@ -22,7 +22,7 @@ const InvoiceList = () => {
         <div>
             <h1>Список приходных накладных</h1>
 
-            <Link href="/operations/invoices/new">
+            <Link href="/operations/incoming-invoices/new">
                 <b>Создать новую накладную</b>
             </Link>
 
@@ -41,7 +41,7 @@ const InvoiceList = () => {
                     <tr key={invoice.id}>
                         <td>{invoice.id}</td>
                         <td>
-                            <Link href={`/operations/invoices/${invoice.id}`}>
+                            <Link href={`/operations/incoming-invoices/${invoice.id}`}>
                                 <b>{invoice.number}</b>
                             </Link>
                         </td>

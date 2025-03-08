@@ -24,9 +24,9 @@ const InvoiceEdit = () => {
         warehouse: '',
         supplier: '',
         commentary: '',
-        amount: '',
-        shipping_cost: '',
-        paid_amount: '',
+        amount: 0,
+        shipping_cost: 0,
+        paid_amount: 0,
         invoice_dish_items: [] as Array<{
             dish: string;
             quantity: string;
@@ -59,10 +59,10 @@ const InvoiceEdit = () => {
                 warehouse: String(selectedIncomingInvoice.warehouse) || '',
                 supplier: String(selectedIncomingInvoice.supplier) || '',
                 commentary: selectedIncomingInvoice.commentary || '',
-                amount: selectedIncomingInvoice.amount || '',
-                shipping_cost: selectedIncomingInvoice.shipping_cost || '',
-                paid_amount: selectedIncomingInvoice.paid_amount || '',
-                write_off_dish_items: selectedIncomingInvoice.invoice_dish_items || [],
+                amount: selectedIncomingInvoice.amount || 0,
+                shipping_cost: selectedIncomingInvoice.shipping_cost || 0,
+                paid_amount: selectedIncomingInvoice.paid_amount || 0,
+                invoice_dish_items: selectedIncomingInvoice.invoice_dish_items || [],
             });
         }
     }, [selectedIncomingInvoice]);
@@ -80,13 +80,13 @@ const InvoiceEdit = () => {
     const handleItemChange = (index: number, field: string, value: string) => {
         const updatedItems = [...formData.invoice_dish_items];
         updatedItems[index] = { ...updatedItems[index], [field]: value };
-        setFormData(prev => ({ ...prev, write_off_dish_items: updatedItems }));
+        setFormData(prev => ({ ...prev, invoice_dish_items: updatedItems }));
     };
 
     const handleAddItem = () => {
         setFormData(prev => ({
             ...prev,
-            write_off_dish_items: [
+            invoice_dish_items: [
                 ...prev.invoice_dish_items,
                 { dish: '', quantity: '', measurement_unit: '', cost_price: '', sale_price: '' },
             ],
@@ -95,7 +95,7 @@ const InvoiceEdit = () => {
 
     const handleRemoveItem = (index: number) => {
         const updatedItems = formData.invoice_dish_items.filter((_, i) => i !== index);
-        setFormData(prev => ({ ...prev, write_off_dish_items: updatedItems }));
+        setFormData(prev => ({ ...prev, invoice_dish_items: updatedItems }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -105,9 +105,9 @@ const InvoiceEdit = () => {
             ...formData,
             warehouse: Number(formData.warehouse),
             supplier: Number(formData.supplier),
-            amount: parseFloat(formData.amount),
-            shipping_cost: parseFloat(formData.shipping_cost),
-            paid_amount: parseFloat(formData.paid_amount),
+            amount: parseFloat(String(formData.amount)),
+            shipping_cost: parseFloat(String(formData.shipping_cost)),
+            paid_amount: parseFloat(String(formData.paid_amount)),
             invoice_dish_items: formData.invoice_dish_items.map(item => ({
                 dish: Number(item.dish),
                 quantity: parseFloat(item.quantity),
@@ -118,7 +118,7 @@ const InvoiceEdit = () => {
         };
 
         await updateIncomingInvoice(Number(invoiceId), payload);
-        router.push('/operations/invoices');
+        router.push('/operations/incoming-invoices');
     };
 
     return (

@@ -13,6 +13,7 @@ interface IncomingInvoice {
     shipping_cost: number;
     paid_amount: number;
     author: number;
+    invoice_dish_items: []
 }
 
 interface IncomingInvoiceStore {
