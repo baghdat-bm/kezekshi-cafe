@@ -41,7 +41,7 @@ const Header = () => {
     const dayOfWeek = weekdays[now.getDay()];
 
     return (
-        <header className="flex items-center justify-between p-1 bg-gray-100">
+        <header className="flex items-center justify-between p-1">
             <button className="p-1 focus:outline-none" aria-label="Меню">
                 <svg width="24" height="24" viewBox="0 0 24 24">
                     <path

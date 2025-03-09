@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import InvoiceForm from '@/components/custom/incoming-invoices/InvoiceForm';
 import { useIncomingInvoiceStore } from '@/lib/store/incoming-invoices';
 import { useWarehouseStore } from '@/lib/store/warehouses';
 import { useContractorStore } from '@/lib/store/contractors';
@@ -41,14 +42,16 @@ const InvoiceCreate = () => {
         fetchUnits();
     }, []);
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-    ) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value, type, checked } = e.target;
         setFormData(prev => ({
             ...prev,
             [name]: type === 'checkbox' ? checked : value,
         }));
+    };
+
+    const handleSelectChange = (name: string, value: string) => {
+        setFormData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleItemChange = (index: number, field: string, value: string) => {
@@ -96,147 +99,22 @@ const InvoiceCreate = () => {
     };
 
     return (
-        <div>
-            <h1>Создать накладную</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Номер накладной:</label>
-                    <input type="text" name="number" value={formData.number} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Дата:</label>
-                    <input type="datetime-local" name="date" value={formData.date} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Принята:</label>
-                    <input type="checkbox" name="accepted" checked={formData.accepted} onChange={handleChange} />
-                </div>
-                <div>
-                    <label>Склад:</label>
-                    <select name="warehouse" value={formData.warehouse} onChange={handleChange} required>
-                        <option value="">Выберите склад</option>
-                        {warehouses.map(wh => (
-                            <option key={wh.id} value={wh.id}>
-                                {wh.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label>Поставщик:</label>
-                    <select name="supplier" value={formData.supplier} onChange={handleChange} required>
-                        <option value="">Выберите поставщика</option>
-                        {contractors.map(ct => (
-                            <option key={ct.id} value={ct.id}>
-                                {ct.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label>Сумма:</label>
-                    <input type="number" step="0.01" name="amount" value={formData.amount} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Стоимость доставки:</label>
-                    <input type="number" step="0.01" name="shipping_cost" value={formData.shipping_cost} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Оплаченная сумма:</label>
-                    <input type="number" step="0.01" name="paid_amount" value={formData.paid_amount} onChange={handleChange} required />
-                </div>
-                <div>
-                    <label>Комментарий:</label>
-                    <textarea name="commentary" value={formData.commentary} onChange={handleChange} />
-                </div>
-
-                <h2>Позиции накладной</h2>
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Блюдо</th>
-                        <th>Количество</th>
-                        <th>Ед. измерения</th>
-                        <th>Себестоимость</th>
-                        <th>Цена продажи</th>
-                        <th>Действия</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {formData.invoice_dish_items.map((item, index) => (
-                        <tr key={index}>
-                            <td>
-                                <select
-                                    value={item.dish}
-                                    onChange={(e) => handleItemChange(index, 'dish', e.target.value)}
-                                    required
-                                >
-                                    <option value="">Выберите блюдо</option>
-                                    {dishes.map(dish => (
-                                        <option key={dish.id} value={dish.id}>
-                                            {dish.name_ru || dish.name_en || dish.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </td>
-                            <td>
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    value={item.quantity}
-                                    onChange={(e) => handleItemChange(index, 'quantity', e.target.value)}
-                                    required
-                                />
-                            </td>
-                            <td>
-                                <select
-                                    value={item.measurement_unit}
-                                    onChange={(e) => handleItemChange(index, 'measurement_unit', e.target.value)}
-                                    required
-                                >
-                                    <option value="">Выберите единицу измерения</option>
-                                    {units.map(unit => (
-                                        <option key={unit.id} value={unit.id}>
-                                            {unit.name_ru || unit.name_en || unit.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </td>
-                            <td>
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    value={item.cost_price}
-                                    onChange={(e) => handleItemChange(index, 'cost_price', e.target.value)}
-                                    required
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="number"
-                                    step="0.01"
-                                    value={item.sale_price}
-                                    onChange={(e) => handleItemChange(index, 'sale_price', e.target.value)}
-                                    required
-                                />
-                            </td>
-                            <td>
-                                <button type="button" onClick={() => handleRemoveItem(index)}>
-                                    Удалить
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
-                <button type="button" onClick={handleAddItem}>
-                    Добавить позицию
-                </button>
-                <div>
-                    <button type="submit">Создать накладную</button>
-                </div>
-            </form>
-        </div>
+        <InvoiceForm
+            title="Создать накладную"
+            submitButtonText="Создать накладную"
+            formData={formData}
+            setFormData={setFormData}
+            handleChange={handleChange}
+            handleSelectChange={handleSelectChange}
+            handleItemChange={handleItemChange}
+            handleAddItem={handleAddItem}
+            handleRemoveItem={handleRemoveItem}
+            handleSubmit={handleSubmit}
+            contractors={contractors}
+            warehouses={warehouses}
+            dishes={dishes}
+            units={units}
+        />
     );
 };
 

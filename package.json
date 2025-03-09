@@ -1,6 +1,6 @@
 {
-  "name": "my-next-app",
-  "version": "0.1.0",
+  "name": "kezekshi-cafe",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@radix-ui/react-checkbox": "^1.1.4",
+    "@radix-ui/react-select": "^2.1.6",
     "@radix-ui/react-slot": "^1.1.2",
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
