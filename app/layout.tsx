@@ -1,10 +1,13 @@
-import type {Metadata} from "next";
-import {Geist, Geist_Mono} from "next/font/google";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/custom/app-sidebar"
+import { cookies } from "next/headers"
 
 import "./globals.css";
 
 import ClientLayout from "@/components/client-layout";
-import Header from "@/components/custom/Header";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -21,23 +24,34 @@ export const metadata: Metadata = {
     description: "Developed by baghdat.bm@gmail.com",
 };
 
-export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
+export default async function RootLayout({
+    children,
+}: Readonly<{
     children: React.ReactNode;
 }>) {
+
+    const cookieStore = await cookies()
+    const defaultOpen = cookieStore.get("sidebar_state")?.value === "true"
+
     return (
         <html lang="ru">
-        <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-        <Header/>
-        <ClientLayout>
-            <div className="mx-8">
-                {children}
-            </div>
-        </ClientLayout>
-        </body>
+            <body
+                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            >
+                
+                <SidebarProvider defaultOpen={defaultOpen}>                    
+                    <AppSidebar />
+
+                    <ClientLayout>
+                        <div className="mx-8 pt-11">
+                            <main>
+                                <SidebarTrigger />
+                                {children}
+                            </main>
+                        </div>
+                    </ClientLayout>
+                </SidebarProvider>
+            </body>
         </html>
     );
 }

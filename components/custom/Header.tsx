@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSidebar } from "@/components/ui/sidebar"
 
 const Header = () => {
     const [mounted, setMounted] = useState(false);
     const [now, setNow] = useState(new Date());
+    const { toggleSidebar } = useSidebar()
 
     useEffect(() => {
         setMounted(true);
@@ -41,8 +43,9 @@ const Header = () => {
     const dayOfWeek = weekdays[now.getDay()];
 
     return (
-        <header className="flex items-center justify-between p-1">
-            <button className="p-1 focus:outline-none" aria-label="Меню">
+        <header className="flex items-center">
+            <button className="p-1 focus:outline-none" aria-label="Меню"
+                onClick={toggleSidebar}>
                 <svg width="24" height="24" viewBox="0 0 24 24">
                     <path
                         d="M4 6h16M4 12h16M4 18h16"
@@ -53,7 +56,7 @@ const Header = () => {
                 </svg>
             </button>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex pl-10 items-center space-x-4">
                 <span>Столовая - справа</span>
                 <span>{dayOfWeek}</span>
                 <span>{dateString}</span>
