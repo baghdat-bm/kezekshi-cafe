@@ -193,9 +193,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                 {/* Блок 3: Область с таблицей блюд (визуально выделена) */}
                 <h2 className="kez-info-text">Блюда</h2>
                 <div className="mb-4 border p-4">
-                    <Button className="kez-simple-btn" type="button" onClick={handleAddItem}>
-                        Добавить блюдо
-                    </Button>
+
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -277,12 +275,15 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                                         />
                                     </TableCell>
                                     <TableCell>
-                                        <CircleX size={32} className="text-red-500" onClick={() => handleRemoveItem(index)} />
+                                        <CircleX size={24} className="text-red-500" onClick={() => handleRemoveItem(index)} />
                                     </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
+                    <Button className="kez-simple-btn mt-2" type="button" onClick={handleAddItem}>
+                        Добавить блюдо
+                    </Button>
                 </div>
 
                 {/* Блок 4: Поле комментария */}
