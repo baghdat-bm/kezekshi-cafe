@@ -43,7 +43,7 @@ const Header = () => {
     const dayOfWeek = weekdays[now.getDay()];
 
     return (
-        <header className="flex items-center">
+        <header className="w-full flex items-center justify-between">
             <button className="p-1 focus:outline-none" aria-label="Меню"
                 onClick={toggleSidebar}>
                 <svg width="24" height="24" viewBox="0 0 24 24">
@@ -56,7 +56,7 @@ const Header = () => {
                 </svg>
             </button>
 
-            <div className="flex pl-10 items-center space-x-4">
+            <div className="flex items-center space-x-4">
                 <span>Столовая - справа</span>
                 <span>{dayOfWeek}</span>
                 <span>{dateString}</span>

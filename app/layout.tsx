@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { SidebarProvider } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/custom/app-sidebar"
+import { AppSidebar } from "@/components/custom/AppSidebar"
 import { cookies } from "next/headers"
 
 import "./globals.css";
 
 import ClientLayout from "@/components/client-layout";
+import MobileHeader from "@/components/custom/MobileHeader";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -39,7 +40,11 @@ export default async function RootLayout({
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
                 
-                <SidebarProvider defaultOpen={defaultOpen}>                    
+                <SidebarProvider defaultOpen={defaultOpen}>
+                    {/* Мобильный хэдер, отображаемый только на маленьких экранах */}
+                    <MobileHeader />
+
+                    {/* Сайдбар, который может оставаться скрытым на мобильных */}
                     <AppSidebar />
 
                     <ClientLayout>
