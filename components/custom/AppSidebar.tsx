@@ -1,3 +1,5 @@
+"use client";
+
 import { ShoppingBag, ClipboardMinus, ClipboardPlus, SendToBack, ChartBarStacked, Salad,
     Ruler, ContactRound, GraduationCap } from "lucide-react"
 import Link from 'next/link'
@@ -16,6 +18,8 @@ import {
 } from "@/components/ui/sidebar"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
 import Header from "./Header"
+import { useAuthStore } from "@/lib/store/auth";
+import { Button } from "../ui/button";
 
 // Menu items.
 const document_navs = [
@@ -70,6 +74,7 @@ const ref_navs = [
 ]
 
 export function AppSidebar() {
+    const { userData, logout } = useAuthStore();
 
     return (
         <div>            
@@ -125,18 +130,15 @@ export function AppSidebar() {
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <SidebarMenuButton>
-                                        Username
+                                        {userData?.user_name}
                                     </SidebarMenuButton>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent
                                     side="top"
                                     className="w-[--radix-popper-anchor-width]"
-                                >
+                                >                                    
                                     <DropdownMenuItem>
-                                        <span>Account</span>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                        <span>Sign out</span>
+                                        <Button onClick={logout}>Выйти</Button>
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
