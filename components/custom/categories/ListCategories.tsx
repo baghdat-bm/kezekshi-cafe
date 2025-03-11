@@ -56,8 +56,8 @@ const ListCategories = () => {
                 </TableHeader>
                 <TableBody>
                     {categories.map((item) => (
-                        <TableRow key={item.id} className="kez-table-body-row text-gray-100"
-                                  style={{ backgroundColor: item.color }}>
+                        <TableRow key={item.id} className="kez-table-body-row"
+                                  style={{ color: item.color }}>
                             <TableCell className="font-medium">
                                 <Link href={`/admin/categories/${item.id}`}>
                                     {item.id}
