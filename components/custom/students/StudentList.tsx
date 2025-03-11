@@ -12,12 +12,14 @@ import {
 } from "@/components/ui/table"
 
 import { useStudentStore } from '@/lib/store/students';
+import Image from "next/image";
 
 const StudentList = () => {
     const { students, fetchStudents } = useStudentStore();
 
     useEffect(() => {
         fetchStudents();
+        console.log(students);
     }, [fetchStudents]);
 
     return (
@@ -32,6 +34,7 @@ const StudentList = () => {
                         <TableHead>ФИО</TableHead>
                         <TableHead>Баланс</TableHead>
                         <TableHead>Телефон</TableHead>
+                        <TableHead>Фото</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -41,6 +44,16 @@ const StudentList = () => {
                             <TableCell>{item.full_name}</TableCell>
                             <TableCell className="text-right">{item.balance}</TableCell>
                             <TableCell>{item.phone}</TableCell>
+                            <TableCell>
+                                {item.photo && (
+                                    <Image
+                                        src={item.photo}
+                                        alt={item.full_name}
+                                        width={50}
+                                        height={50}
+                                    />
+                                )}
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

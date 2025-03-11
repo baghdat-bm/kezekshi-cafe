@@ -16,8 +16,6 @@ const ListDishes = () => {
     useEffect(() => {
         fetchDishes();
         fetchUnits();
-        console.log('dishes:');
-        console.log(dishes);
     }, [fetchDishes, fetchUnits]);
 
     const handleDelete = async (id: number) => {
