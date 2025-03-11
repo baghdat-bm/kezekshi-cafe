@@ -42,7 +42,7 @@ const ContractorEdit = () => {
 
     return (
         <div>
-            <h1>Редактирование контрагента</h1>
+            <h1>Редактирование поставщика</h1>
             <ContractorForm
                 initialValues={initialValues}
                 onSubmit={handleSubmit}

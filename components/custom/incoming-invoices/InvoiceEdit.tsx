@@ -119,7 +119,7 @@ const InvoiceEdit = () => {
 
     return (
         <InvoiceForm
-            title="Изменение приходной накладной"
+            title="Изменение оприходования на склад"
             submitButtonText="Сохранить изменения"
             formData={formData}
             setFormData={setFormData}

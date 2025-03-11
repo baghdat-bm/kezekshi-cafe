@@ -5,6 +5,9 @@ import Image from 'next/image';
 import Link from "next/link";
 import { useDishStore } from '@/lib/store/dishes';
 import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
+import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
+import {CircleX} from "lucide-react";
+
 
 const ListDishes = () => {
     const { dishes, fetchDishes, deleteDish } = useDishStore();
@@ -13,6 +16,8 @@ const ListDishes = () => {
     useEffect(() => {
         fetchDishes();
         fetchUnits();
+        console.log('dishes:');
+        console.log(dishes);
     }, [fetchDishes, fetchUnits]);
 
     const handleDelete = async (id: number) => {
@@ -34,47 +39,47 @@ const ListDishes = () => {
 
     return (
         <div>
-            <h1>Список блюд</h1>
-            <Link href="/admin/dishes/new">Создать новое блюдо</Link>
-            <table cellPadding="5" className="table-none md:table-fixed">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Название</th>
-                    <th>Логотип</th>
-                    <th>Цвет</th>
-                    <th>Единица измерения</th>
-                    <th>Действия</th>
-                </tr>
-                </thead>
-                <tbody>
-                {dishes.map((item) => (
-                    <tr key={item.id}>
-                        <td>{item.id}</td>
-                        <td>
-                            <Link href={`/admin/dishes/${item.id}`}>
-                                {item.name || 'Без названия'}
-                            </Link>
-                        </td>
-                        <td>
-                            {item.logo && (
-                                <Image
-                                    src={item.logo}
-                                    alt={item.name}
-                                    width={50}
-                                    height={50}
-                                />
-                            )}
-                        </td>
-                        <td style={{ backgroundColor: item.color }}>{item.color}</td>
-                        <td>{getUnitName(item.measurement_unit)}</td>
-                        <td>
-                            <button onClick={() => handleDelete(item.id)}>Удалить</button>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+            <Link href="/admin/dishes/new" className="kez-create-item-btn">
+                Создать новое блюдо
+            </Link>
+
+            <Table>
+                <TableCaption className="kez-table-caption">
+                    Список блюд
+                </TableCaption>
+                <TableHeader>
+                    <TableRow className="kez-table-header-row">
+                        <TableHead>ID</TableHead>
+                        <TableHead>Название</TableHead>
+                        <TableHead>Единица измерения</TableHead>
+                        <TableHead>Удалить</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {dishes.map((item) => (
+                        <TableRow key={item.id} className="kez-table-body-row">
+                            <TableCell className="font-medium">
+                                <Link href={`/admin/dishes/${item.id}`}>
+                                    {item.id}
+                                </Link>
+                            </TableCell>
+                            <TableCell>
+                                <Link href={`/admin/dishes/${item.id}`}>
+                                    {item.name || 'Без названия'}
+                                </Link>
+                            </TableCell>
+                            <TableCell>
+                                {getUnitName(item.measurement_unit)}
+                            </TableCell>
+                            <TableCell className="text-center">
+                                <button onClick={() => handleDelete(item.id)}>
+                                    <CircleX size={18} className="text-red-500"/>
+                                </button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
         </div>
     );
 };

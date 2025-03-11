@@ -3,6 +3,10 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useMovementDishesStore } from '@/lib/store/movement-dishes';
+import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
+
+import {CircleX} from "lucide-react";
+import {formatDate} from "@/lib/utils";
 
 const MovementDishesList = () => {
     const { movementsDishes, fetchMovementsDishes, deleteMovementDishes } = useMovementDishesStore();
@@ -17,43 +21,54 @@ const MovementDishesList = () => {
         }
     };
 
+
     return (
         <div>
-            <h1>Список перемещений на склады</h1>
-
-            <Link href="/operations/movement-dishes/new">
-                <b>Создать новое перемещение на склад</b>
+            <Link href="/operations/movement-dishes/new" className="kez-create-item-btn">
+                Создать новое перемещение на склад
             </Link>
 
-            <table>
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Номер</th>
-                    <th>Дата</th>
-                    <th>Статус</th>
-                    <th>Действия</th>
-                </tr>
-                </thead>
-                <tbody>
-                {movementsDishes.map(write_off => (
-                    <tr key={write_off.id}>
-                        <td>{write_off.id}</td>
-                        <td>
-                            <Link href={`/operations/movement-dishes/${write_off.id}`}>
-                                <b>{write_off.number}</b>
-                            </Link>
-                        </td>
-                        <td>{write_off.date}</td>
-                        <td>{write_off.accepted ? "Принята" : "Не принята"}</td>
-                        <td>
-                            <button onClick={() => handleDelete(write_off.id)}>Удалить</button>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-
+            <Table>
+                <TableCaption className="kez-table-caption">
+                    Список перемещений на склады
+                </TableCaption>
+                <TableHeader>
+                    <TableRow className="kez-table-header-row">
+                        <TableHead>ID</TableHead>
+                        <TableHead>Номер</TableHead>
+                        <TableHead>Дата</TableHead>
+                        <TableHead>Статус</TableHead>
+                        <TableHead>Удалить</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {movementsDishes.map((item) => (
+                        <TableRow key={item.id} className="kez-table-body-row">
+                            <TableCell className="font-medium">
+                                <Link href={`/operations/movement-dishes/${item.id}`}>
+                                    {item.id}
+                                </Link>
+                            </TableCell>
+                            <TableCell>
+                                <Link href={`/operations/movement-dishes/${item.id}`}>
+                                    {item.number}
+                                </Link>
+                            </TableCell>
+                            <TableCell>
+                                <Link href={`/operations/movement-dishes/${item.id}`}>
+                                    <span>{formatDate(item.date)}</span>
+                                </Link>
+                            </TableCell>
+                            <TableCell>{item.accepted ? "Принята" : "Не принята"}</TableCell>
+                            <TableCell className="text-center">
+                                <button onClick={() => handleDelete(item.id)}>
+                                    <CircleX size={18} className="text-red-500"/>
+                                </button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
         </div>
     );
 };

@@ -100,8 +100,8 @@ const InvoiceCreate = () => {
 
     return (
         <InvoiceForm
-            title="Создать накладную"
-            submitButtonText="Создать накладную"
+            title="Создать оприходование на склад"
+            submitButtonText="Создать оприходование"
             formData={formData}
             setFormData={setFormData}
             handleChange={handleChange}

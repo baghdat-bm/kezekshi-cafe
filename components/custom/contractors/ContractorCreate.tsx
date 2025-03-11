@@ -20,7 +20,7 @@ const ContractorCreate = () => {
 
     return (
         <div>
-            <h1>Создание контрагента</h1>
+            <h1>Создание поставщика</h1>
             <ContractorForm onSubmit={handleSubmit} onCancel={handleCancel} submitText="Создать" />
         </div>
     );

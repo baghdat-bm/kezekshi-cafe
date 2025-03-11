@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import {CircleX} from "lucide-react";
 
 interface UnitDeleteButtonProps {
     id: number;
@@ -14,7 +15,9 @@ const UnitDeleteButton: React.FC<UnitDeleteButtonProps> = ({ id, onDelete }) => 
         }
     };
 
-    return <button onClick={handleDelete}>Удалить</button>;
+    return <button onClick={handleDelete}>
+        <CircleX size={18} className="text-red-500"/>
+    </button>;
 };
 
 export default UnitDeleteButton;

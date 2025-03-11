@@ -2,6 +2,15 @@
 
 import React, { useEffect } from 'react';
 import Link from 'next/link';
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
 import { useContractorStore } from '@/lib/store/contractors';
 import ContractorDeleteButton from './ContractorDeleteButton';
 
@@ -14,32 +23,41 @@ const ContractorList = () => {
 
     return (
         <div>
-            <h1>Список контрагентов</h1>
-            <Link href="/admin/contractors/new">Создать нового контрагента</Link>
-            <table>
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Название</th>
-                    <th>Действия</th>
-                </tr>
-                </thead>
-                <tbody>
-                {contractors.map((contractor) => (
-                    <tr key={contractor.id}>
-                        <td>{contractor.id}</td>
-                        <td>
-                            <Link href={`/admin/contractors/${contractor.id}`}>
-                                {contractor.name || 'Без названия'}
-                            </Link>
-                        </td>
-                        <td>
-                            <ContractorDeleteButton id={contractor.id} onDelete={deleteContractor} />
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
+            <Link href="/admin/contractors/new" className="kez-create-item-btn">
+                Добавить нового поставщика
+            </Link>
+
+            <Table>
+                <TableCaption className="kez-table-caption">
+                    Список поставщиков
+                </TableCaption>
+                <TableHeader>
+                    <TableRow className="kez-table-header-row">
+                        <TableHead>ID</TableHead>
+                        <TableHead>Название</TableHead>
+                        <TableHead>Удалить</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {contractors.map((item) => (
+                        <TableRow key={item.id} className="kez-table-body-row">
+                            <TableCell className="font-medium">
+                                <Link href={`/admin/contractors/${item.id}`}>
+                                    {item.id}
+                                </Link>
+                            </TableCell>
+                            <TableCell>
+                                <Link href={`/admin/contractors/${item.id}`}>
+                                    {item.name || 'Без названия'}
+                                </Link>
+                            </TableCell>
+                            <TableCell className="text-center">
+                                <ContractorDeleteButton id={item.id} onDelete={deleteContractor} />
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
         </div>
     );
 };

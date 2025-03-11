@@ -4,6 +4,9 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useIncomingInvoiceStore } from '@/lib/store/incoming-invoices';
+import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
+import {formatDate} from "@/lib/utils";
+import {CircleX} from "lucide-react";
 
 const InvoiceList = () => {
     const { incomingInvoices, fetchIncomingInvoices, deleteIncomingInvoice } = useIncomingInvoiceStore();
@@ -20,41 +23,51 @@ const InvoiceList = () => {
 
     return (
         <div>
-            <h1>Список приходных накладных</h1>
-
-            <Link href="/operations/incoming-invoices/new">
-                <b>Создать новую накладную</b>
+            <Link href="/operations/incoming-invoices/new" className="kez-create-item-btn">
+                Создать новое оприходование на склад
             </Link>
 
-            <table>
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Номер накладной</th>
-                    <th>Дата</th>
-                    <th>Статус</th>
-                    <th>Действия</th>
-                </tr>
-                </thead>
-                <tbody>
-                {incomingInvoices.map(invoice => (
-                    <tr key={invoice.id}>
-                        <td>{invoice.id}</td>
-                        <td>
-                            <Link href={`/operations/incoming-invoices/${invoice.id}`}>
-                                <b>{invoice.number}</b>
-                            </Link>
-                        </td>
-                        <td>{invoice.date}</td>
-                        <td>{invoice.accepted ? "Принята" : "Не принята"}</td>
-                        <td>
-                            <button onClick={() => handleDelete(invoice.id)}>Удалить</button>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-
+            <Table>
+                <TableCaption className="kez-table-caption">
+                    Список оприходований на склады
+                </TableCaption>
+                <TableHeader>
+                    <TableRow className="kez-table-header-row">
+                        <TableHead>ID</TableHead>
+                        <TableHead>Номер</TableHead>
+                        <TableHead>Дата</TableHead>
+                        <TableHead>Статус</TableHead>
+                        <TableHead>Удалить</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {incomingInvoices.map((item) => (
+                        <TableRow key={item.id} className="kez-table-body-row">
+                            <TableCell className="font-medium">
+                                <Link href={`/operations/incoming-invoices/${item.id}`}>
+                                    {item.id}
+                                </Link>
+                            </TableCell>
+                            <TableCell>
+                                <Link href={`/operations/incoming-invoices/${item.id}`}>
+                                    {item.number}
+                                </Link>
+                            </TableCell>
+                            <TableCell>
+                                <Link href={`/operations/incoming-invoices/${item.id}`}>
+                                    <span>{formatDate(item.date)}</span>
+                                </Link>
+                            </TableCell>
+                            <TableCell>{item.accepted ? "Принята" : "Не принята"}</TableCell>
+                            <TableCell className="text-center">
+                                <button onClick={() => handleDelete(item.id)}>
+                                    <CircleX size={18} className="text-red-500"/>
+                                </button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
         </div>
     );
 };
