@@ -1,5 +1,5 @@
 import {create} from 'zustand';
-import {createItem, deleteItem, fetchItems, updateItem, fetchItem} from '@/lib/service/dishes';
+import {createItem, deleteItem, fetchItems, updateItem, fetchItem, fetchItemsExt} from '@/lib/service/dishes';
 
 interface Dish {
     id: number;
@@ -12,12 +12,15 @@ interface Dish {
     color: string;
     barcode?: string | null;
     measurement_unit?: number | null;
+    remaining_quantity: number | null;
 }
 
 interface DishStore {
     dishes: Dish[];
+    dishesExt: Dish[];
     selectedDish: Dish | null;
     fetchDishes: () => Promise<void>;
+    fetchDishesExt: () => Promise<void>;
     fetchDish: (id: number) => Promise<void>;
     addDish: (dishData: Partial<Dish>) => Promise<void>;
     updateDish: (id: number, dishData: Partial<Dish>) => Promise<void>;
@@ -26,12 +29,19 @@ interface DishStore {
 
 export const useDishStore = create<DishStore>((set, get) => ({
     dishes: [],
+    dishesExt: [],
     selectedDish: null,
 
     // Получение списка элементов
     fetchDishes: async () => {
         const data = await fetchItems();
         set({ dishes: data });
+    },
+
+    // Получение списка элементов
+    fetchDishesExt: async () => {
+        const data = await fetchItemsExt();
+        set({ dishesExt: data });
     },
 
     // Получение одного элемента

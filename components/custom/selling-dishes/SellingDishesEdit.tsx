@@ -28,9 +28,9 @@ const SellingDishesEdit = () => {
         commentary: '',
         selling_dish_items: [] as Array<{
             dish: string;
-            quantity: string;
-            sale_price: string;
-            amount: string;
+            quantity: number;
+            sale_price: number;
+            amount: number;
         }>,
     });
 
@@ -87,7 +87,7 @@ const SellingDishesEdit = () => {
             ...prev,
             selling_dish_items: [
                 ...prev.selling_dish_items,
-                { dish: '', quantity: '', sale_price: '', amount: '' },
+                { dish: '', quantity: 0, sale_price: 0, amount: 0 },
             ],
         }));
     };
@@ -108,9 +108,9 @@ const SellingDishesEdit = () => {
             paid_amount: parseFloat(String(formData.paid_amount)),
             selling_dish_items: formData.selling_dish_items.map((item) => ({
                 dish: Number(item.dish),
-                quantity: parseFloat(item.quantity),
-                sale_price: parseFloat(item.sale_price),
-                amount: parseFloat(item.amount),
+                quantity: item.quantity,
+                sale_price: item.sale_price,
+                amount: item.amount,
             })),
         };
 

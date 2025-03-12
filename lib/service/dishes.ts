@@ -3,12 +3,29 @@ import {useAuthStore} from '@/lib/store/auth';
 import {API_BASE_URL} from "@/lib/service/base";
 
 const API_URL = `${API_BASE_URL}/dishes/`;
+const API_URL_EXT = `${API_BASE_URL}/dishes-ext/`;
 
 // сервис для получения списка элементов
 export const fetchItems = async () => {
     const token = useAuthStore.getState().accessToken;
     try {
         const response = await axios.get(`${API_URL}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Ошибка при загрузке списка блюд:', error);
+        return [];
+    }
+};
+
+// сервис для получения списка элементов с остатками
+export const fetchItemsExt = async () => {
+    const token = useAuthStore.getState().accessToken;
+    try {
+        const response = await axios.get(`${API_URL_EXT}`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

@@ -1,7 +1,7 @@
 "use client";
 
 import { ShoppingBag, ClipboardMinus, ClipboardPlus, SendToBack, ChartBarStacked, Salad,
-    Ruler, ContactRound, GraduationCap } from "lucide-react"
+    Ruler, ContactRound, GraduationCap, HomeIcon } from "lucide-react"
 import Link from 'next/link'
 
 import {
@@ -85,9 +85,19 @@ export function AppSidebar() {
                     <Header />
                 </SidebarHeader>
 
-
                 <SidebarContent className="pt-11">
-                    <SidebarGroup>
+
+                    <SidebarMenu className="pt-0">
+                        <SidebarMenuItem key="-1">
+                            <SidebarMenuButton asChild>
+                                <Link href='/dashboard'>
+                                    <HomeIcon/>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>                                
+                    </SidebarMenu>
+
+                    <SidebarGroup className="pt-0">
                         <SidebarGroupLabel>Документы</SidebarGroupLabel>
                         <SidebarGroupContent>
                             <SidebarMenu>
@@ -105,7 +115,7 @@ export function AppSidebar() {
                         </SidebarGroupContent>
                     </SidebarGroup>
 
-                    <SidebarGroup>
+                    <SidebarGroup className="pt-0">
                         <SidebarGroupLabel>Справочники</SidebarGroupLabel>
                         <SidebarGroupContent>
                             <SidebarMenu>
