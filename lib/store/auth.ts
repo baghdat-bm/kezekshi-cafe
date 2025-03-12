@@ -27,6 +27,7 @@ interface AuthState {
     refreshToken: string | null;
     isAuthenticated: boolean | null;
     isLoading: boolean;
+    erronOnRefreshToken: boolean | null;
     userData: UserData | null;
     login: (username: string, password: string) => Promise<{ access: string; refresh: string }>;
     fetchUserData: () => Promise<UserData | null>;
@@ -42,6 +43,7 @@ export const useAuthStore = create(
             isAuthenticated: null,
             isLoading: true,
             userData: null,
+            erronOnRefreshToken: null,
 
             login: async (username, password) => {
                 try {
@@ -52,7 +54,7 @@ export const useAuthStore = create(
                         accessToken: access,
                         refreshToken: refresh,
                         isAuthenticated: true,
-                        isLoading: false,
+                        isLoading: false
                     });
                     axios.defaults.headers.common["Authorization"] = `Bearer ${access}`;
 
@@ -90,14 +92,14 @@ export const useAuthStore = create(
                     const response = await axios.post(`${AUTH_API_URL}refresh/`, { refresh: refreshToken });
                     const { access } = response.data;
 
-                    set({ accessToken: access, isAuthenticated: true, isLoading: false });
+                    set({ accessToken: access, isAuthenticated: true, isLoading: false, erronOnRefreshToken: false });
                     axios.defaults.headers.common["Authorization"] = `Bearer ${access}`;
 
                     // После обновления токена обновляем данные пользователя
                     await get().fetchUserData();
                 } catch (error) {
                     console.error("Ошибка обновления токена:", error);
-                    set({ isAuthenticated: false, isLoading: false });
+                    set({ isAuthenticated: false, isLoading: false, erronOnRefreshToken: true });
                 }
             },
 
