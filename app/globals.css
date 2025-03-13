@@ -84,8 +84,12 @@ body {
 }
 
 .kez-input {
-  border-radius: 0.5rem;
+  /*border-radius: 0.5rem;*/
   border-color: #a8a8a8;
+}
+
+.kez-table-cell {
+  border-color: rgba(168, 168, 168, 0);
 }
 
 .kez-info-text {

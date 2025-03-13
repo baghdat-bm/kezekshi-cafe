@@ -1,6 +1,7 @@
 import axios from "axios";
 import {useAuthStore} from '@/lib/store/auth';
 import {API_BASE_URL} from "@/lib/service/base";
+import {DishCategory} from "@/lib/store/dish-categories";
 
 const API_URL = `${API_BASE_URL}/dishes-categories/`;
 
@@ -37,7 +38,7 @@ export const fetchItem = async (id: number) => {
 };
 
 // Создание нового элемента
-export const createItem = async (categoryData: any) => {
+export const createItem = async (categoryData: DishCategory) => {
     const token = useAuthStore.getState().accessToken;
     try {
         const response = await axios.post(`${API_URL}`, categoryData, {
@@ -51,7 +52,7 @@ export const createItem = async (categoryData: any) => {
 };
 
 // Обновление элемента
-export const updateItem = async (id: number, categoryData: any) => {
+export const updateItem = async (id: number, categoryData: DishCategory) => {
     const token = useAuthStore.getState().accessToken;
     try {
         const response = await axios.put(`${API_URL}${id}/`, categoryData, {

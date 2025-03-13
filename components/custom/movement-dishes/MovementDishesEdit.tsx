@@ -27,12 +27,14 @@ const MovementDishesEdit = () => {
     useEffect(() => {
         fetchWarehouses();
         fetchDishes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         if (documentId) {
             fetchMovementDishes(Number(documentId));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [documentId]);
 
     useEffect(() => {

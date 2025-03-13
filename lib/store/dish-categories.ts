@@ -1,7 +1,7 @@
 import {create} from 'zustand';
 import {createItem, deleteItem, fetchItems, updateItem, fetchItem} from '@/lib/service/dish-categories';
 
-interface DishCategory {
+export interface DishCategory {
     id: number;
     name: string;
     name_kz?: string | null;
@@ -17,7 +17,7 @@ interface DishCategoryStore {
     selectedCategory: DishCategory | null;
     fetchCategories: () => Promise<void>;
     fetchCategory: (id: number) => Promise<void>;
-    addCategory: (categoryData: Partial<DishCategory>) => Promise<void>;
+    addCategory: (categoryData: FormData) => Promise<void>;
     updateCategory: (id: number, categoryData: Partial<DishCategory>) => Promise<void>;
     deleteCategory: (id: number) => Promise<void>;
 }

@@ -16,6 +16,7 @@ import {
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { CircleX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import {Dish} from "@/lib/store/dishes";
 
 export type WriteOffFormData = {
     number: string;
@@ -37,7 +38,7 @@ type WriteOffFormProps = {
     setFormData: React.Dispatch<React.SetStateAction<WriteOffFormData>>;
     warehouses: Array<{ id: number; name: string }>;
     writingOffReasons: Array<{ id: number; name: string }>;
-    dishes: any[];
+    dishes: Dish[];
     handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
     handleSelectChange: (name: string, value: string) => void;
     handleItemChange: (index: number, field: string, value: string) => void;

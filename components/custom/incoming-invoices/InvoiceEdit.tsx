@@ -37,12 +37,14 @@ const InvoiceEdit = () => {
         fetchContractors();
         fetchDishes();
         fetchUnits();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         if (invoiceId) {
             fetchIncomingInvoice(Number(invoiceId));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [invoiceId]);
 
     useEffect(() => {

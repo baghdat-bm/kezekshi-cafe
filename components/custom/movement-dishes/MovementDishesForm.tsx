@@ -16,6 +16,7 @@ import {
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { CircleX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import {Dish} from "@/lib/store/dishes";
 
 export type MovementDishesFormData = {
     number: string;
@@ -36,7 +37,7 @@ type MovementDishesFormProps = {
     formData: MovementDishesFormData;
     setFormData: React.Dispatch<React.SetStateAction<MovementDishesFormData>>;
     warehouses: Array<{ id: number; name: string }>;
-    dishes: any[];
+    dishes: Dish[];
     handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
     handleSelectChange: (name: string, value: string) => void;
     handleItemChange: (index: number, field: string, value: string) => void;

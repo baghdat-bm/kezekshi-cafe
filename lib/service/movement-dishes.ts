@@ -1,6 +1,7 @@
 import axios from "axios";
 import {useAuthStore} from '@/lib/store/auth';
 import {API_DOCS_URL} from "@/lib/service/base";
+import {MovementDishes} from "@/lib/store/movement-dishes";
 
 const API_URL = `${API_DOCS_URL}/movement-dishes/`;
 
@@ -37,10 +38,10 @@ export const fetchItem = async (id: number) => {
 };
 
 // Создание нового элемента
-export const createItem = async (categoryData: any) => {
+export const createItem = async (itemData: MovementDishes) => {
     const token = useAuthStore.getState().accessToken;
     try {
-        const response = await axios.post(`${API_URL}`, categoryData, {
+        const response = await axios.post(`${API_URL}`, itemData, {
             headers: {Authorization: `Bearer ${token}`},
         });
         return response.data;
@@ -51,10 +52,10 @@ export const createItem = async (categoryData: any) => {
 };
 
 // Обновление элемента
-export const updateItem = async (id: number, categoryData: any) => {
+export const updateItem = async (id: number, itemData: MovementDishes) => {
     const token = useAuthStore.getState().accessToken;
     try {
-        const response = await axios.put(`${API_URL}${id}/`, categoryData, {
+        const response = await axios.put(`${API_URL}${id}/`, itemData, {
             headers: {Authorization: `Bearer ${token}`},
         });
         return response.data;

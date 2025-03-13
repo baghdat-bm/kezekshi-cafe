@@ -28,6 +28,7 @@ const WriteOffFromWarehouseCreate = () => {
         fetchWarehouses();
         fetchWritingOffReasons();
         fetchDishes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleChange = (

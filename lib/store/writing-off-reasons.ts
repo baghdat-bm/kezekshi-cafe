@@ -1,7 +1,7 @@
 import {create} from 'zustand';
 import {createItem, deleteItem, fetchItems, updateItem, fetchItem} from '@/lib/service/writing-off-reasons';
 
-interface WritingOffReason {
+export interface WritingOffReason {
     id: number;
     name: string;
     name_kz?: string | null;

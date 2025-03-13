@@ -1,7 +1,7 @@
 import {create} from 'zustand';
 import {createItem, deleteItem, fetchItems, fetchItem, updateItem} from '@/lib/service/measurement-units';
 
-interface MeasurementUnit {
+export interface MeasurementUnit {
     id: number;
     name: string;
     name_kz?: string | null;

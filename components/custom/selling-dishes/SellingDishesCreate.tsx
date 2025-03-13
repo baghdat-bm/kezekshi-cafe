@@ -36,6 +36,7 @@ const SellingDishesCreate = () => {
         fetchWarehouses();
         fetchStudents();
         fetchDishes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleChange = (

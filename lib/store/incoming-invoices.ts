@@ -1,7 +1,7 @@
 import {create} from 'zustand';
 import {createItem, deleteItem, fetchItems, fetchItem, updateItem} from '@/lib/service/incoming-invoices';
 
-interface IncomingInvoice {
+export interface IncomingInvoice {
     id: number;
     number: string;
     date: string;

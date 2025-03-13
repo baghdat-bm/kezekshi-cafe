@@ -5,6 +5,7 @@ import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
+import Image from "next/image";
 
 export interface CategoryFormValues {
     id?: number;
@@ -178,14 +179,14 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                         className="kez-input"
                     />
                     {form.logo && form.logo instanceof File && (
-                        <img
+                        <Image
                             src={URL.createObjectURL(form.logo)}
                             alt="Превью логотипа"
                             className="mt-2 w-24 h-24 object-cover"
                         />
                     )}
                     {form.logo && typeof form.logo === 'string' && (
-                        <img
+                        <Image
                             src={form.logo}
                             alt="Логотип категории"
                             className="mt-2 w-24 h-24 object-cover"

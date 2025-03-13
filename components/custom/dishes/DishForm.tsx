@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/u
 import { useDishCategoryStore } from '@/lib/store/dish-categories';
 // Для выбора единицы измерения
 import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
+import Image from "next/image";
 
 export interface DishFormValues {
     id?: number;
@@ -208,14 +209,14 @@ const DishForm: React.FC<DishFormProps> = ({
                         className="kez-input"
                     />
                     {form.logo && form.logo instanceof File && (
-                        <img
+                        <Image
                             src={URL.createObjectURL(form.logo)}
                             alt="Превью логотипа"
                             className="mt-2 w-24 h-24 object-cover"
                         />
                     )}
                     {form.logo && typeof form.logo === 'string' && (
-                        <img
+                        <Image
                             src={form.logo}
                             alt="Логотип блюда"
                             className="mt-2 w-24 h-24 object-cover"

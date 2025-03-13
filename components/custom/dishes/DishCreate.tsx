@@ -3,7 +3,7 @@
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useDishStore } from '@/lib/store/dishes';
-import DishForm, { DishFormValues } from './DishForm';
+import DishForm from './DishForm';
 
 const DishCreate = () => {
     const router = useRouter();

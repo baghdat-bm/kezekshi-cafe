@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useDishCategoryStore } from '@/lib/store/dish-categories';
+import Image from "next/image";
 
 interface DishCategoriesProps {
     token: string;
@@ -11,7 +12,8 @@ const DishCategories: React.FC<DishCategoriesProps> = ({ token }) => {
     const { categories, fetchCategories } = useDishCategoryStore();
 
     useEffect(() => {
-        fetchCategories(token);
+        fetchCategories();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token]);
 
     return (
@@ -22,7 +24,7 @@ const DishCategories: React.FC<DishCategoriesProps> = ({ token }) => {
                     className="flex flex-col items-center justify-center p-4 rounded-lg shadow-lg"
                     style={{ backgroundColor: category.color }}
                 >
-                    <img
+                    <Image
                         src={category.logo || '/images/food.png'}
                         alt={category.name}
                         className="w-20 h-20 object-cover mb-2 white-filter"

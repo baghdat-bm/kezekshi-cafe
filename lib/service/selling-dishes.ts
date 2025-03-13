@@ -1,6 +1,7 @@
 import axios from "axios";
 import {useAuthStore} from '@/lib/store/auth';
 import {API_DOCS_URL} from "@/lib/service/base";
+import {SellingDishes} from "@/lib/store/selling-dishes";
 
 const API_URL = `${API_DOCS_URL}/selling-dishes/`;
 
@@ -37,7 +38,7 @@ export const fetchItem = async (id: number) => {
 };
 
 // Создание нового элемента
-export const createItem = async (itemData: any) => {
+export const createItem = async (itemData: SellingDishes) => {
     const token = useAuthStore.getState().accessToken;
     try {
         const response = await axios.post(`${API_URL}`, itemData, {
@@ -51,7 +52,7 @@ export const createItem = async (itemData: any) => {
 };
 
 // Обновление элемента
-export const updateItem = async (id: number, itemData: any) => {
+export const updateItem = async (id: number, itemData: SellingDishes) => {
     const token = useAuthStore.getState().accessToken;
     try {
         const response = await axios.put(`${API_URL}${id}/`, itemData, {

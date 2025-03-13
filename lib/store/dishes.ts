@@ -1,7 +1,7 @@
 import {create} from 'zustand';
 import {createItem, deleteItem, fetchItems, updateItem, fetchItem, fetchItemsExt} from '@/lib/service/dishes';
 
-interface Dish {
+export interface Dish {
     id: number;
     name: string;
     name_kz?: string | null;

@@ -1,7 +1,7 @@
 import {create} from 'zustand';
 import {createItem, deleteItem, fetchItems, updateItem, fetchItem} from '@/lib/service/write-off-from-warehouses';
 
-interface WriteOffFromWarehouse {
+export interface WriteOffFromWarehouse {
     id: number;
     number: string;
     date: string;

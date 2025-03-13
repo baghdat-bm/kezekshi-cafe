@@ -9,6 +9,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { CircleX } from "lucide-react";
 import {useRouter} from "next/navigation";
+import {Contractor} from "@/lib/store/contractors";
+import {Warehouse} from "@/lib/store/warehouses";
+import {Dish} from "@/lib/store/dishes";
+import {MeasurementUnit} from "@/lib/store/measurement-units";
 
 export type InvoiceDishItem = {
     dish: string;
@@ -43,10 +47,10 @@ type InvoiceFormProps = {
     handleRemoveItem: (index: number) => void;
     handleSubmit: (e: React.FormEvent) => Promise<void>;
     // Дополнительные данные для селектов
-    contractors: any[];
-    warehouses: any[];
-    dishes: any[];
-    units: any[];
+    contractors: Contractor[];
+    warehouses: Warehouse[];
+    dishes: Dish[];
+    units: MeasurementUnit[];
 };
 
 const InvoiceForm: React.FC<InvoiceFormProps> = ({

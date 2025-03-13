@@ -1,7 +1,7 @@
 import {create} from 'zustand';
 import {createItem, deleteItem, fetchItems, updateItem, fetchItem} from '@/lib/service/students';
 
-interface Student {
+export interface Student {
     id: number;
     full_name: string;
     phone?: string | null;

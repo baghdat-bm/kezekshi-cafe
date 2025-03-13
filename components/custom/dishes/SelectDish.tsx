@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useDishCategoryStore } from "@/lib/store/dish-categories";
-import { useDishStore } from "@/lib/store/dishes";
+import { useDishStore, Dish } from "@/lib/store/dishes";
 import clsx from "clsx";
 
+
 interface SelectDishProps {
-  onSelectDish: (dish: any) => void; // Функция, вызываемая при выборе блюда
+  onSelectDish: (dish: Dish) => void; // Функция, вызываемая при выборе блюда
 }
 
 export default function SelectDish({ onSelectDish }: SelectDishProps) {
@@ -18,6 +19,7 @@ export default function SelectDish({ onSelectDish }: SelectDishProps) {
   useEffect(() => {
     fetchCategories();
     fetchDishesExt();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Подсчет количества блюд в каждой категории
@@ -45,7 +47,7 @@ export default function SelectDish({ onSelectDish }: SelectDishProps) {
             <button
                 onClick={() => setSelectedCategory(null)}
                 className={clsx(
-                    "text-left w-48 h-14 p-1 border border-gray-200 bg-white flex justify-between items-center",
+                    "text-left w-48 h-14 p-2 border border-gray-200 bg-white flex justify-between items-center",
                     "hover:bg-gray-100",
                     selectedCategory === null && "bg-gray-200"
                 )}
@@ -63,7 +65,7 @@ export default function SelectDish({ onSelectDish }: SelectDishProps) {
                     onClick={() => setSelectedCategory(category.id)}
                     style={{ color: category.color }}
                     className={clsx(
-                        "text-left w-48 h-14 p-1 border border-gray-200 bg-white flex justify-between items-center",
+                        "text-left w-48 h-14 p-2 border border-gray-200 bg-white flex justify-between items-center",
                         "hover:bg-gray-100",
                         selectedCategory === category.id && "bg-gray-200"
                     )}
@@ -77,14 +79,18 @@ export default function SelectDish({ onSelectDish }: SelectDishProps) {
           </div>
 
           {/* Контент - список блюд */}
-          <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2 w-full">
             {filteredDishes.length > 0 ? (
                 filteredDishes.map((dish) => (
                     <div
                         key={dish.id}
-                        className="p-4 border border-gray-200 flex items-center space-x-4 shadow-sm hover:shadow-md transition-shadow bg-white hover:bg-slate-100 hover:cursor-pointer"
-                        onClick={() => onSelectDish(dish)} // 📌 Вызываем `onSelectDish`
+                        className="p-2 border border-gray-200 flex flex-col items-center min-h-36 space-y-4 shadow-sm hover:shadow-md transition-shadow bg-white hover:bg-slate-100 hover:cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onSelectDish(dish);
+                        }} // 📌 Вызываем `onSelectDish`
                     >
+                      {/* Изображение сверху */}
                       <Image
                           src={dish.logo ? dish.logo : "/images/food.png"}
                           alt={dish.name_ru ? dish.name_ru : "dish"}
@@ -93,7 +99,8 @@ export default function SelectDish({ onSelectDish }: SelectDishProps) {
                           className="w-12 h-12 rounded-full"
                       />
 
-                      <div>
+                      {/* Текст под изображением */}
+                      <div className="text-center">
                         <p className="font-semibold">{dish.name_ru}</p>
                         <p className="font-semibold">{dish.remaining_quantity}</p>
                       </div>

@@ -40,6 +40,7 @@ const InvoiceCreate = () => {
         fetchContractors();
         fetchDishes();
         fetchUnits();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

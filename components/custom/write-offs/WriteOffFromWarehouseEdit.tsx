@@ -30,12 +30,14 @@ const WriteOffFromWarehouseEdit = () => {
         fetchWarehouses();
         fetchWritingOffReasons();
         fetchDishes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         if (documentId) {
             fetchWriteOffFromWarehouse(Number(documentId));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [documentId]);
 
     useEffect(() => {

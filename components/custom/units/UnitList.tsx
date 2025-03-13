@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
 import UnitDeleteButton from './UnitDeleteButton';
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
-import ContractorDeleteButton from "@/components/custom/contractors/ContractorDeleteButton";
 
 const UnitList = () => {
     const { units, fetchUnits, deleteUnit } = useMeasurementUnitStore();

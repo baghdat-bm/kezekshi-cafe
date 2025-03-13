@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useEffect } from 'react';
-import Image from 'next/image';
 import Link from "next/link";
 import { useDishStore } from '@/lib/store/dishes';
 import { useMeasurementUnitStore } from '@/lib/store/measurement-units';

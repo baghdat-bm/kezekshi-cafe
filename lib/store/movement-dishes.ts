@@ -1,7 +1,7 @@
 import {create} from 'zustand';
 import {createItem, deleteItem, fetchItems, updateItem, fetchItem} from '@/lib/service/movement-dishes';
 
-interface MovementDishes {
+export interface MovementDishes {
     id: number;
     number: string;
     date: string;

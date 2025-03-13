@@ -38,12 +38,14 @@ const SellingDishesEdit = () => {
         fetchWarehouses();
         fetchStudents();
         fetchDishes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         if (documentId) {
             fetchSellingDishes(Number(documentId));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [documentId]);
 
     useEffect(() => {
