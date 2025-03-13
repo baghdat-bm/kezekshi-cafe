@@ -18,8 +18,24 @@ interface WarehouseStore {
     selectedWriteOffFromWarehouse: WriteOffFromWarehouse | null;
     fetchWriteOffFromWarehouses: () => Promise<void>;
     fetchWriteOffFromWarehouse: (id: number) => Promise<void>;
-    addWriteOffFromWarehouse: (writeOffFromWarehouseData: Partial<WriteOffFromWarehouse>) => Promise<void>;
-    updateWriteOffFromWarehouse: (id: number, writeOffFromWarehouseData: Partial<WriteOffFromWarehouse>) => Promise<void>;
+    addWriteOffFromWarehouse: (writeOffFromWarehouseData: {
+        number: string;
+        date: string;
+        accepted: boolean;
+        warehouse: number;
+        writing_off_reason: number;
+        commentary: string;
+        write_off_dish_items: { dish: number; quantity: number }[]
+    }) => Promise<void>;
+    updateWriteOffFromWarehouse: (id: number, writeOffFromWarehouseData: {
+        number: string;
+        date: string;
+        accepted: boolean;
+        warehouse: number;
+        writing_off_reason: number;
+        commentary: string;
+        write_off_dish_items: { dish: number; quantity: number }[]
+    }) => Promise<void>;
     deleteWriteOffFromWarehouse: (id: number) => Promise<void>;
 }
 

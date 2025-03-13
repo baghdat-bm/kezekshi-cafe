@@ -20,8 +20,28 @@ interface SellingDishesStore {
     selectedSellingDishes: SellingDishes | null;
     fetchSellingsDishes: () => Promise<void>;
     fetchSellingDishes: (id: number) => Promise<void>;
-    addSellingDishes: (itemData: Partial<SellingDishes>) => Promise<void>;
-    updateSellingDishes: (id: number, itemData: Partial<SellingDishes>) => Promise<void>;
+    addSellingDishes: (itemData: {
+        number: string;
+        date: string;
+        accepted: boolean;
+        warehouse: number;
+        student: number;
+        amount: number;
+        paid_amount: number;
+        commentary: string;
+        selling_dish_items: { dish: number; quantity: number; sale_price: number; amount: number }[]
+    }) => Promise<void>;
+    updateSellingDishes: (id: number, itemData: {
+        number: string;
+        date: string;
+        accepted: boolean;
+        warehouse: number;
+        student: number;
+        amount: number;
+        paid_amount: number;
+        commentary: string;
+        selling_dish_items: { dish: number; quantity: number; sale_price: number; amount: number }[]
+    }) => Promise<void>;
     deleteSellingDishes: (id: number) => Promise<void>;
 }
 

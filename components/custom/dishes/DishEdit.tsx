@@ -38,7 +38,6 @@ const DishEdit = () => {
         name_en: selectedDish.name_en || '',
         category: selectedDish.category ? String(selectedDish.category) : '',
         logo: selectedDish.logo || '',
-        color: selectedDish.color || '#4e6ee0',
         barcode: selectedDish.barcode || '',
         measurement_unit: selectedDish.measurement_unit ? String(selectedDish.measurement_unit) : '',
     };

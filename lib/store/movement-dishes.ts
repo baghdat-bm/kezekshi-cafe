@@ -18,8 +18,24 @@ interface MovementDishesStore {
     selectedMovementDishes: MovementDishes | null;
     fetchMovementsDishes: () => Promise<void>;
     fetchMovementDishes: (id: number) => Promise<void>;
-    addMovementDishes: (itemData: Partial<MovementDishes>) => Promise<void>;
-    updateMovementDishes: (id: number, itemData: Partial<MovementDishes>) => Promise<void>;
+    addMovementDishes: (itemData: {
+        number: string;
+        date: string;
+        accepted: boolean;
+        warehouse_from: number;
+        warehouse_to: number;
+        commentary: string;
+        movement_dish_items: { dish: number; quantity: number }[]
+    }) => Promise<void>;
+    updateMovementDishes: (id: number, itemData: {
+        number: string;
+        date: string;
+        accepted: boolean;
+        warehouse_from: number;
+        warehouse_to: number;
+        commentary: string;
+        movement_dish_items: { dish: number; quantity: number }[]
+    }) => Promise<void>;
     deleteMovementDishes: (id: number) => Promise<void>;
 }
 

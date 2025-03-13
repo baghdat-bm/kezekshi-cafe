@@ -18,7 +18,7 @@ interface DishCategoryStore {
     fetchCategories: () => Promise<void>;
     fetchCategory: (id: number) => Promise<void>;
     addCategory: (categoryData: FormData) => Promise<void>;
-    updateCategory: (id: number, categoryData: Partial<DishCategory>) => Promise<void>;
+    updateCategory: (id: number, categoryData: FormData) => Promise<void>;
     deleteCategory: (id: number) => Promise<void>;
 }
 

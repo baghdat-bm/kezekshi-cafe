@@ -102,8 +102,8 @@ const SellingForm: React.FC<SellingFormProps> = ({
                 const newItem: DishItem = {
                     dish: dishIdStr,
                     quantity: 1,
-                    sale_price: dish.sale_price || 0,
-                    amount: dish.sale_price || 0,
+                    sale_price: 0,
+                    amount: 0,
                 };
                 return { ...prev, selling_dish_items: [...prev.selling_dish_items, newItem] };
             }

@@ -44,6 +44,8 @@ const InvoiceCreate = () => {
     }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         const { name, value, type, checked } = e.target;
         setFormData(prev => ({
             ...prev,

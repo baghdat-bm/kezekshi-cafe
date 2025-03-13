@@ -1,7 +1,6 @@
 import axios from "axios";
 import {useAuthStore} from '@/lib/store/auth';
 import {API_DOCS_URL} from "@/lib/service/base";
-import {SellingDishes} from "@/lib/store/selling-dishes";
 
 const API_URL = `${API_DOCS_URL}/selling-dishes/`;
 
@@ -38,7 +37,17 @@ export const fetchItem = async (id: number) => {
 };
 
 // Создание нового элемента
-export const createItem = async (itemData: SellingDishes) => {
+export const createItem = async (itemData: {
+    number: string;
+    date: string;
+    accepted: boolean;
+    warehouse: number;
+    student: number;
+    amount: number;
+    paid_amount: number;
+    commentary: string;
+    selling_dish_items: { dish: number; quantity: number; sale_price: number; amount: number }[]
+}) => {
     const token = useAuthStore.getState().accessToken;
     try {
         const response = await axios.post(`${API_URL}`, itemData, {
@@ -52,7 +61,17 @@ export const createItem = async (itemData: SellingDishes) => {
 };
 
 // Обновление элемента
-export const updateItem = async (id: number, itemData: SellingDishes) => {
+export const updateItem = async (id: number, itemData: {
+    number: string;
+    date: string;
+    accepted: boolean;
+    warehouse: number;
+    student: number;
+    amount: number;
+    paid_amount: number;
+    commentary: string;
+    selling_dish_items: { dish: number; quantity: number; sale_price: number; amount: number }[]
+}) => {
     const token = useAuthStore.getState().accessToken;
     try {
         const response = await axios.put(`${API_URL}${id}/`, itemData, {

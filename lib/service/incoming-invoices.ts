@@ -1,7 +1,6 @@
 import axios from "axios";
 import {useAuthStore} from '@/lib/store/auth';
 import {API_DOCS_URL} from "@/lib/service/base";
-import {IncomingInvoice} from "@/lib/store/incoming-invoices";
 
 const API_URL = `${API_DOCS_URL}/incoming-invoices/`;
 
@@ -38,7 +37,24 @@ export const fetchItem = async (id: number) => {
 };
 
 // Создание нового элемента
-export const createItem = async (itemData: IncomingInvoice) => {
+export const createItem = async (itemData: {
+    number: string;
+    date: string;
+    accepted: boolean;
+    warehouse: number;
+    supplier: number;
+    commentary: string;
+    amount: number;
+    shipping_cost: number;
+    paid_amount: number;
+    invoice_dish_items: {
+        dish: number;
+        quantity: number;
+        measurement_unit: number;
+        cost_price: number;
+        sale_price: number
+    }[]
+}) => {
     const token = useAuthStore.getState().accessToken;
     try {
         const response = await axios.post(`${API_URL}`, itemData, {
@@ -52,7 +68,24 @@ export const createItem = async (itemData: IncomingInvoice) => {
 };
 
 // Обновление элемента
-export const updateItem = async (id: number, itemData: IncomingInvoice) => {
+export const updateItem = async (id: number, itemData: {
+    number: string;
+    date: string;
+    accepted: boolean;
+    warehouse: number;
+    supplier: number;
+    commentary: string;
+    amount: number;
+    shipping_cost: number;
+    paid_amount: number;
+    invoice_dish_items: {
+        dish: number;
+        quantity: number;
+        measurement_unit: number;
+        cost_price: number;
+        sale_price: number
+    }[]
+}) => {
     const token = useAuthStore.getState().accessToken;
     try {
         const response = await axios.put(`${API_URL}${id}/`, itemData, {

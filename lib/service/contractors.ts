@@ -38,7 +38,7 @@ export const fetchItem = async (id: number) => {
 };
 
 // Создание нового элемента
-export const createItem = async (itemData: Contractor) => {
+export const createItem = async (itemData: Partial<Contractor>) => {
     const token = useAuthStore.getState().accessToken;
     try {
         const response = await axios.post(`${API_URL}`, itemData, {
@@ -52,7 +52,7 @@ export const createItem = async (itemData: Contractor) => {
 };
 
 // Обновление элемента
-export const updateItem = async (id: number, itemData: Contractor) => {
+export const updateItem = async (id: number, itemData: Partial<Contractor>) => {
     const token = useAuthStore.getState().accessToken;
     try {
         const response = await axios.put(`${API_URL}${id}/`, itemData, {

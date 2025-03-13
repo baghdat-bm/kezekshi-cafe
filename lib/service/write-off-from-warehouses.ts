@@ -1,7 +1,6 @@
 import axios from "axios";
 import {useAuthStore} from '@/lib/store/auth';
 import {API_DOCS_URL} from "@/lib/service/base";
-import {WriteOffFromWarehouse} from "@/lib/store/write-off-from-warehouses";
 
 const API_URL = `${API_DOCS_URL}/write-off-from-warehouses/`;
 
@@ -38,7 +37,15 @@ export const fetchItem = async (id: number) => {
 };
 
 // Создание нового элемента
-export const createItem = async (itemData: WriteOffFromWarehouse) => {
+export const createItem = async (itemData: {
+    number: string;
+    date: string;
+    accepted: boolean;
+    warehouse: number;
+    writing_off_reason: number;
+    commentary: string;
+    write_off_dish_items: { dish: number; quantity: number }[]
+}) => {
     const token = useAuthStore.getState().accessToken;
     try {
         const response = await axios.post(`${API_URL}`, itemData, {
@@ -52,7 +59,15 @@ export const createItem = async (itemData: WriteOffFromWarehouse) => {
 };
 
 // Обновление элемента
-export const updateItem = async (id: number, itemData: WriteOffFromWarehouse) => {
+export const updateItem = async (id: number, itemData: {
+    number: string;
+    date: string;
+    accepted: boolean;
+    warehouse: number;
+    writing_off_reason: number;
+    commentary: string;
+    write_off_dish_items: { dish: number; quantity: number }[]
+}) => {
     const token = useAuthStore.getState().accessToken;
     try {
         const response = await axios.put(`${API_URL}${id}/`, itemData, {

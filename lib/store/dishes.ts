@@ -22,8 +22,8 @@ interface DishStore {
     fetchDishes: () => Promise<void>;
     fetchDishesExt: () => Promise<void>;
     fetchDish: (id: number) => Promise<void>;
-    addDish: (dishData: Partial<Dish>) => Promise<void>;
-    updateDish: (id: number, dishData: Partial<Dish>) => Promise<void>;
+    addDish: (dishData: FormData) => Promise<void>;
+    updateDish: (id: number, dishData: FormData) => Promise<void>;
     deleteDish: (id: number) => Promise<void>;
 }
 

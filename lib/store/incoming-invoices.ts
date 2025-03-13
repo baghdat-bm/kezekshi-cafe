@@ -21,8 +21,42 @@ interface IncomingInvoiceStore {
     selectedIncomingInvoice: IncomingInvoice | null;
     fetchIncomingInvoices: () => Promise<void>;
     fetchIncomingInvoice: (id: number) => Promise<void>;
-    addIncomingInvoice: (unitData: Partial<IncomingInvoice>) => Promise<void>;
-    updateIncomingInvoice: (id: number, unitData: Partial<IncomingInvoice>) => Promise<void>;
+    addIncomingInvoice: (unitData: {
+        number: string;
+        date: string;
+        accepted: boolean;
+        warehouse: number;
+        supplier: number;
+        commentary: string;
+        amount: number;
+        shipping_cost: number;
+        paid_amount: number;
+        invoice_dish_items: {
+            dish: number;
+            quantity: number;
+            measurement_unit: number;
+            cost_price: number;
+            sale_price: number
+        }[]
+    }) => Promise<void>;
+    updateIncomingInvoice: (id: number, unitData: {
+        number: string;
+        date: string;
+        accepted: boolean;
+        warehouse: number;
+        supplier: number;
+        commentary: string;
+        amount: number;
+        shipping_cost: number;
+        paid_amount: number;
+        invoice_dish_items: {
+            dish: number;
+            quantity: number;
+            measurement_unit: number;
+            cost_price: number;
+            sale_price: number
+        }[]
+    }) => Promise<void>;
     deleteIncomingInvoice: (id: number) => Promise<void>;
 }
 
