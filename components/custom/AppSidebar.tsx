@@ -1,10 +1,11 @@
 "use client";
 
+import { usePathname } from 'next/navigation';
 import {
     ShoppingBag, ClipboardMinus, ClipboardPlus, SendToBack, ChartBarStacked, Salad,
     Ruler, ContactRound, GraduationCap, HomeIcon, CircleUserRound
-} from "lucide-react"
-import Link from 'next/link'
+} from "lucide-react";
+import Link from 'next/link';
 
 import {
     Sidebar,
@@ -17,9 +18,9 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem
-} from "@/components/ui/sidebar"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
-import Header from "./Header"
+} from "@/components/ui/sidebar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import Header from "./Header";
 import { useAuthStore } from "@/lib/store/auth";
 import { Button } from "../ui/button";
 
@@ -45,7 +46,7 @@ const document_navs = [
         url: "/operations/movement-dishes",
         icon: SendToBack,
     }
-]
+];
 
 const ref_navs = [
     {
@@ -73,27 +74,25 @@ const ref_navs = [
         url: "/admin/students",
         icon: GraduationCap,
     }
-]
+];
 
 export function AppSidebar() {
     const { userData, logout } = useAuthStore();
+    const pathname = usePathname();
 
     return (
         <div>
-
             <Sidebar collapsible="icon" className="border-0">
-
                 <SidebarHeader className="fixed inset-x-0 top-0 flex h-10 flex-row border-b bg-gray-100 hidden md:flex">
                     <Header />
                 </SidebarHeader>
 
                 <SidebarContent className="pt-11">
-
                     <SidebarGroup className="pt-0">
                         <SidebarGroupContent>
                             <SidebarMenu>
                                 <SidebarMenuItem key="-1">
-                                    <SidebarMenuButton asChild>
+                                    <SidebarMenuButton asChild isActive={pathname === '/'}>
                                         <Link href='/'>
                                             <HomeIcon />
                                             <span></span>
@@ -110,7 +109,7 @@ export function AppSidebar() {
                             <SidebarMenu>
                                 {document_navs.map((item) => (
                                     <SidebarMenuItem key={item.title}>
-                                        <SidebarMenuButton asChild>
+                                        <SidebarMenuButton asChild isActive={pathname === item.url}>
                                             <Link href={item.url}>
                                                 <item.icon />
                                                 <span>{item.title}</span>
@@ -128,7 +127,7 @@ export function AppSidebar() {
                             <SidebarMenu>
                                 {ref_navs.map((item) => (
                                     <SidebarMenuItem key={item.title}>
-                                        <SidebarMenuButton asChild>
+                                        <SidebarMenuButton asChild isActive={pathname === item.url}>
                                             <Link href={item.url}>
                                                 <item.icon />
                                                 <span>{item.title}</span>
@@ -151,10 +150,7 @@ export function AppSidebar() {
                                         <span>{userData?.user_name}</span>
                                     </SidebarMenuButton>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent
-                                    side="top"
-                                    className="w-[--radix-popper-anchor-width]"
-                                >
+                                <DropdownMenuContent side="top" className="w-[--radix-popper-anchor-width]">
                                     <DropdownMenuItem>
                                         <Button onClick={logout}>Выйти</Button>
                                     </DropdownMenuItem>
@@ -163,8 +159,7 @@ export function AppSidebar() {
                         </SidebarMenuItem>
                     </SidebarMenu>
                 </SidebarFooter>
-
             </Sidebar>
         </div>
-    )
+    );
 }

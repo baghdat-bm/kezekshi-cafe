@@ -38,8 +38,8 @@ export const fetchItem = async (id: number) => {
 
 // Создание нового элемента
 export const createItem = async (itemData: {
-    number: string;
-    date: string;
+    number?: string | null;
+    date?: string | null;
     accepted: boolean;
     warehouse: number;
     student: number;

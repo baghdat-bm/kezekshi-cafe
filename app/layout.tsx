@@ -41,7 +41,10 @@ export default async function RootLayout({
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
                 
-                <SidebarProvider defaultOpen={defaultOpen}>
+                <SidebarProvider defaultOpen={defaultOpen} style={{
+                        "--sidebar-width": "13rem",
+                        "--sidebar-width-mobile": "10rem",
+                    }}>
                     <ClientInterceptor />
 
                     {/* Мобильный хэдер, отображаемый только на маленьких экранах */}

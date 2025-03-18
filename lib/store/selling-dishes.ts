@@ -3,8 +3,8 @@ import {createItem, deleteItem, fetchItems, fetchItem, updateItem} from '@/lib/s
 
 export interface SellingDishes {
     id: number;
-    number: string;
-    date: string;
+    number?: string | null;
+    date?: string | null;
     accepted: boolean;
     warehouse: number;
     student: number;
