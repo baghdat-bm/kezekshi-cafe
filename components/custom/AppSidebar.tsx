@@ -1,7 +1,9 @@
 "use client";
 
-import { ShoppingBag, ClipboardMinus, ClipboardPlus, SendToBack, ChartBarStacked, Salad,
-    Ruler, ContactRound, GraduationCap, HomeIcon } from "lucide-react"
+import {
+    ShoppingBag, ClipboardMinus, ClipboardPlus, SendToBack, ChartBarStacked, Salad,
+    Ruler, ContactRound, GraduationCap, HomeIcon, CircleUserRound
+} from "lucide-react"
 import Link from 'next/link'
 
 import {
@@ -77,9 +79,9 @@ export function AppSidebar() {
     const { userData, logout } = useAuthStore();
 
     return (
-        <div>            
+        <div>
 
-            <Sidebar collapsible="offcanvas" className="border-0">
+            <Sidebar collapsible="icon" className="border-0">
 
                 <SidebarHeader className="fixed inset-x-0 top-0 flex h-10 flex-row border-b bg-gray-100 hidden md:flex">
                     <Header />
@@ -87,15 +89,20 @@ export function AppSidebar() {
 
                 <SidebarContent className="pt-11">
 
-                    <SidebarMenu className="pt-0">
-                        <SidebarMenuItem key="-1">
-                            <SidebarMenuButton asChild>
-                                <Link href='/dashboard'>
-                                    <HomeIcon/>
-                                </Link>
-                            </SidebarMenuButton>
-                        </SidebarMenuItem>                                
-                    </SidebarMenu>
+                    <SidebarGroup className="pt-0">
+                        <SidebarGroupContent>
+                            <SidebarMenu>
+                                <SidebarMenuItem key="-1">
+                                    <SidebarMenuButton asChild>
+                                        <Link href='/'>
+                                            <HomeIcon />
+                                            <span></span>
+                                        </Link>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            </SidebarMenu>
+                        </SidebarGroupContent>
+                    </SidebarGroup>
 
                     <SidebarGroup className="pt-0">
                         <SidebarGroupLabel>Документы</SidebarGroupLabel>
@@ -140,13 +147,14 @@ export function AppSidebar() {
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <SidebarMenuButton>
-                                        {userData?.user_name}
+                                        <CircleUserRound />
+                                        <span>{userData?.user_name}</span>
                                     </SidebarMenuButton>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent
                                     side="top"
                                     className="w-[--radix-popper-anchor-width]"
-                                >                                    
+                                >
                                     <DropdownMenuItem>
                                         <Button onClick={logout}>Выйти</Button>
                                     </DropdownMenuItem>

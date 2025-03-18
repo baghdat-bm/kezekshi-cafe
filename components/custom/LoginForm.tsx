@@ -27,7 +27,7 @@ export default function CustomLoginForm() {
       Cookies.set("accessToken", tokens.access, { expires: 1, path: "/" });
       Cookies.set("refreshToken", tokens.refresh, { expires: 7, path: "/" });
 
-      router.push("/dashboard");
+      router.push("/");
     } catch (err) {
       console.error(err);
       setError("Неверный логин или пароль");

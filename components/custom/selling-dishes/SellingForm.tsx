@@ -17,7 +17,7 @@ import SelectDish from "@/components/custom/dishes/SelectDish";
 import {Select, SelectTrigger, SelectValue, SelectContent, SelectItem} from "@/components/ui/select";
 import { CircleX, CirclePlus } from "lucide-react";
 import {useRouter} from "next/navigation";
-import {Dish} from "@/lib/store/dishes";
+import {Dish, useDishStore} from "@/lib/store/dishes";
 
 export type DishItem = {
     dish: string;
@@ -75,7 +75,6 @@ const SellingForm: React.FC<SellingFormProps> = ({
 
     // 🛠 Функция добавления блюда в таблицу
     const handleAddDish = (dish: Dish) => {
-        console.log("handleAddDish called with:", dish);
         const dishIdStr = dish.id.toString();
         const now = Date.now();
         // Если тот же dish добавляется повторно слишком быстро – пропускаем обновление
@@ -90,7 +89,6 @@ const SellingForm: React.FC<SellingFormProps> = ({
                 (item) => String(item.dish) === dishIdStr
             );
             if (existingIndex !== -1) {
-                console.log("Updating existing dish at index:", existingIndex);
                 const updatedItems = [...prev.selling_dish_items];
                 // Приводим значение к числу, заменяя возможную запятую на точку
                 const currentQuantity = parseFloat(
@@ -108,6 +106,20 @@ const SellingForm: React.FC<SellingFormProps> = ({
                 return { ...prev, selling_dish_items: [...prev.selling_dish_items, newItem] };
             }
         });
+
+        // Обновляем остаток блюда в локальном хранилище, уменьшая его на 1
+        // if (dish.remaining_quantity !== null && dish.remaining_quantity > 0) {
+        if (dish.remaining_quantity !== null) {
+            useDishStore.setState((state) => ({
+                dishesExt: state.dishesExt.map((item) =>
+                    item.id === dish.id
+                        ? { ...item, remaining_quantity: item.remaining_quantity - 1 }
+                        : item
+                ),
+            }));
+        } else {
+            console.warn("Остаток блюда равен нулю или не задан для блюда с id:", dish.id);
+        }
     };
 
 

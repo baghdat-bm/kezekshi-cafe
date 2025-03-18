@@ -13,6 +13,7 @@ export interface Dish {
     barcode?: string | null;
     measurement_unit?: number | null;
     remaining_quantity: number | null;
+    price: number | null;
 }
 
 interface DishStore {

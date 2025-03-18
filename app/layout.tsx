@@ -9,6 +9,7 @@ import "./globals.css";
 
 import ClientLayout from "@/components/client-layout";
 import MobileHeader from "@/components/custom/MobileHeader";
+import ClientInterceptor from "@/components/ClientInterceptor";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -41,6 +42,8 @@ export default async function RootLayout({
             >
                 
                 <SidebarProvider defaultOpen={defaultOpen}>
+                    <ClientInterceptor />
+
                     {/* Мобильный хэдер, отображаемый только на маленьких экранах */}
                     <MobileHeader />
 
