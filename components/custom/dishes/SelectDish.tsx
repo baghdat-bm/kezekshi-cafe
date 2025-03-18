@@ -100,7 +100,7 @@ export default function SelectDish({onSelectDish}: SelectDishProps) {
                                     />
                                     <span
                                         className={`${
-                                            dish.remaining_quantity <= 0 ? 'text-red-500' : 'text-gray-600'
+                                            dish.remaining_quantity && dish.remaining_quantity <= 0 ? 'text-red-500' : 'text-gray-600'
                                         } text-sm bg-gray-200 px-2 py-1 mb-4 rounded-full`}
                                     >
                                       {dish.remaining_quantity}
