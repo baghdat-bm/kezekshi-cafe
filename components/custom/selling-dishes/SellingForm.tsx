@@ -113,7 +113,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
             useDishStore.setState((state) => ({
                 dishesExt: state.dishesExt.map((item) =>
                     item.id === dish.id
-                        ? { ...item, remaining_quantity: item.remaining_quantity - 1 }
+                        ? { ...item, remaining_quantity: (item.remaining_quantity && item.remaining_quantity - 1) ? item.remaining_quantity : 0  }
                         : item
                 ),
             }));

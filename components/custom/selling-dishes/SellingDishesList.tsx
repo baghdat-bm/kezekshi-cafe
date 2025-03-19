@@ -55,7 +55,7 @@ const SellingDishesList = () => {
                             </TableCell>
                             <TableCell>
                                 <Link href={`/operations/selling-dishes/${item.id}`}>
-                                    <span>{formatDate(item.date)}</span>
+                                    <span>{item.date && formatDate(item.date)}</span>
                                 </Link>
                             </TableCell>
                             <TableCell>{item.accepted ? "Принята" : "Не принята"}</TableCell>

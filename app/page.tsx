@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useAuthStore } from '@/lib/store/auth';
 
-export default function DashboardPage() {
+export default function HomePage() {
     const router = useRouter();
     const token = useAuthStore((state) => state.accessToken);
     const erronOnRefreshToken = useAuthStore((state) => state.erronOnRefreshToken);

@@ -9,9 +9,9 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // Авторизованных пользователей перенаправляем с /login на /dashboard
+  // Авторизованных пользователей перенаправляем с /login на /
   if (token && isLoginPage) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
+    return NextResponse.redirect(new URL("/", req.url));
   }
 
   // Неавторизованных пользователей перенаправляем на /login, если они пытаются зайти на защищенные маршруты
