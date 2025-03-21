@@ -7,6 +7,7 @@ export const API_DOCS_URL = "http://localhost:8000/ru/food-api"; // url доку
 export const api = axios.create({
     baseURL: API_BASE_URL,
     headers: {
-        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
     },
 });
