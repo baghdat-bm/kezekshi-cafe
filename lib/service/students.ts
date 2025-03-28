@@ -14,6 +14,8 @@ export const fetchItems = async () => {
                 Authorization: `Bearer ${token}`,
             },
         });
+        console.log('students - response.data');
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Ошибка при загрузке списка учащихся:', error);

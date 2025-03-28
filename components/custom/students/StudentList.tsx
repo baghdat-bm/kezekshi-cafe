@@ -19,7 +19,7 @@ const StudentList = () => {
 
     useEffect(() => {
         fetchStudents();
-        console.log(students);
+        // console.log(students);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [fetchStudents]);
 
