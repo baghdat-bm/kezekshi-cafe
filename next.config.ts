@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
 
 module.exports = {
     images: {
-        domains: ['localhost'], // внешние домены откуда загружаются изображения
+        domains: ['kezekshi.kz', 'localhost'], // внешние домены откуда загружаются изображения
     },
 };
 
