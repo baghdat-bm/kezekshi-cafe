@@ -97,6 +97,7 @@ export default function SelectDish({onSelectDish}: SelectDishProps) {
                                         width={50}
                                         height={50}
                                         className="w-12 h-12 rounded-full"
+                                        unoptimized={true}
                                     />
                                     <span
                                         className={`${

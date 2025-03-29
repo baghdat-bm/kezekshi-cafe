@@ -213,6 +213,7 @@ const DishForm: React.FC<DishFormProps> = ({
                             src={URL.createObjectURL(form.logo)}
                             alt="Превью логотипа"
                             className="mt-2 w-24 h-24 object-cover"
+                            unoptimized={true}
                         />
                     )}
                     {form.logo && typeof form.logo === 'string' && (
@@ -220,6 +221,7 @@ const DishForm: React.FC<DishFormProps> = ({
                             src={form.logo}
                             alt="Логотип блюда"
                             className="mt-2 w-24 h-24 object-cover"
+                            unoptimized={true}
                         />
                     )}
                 </div>

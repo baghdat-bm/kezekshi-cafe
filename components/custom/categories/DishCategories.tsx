@@ -28,6 +28,7 @@ const DishCategories: React.FC<DishCategoriesProps> = ({ token }) => {
                         src={category.logo || '/images/food.png'}
                         alt={category.name}
                         className="w-20 h-20 object-cover mb-2 white-filter"
+                        unoptimized={true}
                     />
                     <span className="text-white font-bold text-lg">{category.name}</span>
                 </div>

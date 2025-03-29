@@ -183,6 +183,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                             src={URL.createObjectURL(form.logo)}
                             alt="Превью логотипа"
                             className="mt-2 w-24 h-24 object-cover"
+                            unoptimized={true}
                         />
                     )}
                     {form.logo && typeof form.logo === 'string' && (
@@ -190,6 +191,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                             src={form.logo}
                             alt="Логотип категории"
                             className="mt-2 w-24 h-24 object-cover"
+                            unoptimized={true}
                         />
                     )}
                 </div>

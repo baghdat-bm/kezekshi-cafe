@@ -75,6 +75,7 @@ const ListCategories = () => {
                                         alt={item.name}
                                         width={50}
                                         height={50}
+                                        unoptimized={true}
                                     />
                                 )}
                             </TableCell>
