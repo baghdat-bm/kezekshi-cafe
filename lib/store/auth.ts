@@ -47,26 +47,29 @@ export const useAuthStore = create(
 
             login: async (username, password) => {
                 try {
-                    const response = await axios.post(AUTH_API_URL, { username, password, withCredentials: true });
-                    const { access, refresh } = response.data;
-
-                    set({
-                        accessToken: access,
-                        refreshToken: refresh,
-                        isAuthenticated: true,
-                        isLoading: false
-                    });
+                  const response = await axios.post(AUTH_API_URL, { username, password });
+                  const { access, refresh } = response.data;
+              
+                  set({
+                    accessToken: access,
+                    refreshToken: refresh,
+                    isAuthenticated: true,
+                    isLoading: false,
+                    erronOnRefreshToken: null
+                  });
+                  
+                  // Убедитесь, что заголовок устанавливается правильно
+                  if (typeof window !== 'undefined') {
                     axios.defaults.headers.common["Authorization"] = `Bearer ${access}`;
-
-                    // После успешной авторизации получаем данные пользователя
-                    await get().fetchUserData();
-
-                    return { access, refresh };
+                  }
+              
+                  await get().fetchUserData();
+                  return { access, refresh };
                 } catch (error) {
-                    console.error("Ошибка авторизации:", error);
-                    throw new Error("Ошибка входа, проверьте данные");
+                  console.error("Ошибка авторизации:", error);
+                  throw error;
                 }
-            },
+              },
 
             fetchUserData: async () => {
                 try {
@@ -113,7 +116,16 @@ export const useAuthStore = create(
         }),
         {
             name: "auth-storage",
-            storage: createJSONStorage(() => localStorage),
+            storage: createJSONStorage(() => {
+                if (typeof window !== 'undefined') {
+                  return localStorage;
+                }
+                return {
+                  getItem: () => null,
+                  setItem: () => {},
+                  removeItem: () => {}
+                };
+              }),
         }
     )
 );

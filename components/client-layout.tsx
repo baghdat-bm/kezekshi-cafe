@@ -11,17 +11,18 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     const checkAuth = async () => {
-      if (isAuthenticated === null) {
-        await refreshAccessToken();
-      }
+      await refreshAccessToken();
     };
-
     checkAuth();
-  }, [isAuthenticated, refreshAccessToken]);
-
+  }, [refreshAccessToken]);
+  
   useEffect(() => {
-    if (!isLoading && isAuthenticated === false && pathname !== "/login") {
-      router.push("/login");
+    if (!isLoading) {
+      if (isAuthenticated === false && pathname !== "/login") {
+        router.push("/login");
+      } else if (isAuthenticated && pathname === "/login") {
+        router.push("/");
+      }
     }
   }, [isLoading, isAuthenticated, pathname, router]);
 

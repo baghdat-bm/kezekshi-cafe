@@ -19,15 +19,16 @@ export default function CustomLoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
+  
     try {
       const tokens = await login(username, password);
-
-      // Сохраняем токены в cookies, чтобы middleware их видел
       Cookies.set("accessToken", tokens.access, { expires: 1, path: "/" });
       Cookies.set("refreshToken", tokens.refresh, { expires: 7, path: "/" });
-
+  
+      // Добавьте небольшую задержку для обновления состояния
+      await new Promise(resolve => setTimeout(resolve, 100));
       router.push("/");
+      router.refresh(); // Добавьте это для Next.js 13+
     } catch (err) {
       console.error(err);
       setError("Неверный логин или пароль");
