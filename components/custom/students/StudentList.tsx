@@ -52,6 +52,7 @@ const StudentList = () => {
                                         alt={item.full_name}
                                         width={50}
                                         height={50}
+                                        unoptimized={true}
                                     />
                                 )}
                             </TableCell>
