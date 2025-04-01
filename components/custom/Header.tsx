@@ -2,11 +2,21 @@
 
 import { useState, useEffect } from "react";
 import { useSidebar } from "@/components/ui/sidebar"
+import useTranslationStore from '../../lib/store/useTranslationStore';
 
 const Header = () => {
     const [mounted, setMounted] = useState(false);
     const [now, setNow] = useState(new Date());
     const { toggleSidebar } = useSidebar()
+    const { language, setLanguage } = useTranslationStore();
+
+    // При первом рендере загружаем переводы для языка по умолчанию
+    useEffect(() => {
+        // Если переводы еще не загружены, запускаем загрузку
+        if (Object.keys(useTranslationStore.getState().translations).length === 0) {
+            setLanguage(language);
+        }
+    }, [language, setLanguage]);
 
     useEffect(() => {
         setMounted(true);
@@ -61,6 +71,15 @@ const Header = () => {
                 <span>{dayOfWeek}</span>
                 <span>{dateString}</span>
                 <span>{timeString}</span>
+                <button onClick={() => setLanguage('kz')}>
+                    <span style={{ fontWeight: language === 'kz' ? 'bold' : 'normal' }}>KZ</span>
+                </button>
+                <button onClick={() => setLanguage('ru')}>
+                    <span style={{ fontWeight: language === 'ru' ? 'bold' : 'normal' }}>RU</span>
+                </button>
+                <button onClick={() => setLanguage('en')}>
+                    <span style={{ fontWeight: language === 'en' ? 'bold' : 'normal' }}>EN</span>
+                </button>
             </div>
         </header>
     );

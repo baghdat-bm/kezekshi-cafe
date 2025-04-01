@@ -76,13 +76,13 @@ const SellingForm: React.FC<SellingFormProps> = ({
     // 🛠 Функция добавления блюда в таблицу
     const handleAddDish = (dish: Dish) => {
         const dishIdStr = dish.id.toString();
-        const now = Date.now();
-        // Если тот же dish добавляется повторно слишком быстро – пропускаем обновление
-        if (lastDishRef.current.dishId === dishIdStr && now - lastDishRef.current.time < 100) {
-            console.log("Duplicate call ignored for dish:", dishIdStr);
-            return;
-        }
-        lastDishRef.current = { dishId: dishIdStr, time: now };
+        // const now = Date.now();
+        // // Если тот же dish добавляется повторно слишком быстро – пропускаем обновление
+        // if (lastDishRef.current.dishId === dishIdStr && now - lastDishRef.current.time < 100) {
+        //     console.log("Duplicate call ignored for dish:", dishIdStr);
+        //     return;
+        // }
+        // lastDishRef.current = { dishId: dishIdStr, time: now };
 
         setFormData((prev) => {
             const existingIndex = prev.selling_dish_items.findIndex(
