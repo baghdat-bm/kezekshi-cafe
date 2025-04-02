@@ -15,7 +15,6 @@ const MovementDishesEdit = () => {
     const { dishes, fetchDishes } = useDishStore();
 
     const [formData, setFormData] = useState<MovementDishesFormData>({
-        number: '',
         date: '',
         accepted: false,
         warehouse_from: '',
@@ -40,7 +39,6 @@ const MovementDishesEdit = () => {
     useEffect(() => {
         if (selectedMovementDishes) {
             setFormData({
-                number: selectedMovementDishes.number || '',
                 date: selectedMovementDishes.date ? selectedMovementDishes.date.slice(0, 16) : '',
                 accepted: selectedMovementDishes.accepted || false,
                 warehouse_from: String(selectedMovementDishes.warehouse_from) || '',
@@ -105,7 +103,7 @@ const MovementDishesEdit = () => {
     return (
         <div>
             <MovementDishesForm
-                title="Редактировать перемещение блюд"
+                title={`Редактировать перемещение блюд (${documentId})`}
                 submitButtonText="Сохранить изменения"
                 formData={formData}
                 setFormData={setFormData}

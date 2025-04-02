@@ -16,7 +16,6 @@ const SellingDishesCreate = () => {
     const { dishes, fetchDishes } = useDishStore();
 
     const [formData, setFormData] = useState({
-        number: '',
         date: '',
         accepted: false,
         warehouse: '',

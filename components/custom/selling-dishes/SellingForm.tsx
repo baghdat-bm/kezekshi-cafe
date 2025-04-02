@@ -27,7 +27,6 @@ export type DishItem = {
 };
 
 export type SellingFormData = {
-    number: string;
     date: string;
     accepted: boolean;
     warehouse: string;
@@ -71,7 +70,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
                                                  }) => {
     const router = useRouter();
     // const dishLockRef = useRef(new Set<string>());
-    const lastDishRef = useRef<{ dishId: string; time: number }>({ dishId: "", time: 0 });
+    // const lastDishRef = useRef<{ dishId: string; time: number }>({ dishId: "", time: 0 });
 
     // 🛠 Функция добавления блюда в таблицу
     const handleAddDish = (dish: Dish) => {
@@ -131,16 +130,6 @@ const SellingForm: React.FC<SellingFormProps> = ({
 
                 {/* Блок 1: Номер, Дата, Принята */}
                 <div className="grid gap-4 md:grid-cols-3">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Номер</label>
-                        <Input
-                            name="number"
-                            value={formData.number}
-                            onChange={handleChange}
-                            required
-                            className="kez-input"
-                        />
-                    </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Дата</label>
                         <Input

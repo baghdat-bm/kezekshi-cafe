@@ -3,7 +3,6 @@ import {createItem, deleteItem, fetchItems, updateItem, fetchItem} from '@/lib/s
 
 export interface MovementDishes {
     id: number;
-    number: string;
     date: string;
     accepted: boolean;
     warehouse_from: number;
@@ -19,7 +18,6 @@ interface MovementDishesStore {
     fetchMovementsDishes: () => Promise<void>;
     fetchMovementDishes: (id: number) => Promise<void>;
     addMovementDishes: (itemData: {
-        number: string;
         date: string;
         accepted: boolean;
         warehouse_from: number;
@@ -28,7 +26,6 @@ interface MovementDishesStore {
         movement_dish_items: { dish: number; quantity: number }[]
     }) => Promise<void>;
     updateMovementDishes: (id: number, itemData: {
-        number: string;
         date: string;
         accepted: boolean;
         warehouse_from: number;

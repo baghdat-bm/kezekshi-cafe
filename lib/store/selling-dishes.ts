@@ -3,7 +3,6 @@ import {createItem, deleteItem, fetchItems, fetchItem, updateItem} from '@/lib/s
 
 export interface SellingDishes {
     id: number;
-    number?: string | null;
     date?: string | null;
     accepted: boolean;
     warehouse: number;
@@ -21,7 +20,6 @@ interface SellingDishesStore {
     fetchSellingsDishes: () => Promise<void>;
     fetchSellingDishes: (id: number) => Promise<void>;
     addSellingDishes: (itemData: {
-        number: string;
         date: string;
         accepted: boolean;
         warehouse: number;
@@ -32,7 +30,6 @@ interface SellingDishesStore {
         selling_dish_items: { dish: number; quantity: number; sale_price: number; amount: number }[]
     }) => Promise<void>;
     updateSellingDishes: (id: number, itemData: {
-        number: string;
         date: string;
         accepted: boolean;
         warehouse: number;

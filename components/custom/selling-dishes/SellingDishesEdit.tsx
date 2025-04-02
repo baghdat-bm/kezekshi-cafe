@@ -18,7 +18,6 @@ const SellingDishesEdit = () => {
     const { dishes, fetchDishes } = useDishStore();
 
     const [formData, setFormData] = useState({
-        number: '',
         date: '',
         accepted: false,
         warehouse: '',
@@ -51,7 +50,6 @@ const SellingDishesEdit = () => {
     useEffect(() => {
         if (selectedSellingDishes) {
             setFormData({
-                number: selectedSellingDishes.number || '',
                 date: selectedSellingDishes.date ? selectedSellingDishes.date.slice(0, 16) : '',
                 accepted: selectedSellingDishes.accepted || false,
                 warehouse: String(selectedSellingDishes.warehouse) || '',
@@ -125,7 +123,7 @@ const SellingDishesEdit = () => {
     return (
         <div>
             <SellingForm
-                title="Редактировать продажу блюд"
+                title={`Редактировать продажу блюд (${documentId})`}
                 formData={formData}
                 setFormData={setFormData}
                 warehouses={warehouses}

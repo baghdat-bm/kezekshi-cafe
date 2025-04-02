@@ -34,7 +34,6 @@ const SellingDishesList = () => {
                 <TableHeader>
                     <TableRow className="kez-table-header-row">
                         <TableHead>ID</TableHead>
-                        <TableHead>Номер</TableHead>
                         <TableHead>Дата</TableHead>
                         <TableHead>Статус</TableHead>
                         <TableHead>Удалить</TableHead>
@@ -46,11 +45,6 @@ const SellingDishesList = () => {
                             <TableCell className="font-medium">
                                 <Link href={`/operations/selling-dishes/${item.id}`}>
                                     {item.id}
-                                </Link>
-                            </TableCell>
-                            <TableCell>
-                                <Link href={`/operations/selling-dishes/${item.id}`}>
-                                    {item.number}
                                 </Link>
                             </TableCell>
                             <TableCell>

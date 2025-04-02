@@ -17,7 +17,6 @@ const WriteOffFromWarehouseEdit = () => {
     const { dishes, fetchDishes } = useDishStore();
 
     const [formData, setFormData] = useState<WriteOffFormData>({
-        number: '',
         date: '',
         accepted: false,
         warehouse: '',
@@ -43,7 +42,6 @@ const WriteOffFromWarehouseEdit = () => {
     useEffect(() => {
         if (selectedWriteOffFromWarehouse) {
             setFormData({
-                number: selectedWriteOffFromWarehouse.number || '',
                 date: selectedWriteOffFromWarehouse.date ? selectedWriteOffFromWarehouse.date.slice(0, 16) : '',
                 accepted: selectedWriteOffFromWarehouse.accepted || false,
                 warehouse: String(selectedWriteOffFromWarehouse.warehouse) || '',
@@ -111,7 +109,7 @@ const WriteOffFromWarehouseEdit = () => {
     return (
         <div>
             <WriteOffFromWarehouseForm
-                title="Редактировать списание со склада"
+                title={`Редактировать списание со склада (${documentId})`}
                 submitButtonText="Сохранить изменения"
                 formData={formData}
                 setFormData={setFormData}

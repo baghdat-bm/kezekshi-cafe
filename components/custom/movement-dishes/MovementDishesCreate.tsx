@@ -13,7 +13,6 @@ const MovementDishesCreate = () => {
     const { dishes, fetchDishes } = useDishStore();
 
     const [formData, setFormData] = useState<MovementDishesFormData>({
-        number: '',
         date: '',
         accepted: false,
         warehouse_from: '',

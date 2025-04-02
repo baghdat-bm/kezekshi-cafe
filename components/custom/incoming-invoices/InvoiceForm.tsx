@@ -23,7 +23,6 @@ export type InvoiceDishItem = {
 };
 
 export type InvoiceFormData = {
-    number: string;
     date: string;
     accepted: boolean;
     warehouse: string;
@@ -78,17 +77,6 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                 {/* Блок 1: Два ряда по три колонки */}
                 <div className="mb-4">
                     <div className="grid grid-cols-3 gap-4">
-                        <div>
-                            <label>Номер:</label>
-                            <Input
-                                type="text"
-                                name="number"
-                                value={formData.number}
-                                onChange={handleChange}
-                                className="kez-input"
-                                required
-                            />
-                        </div>
                         <div>
                             <label>Дата:</label>
                             <Input

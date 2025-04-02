@@ -19,7 +19,6 @@ import { useRouter } from 'next/navigation';
 import {Dish} from "@/lib/store/dishes";
 
 export type WriteOffFormData = {
-    number: string;
     date: string;
     accepted: boolean;
     warehouse: string;
@@ -71,16 +70,6 @@ const WriteOffFromWarehouseForm: React.FC<WriteOffFormProps> = ({
                 <h1 className="kez-info-text">{title}</h1>
             </div>
             <div className="grid gap-4 md:grid-cols-3">
-                <div>
-                    <label className="block text-sm font-medium text-gray-700">Номер</label>
-                    <Input
-                        name="number"
-                        value={formData.number}
-                        onChange={handleChange}
-                        required
-                        className="kez-input"
-                    />
-                </div>
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Дата</label>
                     <Input

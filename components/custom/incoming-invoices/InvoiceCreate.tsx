@@ -17,7 +17,6 @@ const InvoiceCreate = () => {
     const { units, fetchUnits } = useMeasurementUnitStore();
 
     const [formData, setFormData] = useState({
-        number: '',
         date: '',
         accepted: false,
         warehouse: '',

@@ -46,18 +46,22 @@ const ListCategories = () => {
                 </TableCaption>
                 <TableHeader>
                     <TableRow className="kez-table-header-row">
+                        <TableHead></TableHead>
                         <TableHead>ID</TableHead>
                         <TableHead>Название</TableHead>
                         <TableHead>Логотип</TableHead>
-                        <TableHead>Цвет</TableHead>
                         <TableHead>Единица измерения</TableHead>
                         <TableHead>Удалить</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {categories.map((item) => (
-                        <TableRow key={item.id} className="kez-table-body-row"
-                                  style={{ color: item.color }}>
+                        <TableRow key={item.id} className="kez-table-body-row">
+                            <TableCell className="font-medium">
+                                <Link href={`/admin/categories/${item.id}`}>
+                                    <span className='px-1 mr-1' style={{ background: item.color, color: item.color}}>-</span>
+                                </Link>
+                            </TableCell>
                             <TableCell className="font-medium">
                                 <Link href={`/admin/categories/${item.id}`}>
                                     {item.id}
@@ -78,9 +82,6 @@ const ListCategories = () => {
                                         unoptimized={true}
                                     />
                                 )}
-                            </TableCell>
-                            <TableCell>
-                                {item.color}
                             </TableCell>
                             <TableCell>
                                 {getUnitName(item.measurement_unit)}

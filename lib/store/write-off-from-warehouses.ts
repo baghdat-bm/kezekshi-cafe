@@ -3,7 +3,6 @@ import {createItem, deleteItem, fetchItems, updateItem, fetchItem} from '@/lib/s
 
 export interface WriteOffFromWarehouse {
     id: number;
-    number: string;
     date: string;
     accepted: boolean;
     warehouse: number;
@@ -19,7 +18,6 @@ interface WarehouseStore {
     fetchWriteOffFromWarehouses: () => Promise<void>;
     fetchWriteOffFromWarehouse: (id: number) => Promise<void>;
     addWriteOffFromWarehouse: (writeOffFromWarehouseData: {
-        number: string;
         date: string;
         accepted: boolean;
         warehouse: number;
@@ -28,7 +26,6 @@ interface WarehouseStore {
         write_off_dish_items: { dish: number; quantity: number }[]
     }) => Promise<void>;
     updateWriteOffFromWarehouse: (id: number, writeOffFromWarehouseData: {
-        number: string;
         date: string;
         accepted: boolean;
         warehouse: number;

@@ -3,7 +3,6 @@ import {createItem, deleteItem, fetchItems, fetchItem, updateItem} from '@/lib/s
 
 export interface IncomingInvoice {
     id: number;
-    number: string;
     date: string;
     accepted: boolean;
     warehouse: number;
@@ -22,7 +21,6 @@ interface IncomingInvoiceStore {
     fetchIncomingInvoices: () => Promise<void>;
     fetchIncomingInvoice: (id: number) => Promise<void>;
     addIncomingInvoice: (unitData: {
-        number: string;
         date: string;
         accepted: boolean;
         warehouse: number;
@@ -40,7 +38,6 @@ interface IncomingInvoiceStore {
         }[]
     }) => Promise<void>;
     updateIncomingInvoice: (id: number, unitData: {
-        number: string;
         date: string;
         accepted: boolean;
         warehouse: number;

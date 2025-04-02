@@ -20,7 +20,6 @@ const InvoiceEdit = () => {
     const { units, fetchUnits } = useMeasurementUnitStore();
 
     const [formData, setFormData] = useState<InvoiceFormData>({
-        number: '',
         date: '',
         accepted: false,
         warehouse: '',
@@ -50,7 +49,6 @@ const InvoiceEdit = () => {
     useEffect(() => {
         if (selectedIncomingInvoice) {
             setFormData({
-                number: selectedIncomingInvoice.number || '',
                 date: selectedIncomingInvoice.date ? selectedIncomingInvoice.date.slice(0, 16) : '',
                 accepted: selectedIncomingInvoice.accepted || false,
                 warehouse: String(selectedIncomingInvoice.warehouse) || '',
@@ -123,7 +121,7 @@ const InvoiceEdit = () => {
 
     return (
         <InvoiceForm
-            title="Изменение оприходования на склад"
+            title={`Изменение оприходования на склад (${invoiceId})`}
             submitButtonText="Сохранить изменения"
             formData={formData}
             setFormData={setFormData}

@@ -15,7 +15,6 @@ const WriteOffFromWarehouseCreate = () => {
     const { dishes, fetchDishes } = useDishStore();
 
     const [formData, setFormData] = useState<WriteOffFormData>({
-        number: '',
         date: '',
         accepted: false,
         warehouse: '',

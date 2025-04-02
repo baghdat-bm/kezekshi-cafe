@@ -35,7 +35,6 @@ const InvoiceList = () => {
                 <TableHeader>
                     <TableRow className="kez-table-header-row">
                         <TableHead>ID</TableHead>
-                        <TableHead>Номер</TableHead>
                         <TableHead>Дата</TableHead>
                         <TableHead>Статус</TableHead>
                         <TableHead>Удалить</TableHead>
@@ -47,11 +46,6 @@ const InvoiceList = () => {
                             <TableCell className="font-medium">
                                 <Link href={`/operations/incoming-invoices/${item.id}`}>
                                     {item.id}
-                                </Link>
-                            </TableCell>
-                            <TableCell>
-                                <Link href={`/operations/incoming-invoices/${item.id}`}>
-                                    {item.number}
                                 </Link>
                             </TableCell>
                             <TableCell>
