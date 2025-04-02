@@ -1,5 +1,16 @@
 {
+  "home": {
     "welcome": "Qosh keldininz!",
     "greeting": "Assalamualeykum!"
+  },
+  "common": {
+    "date": "Дата",
+    "status": "Статус",
+    "delete": "Жою"
+  },
+  "selling": {
+    "createNewSell": "Жаңа сатылым қосу",
+    "confirmDeleteSell": "Сіз бұл сатылымды шынымен жойғыңыз келе ме?",
+    "sellList": "Азық-түлік сатылымының тізімі"
   }
-  
+}

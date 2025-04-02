@@ -3,11 +3,23 @@
 import { useEffect } from "react";
 import { useAuthStore } from "@/lib/store/auth";
 import { usePathname, useRouter } from "next/navigation";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading, refreshAccessToken } = useAuthStore();
   const pathname = usePathname();
   const router = useRouter();
+
+  const { language, setLanguage } = useTranslationStore();
+
+  // При первом рендере загружаем переводы для языка по умолчанию
+  useEffect(() => {
+    // Если переводы еще не загружены, запускаем загрузку
+    if (Object.keys(useTranslationStore.getState().translations).length === 0) {
+      setLanguage(language);
+    }
+  }, [language, setLanguage]);
+
 
   useEffect(() => {
     const checkAuth = async () => {

@@ -1,5 +1,16 @@
 {
+  "home": {
     "welcome": "Welcome!",
     "greeting": "Hello, world!"
+  },
+  "common": {
+    "date": "Date",
+    "status": "Status",
+    "delete": "Remove"
+  },
+  "selling": {
+    "createNewSell": "Create new sell",
+    "confirmDeleteSell": "Do you really want to delete this sale?",
+    "sellList": "List of food sales"
   }
-  
+}

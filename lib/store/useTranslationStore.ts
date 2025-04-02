@@ -8,7 +8,7 @@ interface TranslationStore {
 }
 
 const useTranslationStore = create<TranslationStore>((set, get) => ({
-  language: 'en',
+  language: 'kz',
   translations: {},
   setLanguage: async (lang: string) => {
     if (get().language === lang && Object.keys(get().translations).length > 0) return;
@@ -19,9 +19,12 @@ const useTranslationStore = create<TranslationStore>((set, get) => ({
       console.error('Ошибка при загрузке переводов:', error);
     }
   },
-  t: (key: string) => {
+  // Функция t принимает ключ в формате "home.welcome" и ищет значение в объекте translations
+  t: (key: string): string => {
     const { translations } = get();
-    return translations[key] || key;
+    // Разбиваем ключ по точке и проходим по объекту
+    const value = key.split('.').reduce((obj, k) => (obj && typeof obj === 'object' ? obj[k] : undefined), translations);
+    return typeof value === 'string' ? value : key;
   },
 }));
 

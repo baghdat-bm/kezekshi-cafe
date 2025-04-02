@@ -8,15 +8,7 @@ const Header = () => {
     const [mounted, setMounted] = useState(false);
     const [now, setNow] = useState(new Date());
     const { toggleSidebar } = useSidebar()
-    const { language, setLanguage } = useTranslationStore();
-
-    // При первом рендере загружаем переводы для языка по умолчанию
-    useEffect(() => {
-        // Если переводы еще не загружены, запускаем загрузку
-        if (Object.keys(useTranslationStore.getState().translations).length === 0) {
-            setLanguage(language);
-        }
-    }, [language, setLanguage]);
+    const { language, setLanguage, t } = useTranslationStore();
 
     useEffect(() => {
         setMounted(true);
@@ -71,6 +63,7 @@ const Header = () => {
                 <span>{dayOfWeek}</span>
                 <span>{dateString}</span>
                 <span>{timeString}</span>
+                <span>{t("home.welcome")}</span>
                 <button onClick={() => setLanguage('kz')}>
                     <span style={{ fontWeight: language === 'kz' ? 'bold' : 'normal' }}>KZ</span>
                 </button>

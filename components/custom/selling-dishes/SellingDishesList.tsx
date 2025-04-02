@@ -5,10 +5,12 @@ import Link from 'next/link';
 import { useSellingDishesStore } from '@/lib/store/selling-dishes';
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {formatDate} from "@/lib/utils";
-import {CircleX} from "lucide-react";
+import {CircleX, CheckCheck, CircleOff} from "lucide-react";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const SellingDishesList = () => {
     const { sellingsDishes, fetchSellingsDishes, deleteSellingDishes } = useSellingDishesStore();
+    const { t } = useTranslationStore();
 
     useEffect(() => {
         fetchSellingsDishes();
@@ -16,7 +18,7 @@ const SellingDishesList = () => {
     }, []);
 
     const handleDelete = async (id: number) => {
-        if (window.confirm("Вы действительно хотите удалить эту продажу?")) {
+        if (window.confirm(t("selling.confirmDeleteSell"))) {
             await deleteSellingDishes(id);
         }
     };
@@ -24,19 +26,19 @@ const SellingDishesList = () => {
     return (
         <div>
             <Link href="/operations/selling-dishes/new" className="kez-create-item-btn">
-                <b>Создать новую продажу блюд</b>
+                <b>{t("selling.createNewSell")}</b>
             </Link>
 
             <Table>
                 <TableCaption className="kez-table-caption">
-                    Список продаж блюд
+                    {t("selling.sellList")}
                 </TableCaption>
                 <TableHeader>
                     <TableRow className="kez-table-header-row">
                         <TableHead>ID</TableHead>
-                        <TableHead>Дата</TableHead>
-                        <TableHead>Статус</TableHead>
-                        <TableHead>Удалить</TableHead>
+                        <TableHead>{t("common.date")}</TableHead>
+                        <TableHead>{t("common.status")}</TableHead>
+                        <TableHead>{t("common.delete")}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -52,7 +54,9 @@ const SellingDishesList = () => {
                                     <span>{item.date && formatDate(item.date)}</span>
                                 </Link>
                             </TableCell>
-                            <TableCell>{item.accepted ? "Принята" : "Не принята"}</TableCell>
+                            <TableCell>{item.accepted ?
+                                <CheckCheck size={18} className="text-green-500"/>:
+                                <CircleOff size={18} className="text-gray-500"/>}</TableCell>
                             <TableCell className="text-center">
                                 <button onClick={() => handleDelete(item.id)}>
                                     <CircleX size={18} className="text-red-500"/>
