@@ -23,26 +23,35 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import Header from "./Header";
 import { useAuthStore } from "@/lib/store/auth";
 import { Button } from "../ui/button";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 // Menu items.
 const document_navs = [
     {
-        title: "Продажа",
+        kz: "Сату",
+        ru: "Продажа",
+        en: "Sale",
         url: "/operations/selling-dishes",
         icon: ShoppingBag,
     },
     {
-        title: "Оприходование",
+        kz: "Кірістер",
+        ru: "Оприходование",
+        en: "Registration",
         url: "/operations/incoming-invoices",
         icon: ClipboardPlus,
     },
     {
-        title: "Списание",
+        kz: "Есептен шығару",
+        ru: "Списание",
+        en: "Write-downs",
         url: "/operations/write-offs",
         icon: ClipboardMinus,
     },
     {
-        title: "Перемещение",
+        kz: "Жылжыту",
+        ru: "Перемещение",
+        en: "Moving",
         url: "/operations/movement-dishes",
         icon: SendToBack,
     }
@@ -50,27 +59,37 @@ const document_navs = [
 
 const ref_navs = [
     {
-        title: "Категории блюд",
+        kz: "Тағам санаттары",
+        ru: "Категории блюд",
+        en: "Categories of dishes",
         url: "/admin/categories",
         icon: ChartBarStacked,
     },
     {
-        title: "Блюда",
+        kz: "Тағамдар",
+        ru: "Блюда",
+        en: "Dishes",
         url: "/admin/dishes",
         icon: Salad,
     },
     {
-        title: "Единицы измерения",
+        kz: "Өлшем бірліктері",
+        ru: "Единицы измерения",
+        en: "Units of measurement",
         url: "/admin/units",
         icon: Ruler,
     },
     {
-        title: "Поставщики",
+        kz: "Жеткізушілер",
+        ru: "Поставщики",
+        en: "Suppliers",
         url: "/admin/contractors",
         icon: ContactRound,
     },
     {
-        title: "Учащиеся",
+        kz: "Оқушылар",
+        ru: "Учащиеся",
+        en: "Students",
         url: "/admin/students",
         icon: GraduationCap,
     }
@@ -79,6 +98,7 @@ const ref_navs = [
 export function AppSidebar() {
     const { userData, logout } = useAuthStore();
     const pathname = usePathname();
+    const { language, t } = useTranslationStore();
 
     return (
         <div>
@@ -104,15 +124,15 @@ export function AppSidebar() {
                     </SidebarGroup>
 
                     <SidebarGroup className="pt-0">
-                        <SidebarGroupLabel>Документы</SidebarGroupLabel>
+                        <SidebarGroupLabel>{t("sidebar.documents")}</SidebarGroupLabel>
                         <SidebarGroupContent>
                             <SidebarMenu>
                                 {document_navs.map((item) => (
-                                    <SidebarMenuItem key={item.title}>
+                                    <SidebarMenuItem key={item[language]}>
                                         <SidebarMenuButton asChild isActive={pathname === item.url}>
                                             <Link href={item.url}>
                                                 <item.icon />
-                                                <span>{item.title}</span>
+                                                <span>{item[language]}</span>
                                             </Link>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
@@ -122,15 +142,15 @@ export function AppSidebar() {
                     </SidebarGroup>
 
                     <SidebarGroup className="pt-0">
-                        <SidebarGroupLabel>Справочники</SidebarGroupLabel>
+                        <SidebarGroupLabel>{t("sidebar.refs")}</SidebarGroupLabel>
                         <SidebarGroupContent>
                             <SidebarMenu>
                                 {ref_navs.map((item) => (
-                                    <SidebarMenuItem key={item.title}>
+                                    <SidebarMenuItem key={item[language]}>
                                         <SidebarMenuButton asChild isActive={pathname === item.url}>
                                             <Link href={item.url}>
                                                 <item.icon />
-                                                <span>{item.title}</span>
+                                                <span>{item[language]}</span>
                                             </Link>
                                         </SidebarMenuButton>
                                     </SidebarMenuItem>
@@ -152,7 +172,7 @@ export function AppSidebar() {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent side="top" className="w-[--radix-popper-anchor-width]">
                                     <DropdownMenuItem>
-                                        <Button onClick={logout}>Выйти</Button>
+                                        <Button onClick={logout}>{t("sidebar.exit")}</Button>
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>

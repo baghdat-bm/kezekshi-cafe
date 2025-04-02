@@ -1,12 +1,45 @@
 {
   "home": {
     "welcome": "Welcome!",
-    "greeting": "Hello, world!"
+    "greeting": "Hello, world!",
+    "loading": "Loading..."
+  },
+  "sidebar": {
+    "documents": "Documents",
+    "refs": "Reference books",
+    "exit": "Exit"
   },
   "common": {
     "date": "Date",
     "status": "Status",
-    "delete": "Remove"
+    "delete": "Remove",
+    "name": "Name",
+    "nameKz": "Name (kaz)",
+    "nameRu": "Name (rus)",
+    "nameEn": "Name (eng)",
+    "placeholderKz": "In Kazakh",
+    "placeholderRu": "In Russian",
+    "placeholderEn": "In English",
+    "noName": "Untitled",
+    "image": "Image",
+    "units": "Unit of measurement",
+    "fieldMustBeFilledIn": "This field must be filled in",
+    "color": "Color",
+    "cancel": "Cancel"
+  },
+  "dates": {
+    "sunday": "Sunday",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday"
+  },
+  "refs": {
+    "createNewCategory": "Create a new category of dishes",
+    "categoriesList": "List of food categories",
+    "newCategoryAdded": "Category added successfully"
   },
   "selling": {
     "createNewSell": "Create new sell",

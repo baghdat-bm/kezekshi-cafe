@@ -14,6 +14,8 @@ export const fetchItems = async () => {
                 Authorization: `Bearer ${token}`,
             },
         });
+        // console.log('fetchItems measurement-units');
+        // console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Ошибка при загрузке единиц измерения:', error);

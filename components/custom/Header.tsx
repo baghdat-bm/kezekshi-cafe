@@ -34,13 +34,13 @@ const Header = () => {
     const dateString = `${day}.${month}.${year}`;
 
     const weekdays = [
-        "Воскресенье",
-        "Понедельник",
-        "Вторник",
-        "Среда",
-        "Четверг",
-        "Пятница",
-        "Суббота",
+        "sunday",
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
     ];
     const dayOfWeek = weekdays[now.getDay()];
 
@@ -60,10 +60,9 @@ const Header = () => {
 
             <div className="flex items-center space-x-4">
                 <span>Столовая - справа</span>
-                <span>{dayOfWeek}</span>
+                <span>{t(`dates.${dayOfWeek}`)}</span>
                 <span>{dateString}</span>
                 <span>{timeString}</span>
-                <span>{t("home.welcome")}</span>
                 <button onClick={() => setLanguage('kz')}>
                     <span style={{ fontWeight: language === 'kz' ? 'bold' : 'normal' }}>KZ</span>
                 </button>

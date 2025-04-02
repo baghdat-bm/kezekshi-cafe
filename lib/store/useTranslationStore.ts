@@ -1,7 +1,9 @@
 import { create } from 'zustand';
 
+export type Language = "kz" | "ru" | "en";
+
 interface TranslationStore {
-  language: string;
+  language: Language;
   translations: Record<string, string>;
   setLanguage: (lang: string) => Promise<void>;
   t: (key: string) => string;

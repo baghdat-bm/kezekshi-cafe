@@ -13,6 +13,8 @@ export const fetchItems = async () => {
                 Authorization: `Bearer ${token}`,
             },
         });
+        // console.log('fetchItems dishes-categories');
+        // console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('Ошибка при загрузке категорий блюд:', error);

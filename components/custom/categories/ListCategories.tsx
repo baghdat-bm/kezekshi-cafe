@@ -7,10 +7,12 @@ import { useDishCategoryStore } from '@/lib/store/dish-categories';
 import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {CircleX} from "lucide-react";
+import useTranslationStore, {Language} from "@/lib/store/useTranslationStore";
 
 const ListCategories = () => {
     const { categories, fetchCategories, deleteCategory } = useDishCategoryStore();
     const { units, fetchUnits } = useMeasurementUnitStore();
+    const { language, t } = useTranslationStore();
 
     useEffect(() => {
         fetchCategories();
@@ -28,30 +30,30 @@ const ListCategories = () => {
     };
 
     // Функция для получения названия единицы измерения по id
-    const getUnitName = (unitId: number | null | undefined) => {
+    const getUnitName = (unitId: number | null | undefined, language: Language = 'ru') => {
         if (!unitId) return '-';
         const unit = units.find((u) => u.id === unitId);
-        return unit ? unit.name_ru || unit.name : '-';
+        return unit ? unit[`name_${language}`] || unit.name : '-';
     };
 
     return (
         <div>
             <Link href="/admin/categories/new" className="kez-create-item-btn">
-                Создать новую категорию блюд
+                {t("refs.createNewCategory")}
             </Link>
 
             <Table>
                 <TableCaption className="kez-table-caption">
-                    Список категории блюд
+                    {t("refs.categoriesList")}
                 </TableCaption>
                 <TableHeader>
                     <TableRow className="kez-table-header-row">
                         <TableHead></TableHead>
                         <TableHead>ID</TableHead>
-                        <TableHead>Название</TableHead>
-                        <TableHead>Логотип</TableHead>
-                        <TableHead>Единица измерения</TableHead>
-                        <TableHead>Удалить</TableHead>
+                        <TableHead>{t("common.name")}</TableHead>
+                        <TableHead>{t("common.image")}</TableHead>
+                        <TableHead>{t("common.units")}</TableHead>
+                        <TableHead>{t("common.delete")}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -69,14 +71,14 @@ const ListCategories = () => {
                             </TableCell>
                             <TableCell>
                                 <Link href={`/admin/categories/${item.id}`}>
-                                    {item.name || 'Без названия'}
+                                    {item[`name_${language}`] || t("common.noName")}
                                 </Link>
                             </TableCell>
                             <TableCell>
                                 {item.logo && (
                                     <Image
                                         src={item.logo}
-                                        alt={item.name}
+                                        alt={item.name_ru || t("common.noName")}
                                         width={50}
                                         height={50}
                                         unoptimized={true}
@@ -84,7 +86,7 @@ const ListCategories = () => {
                                 )}
                             </TableCell>
                             <TableCell>
-                                {getUnitName(item.measurement_unit)}
+                                {getUnitName(item.measurement_unit, language)}
                             </TableCell>
                             <TableCell className="text-center">
                                 <button onClick={() => handleDelete(item.id)}>

@@ -1,12 +1,45 @@
 {
   "home": {
     "welcome": "Добро пожаловать!",
-    "greeting": "Приветствие!"
+    "greeting": "Приветствие!",
+    "loading": "Загрузка..."
+  },
+  "sidebar": {
+    "documents": "Документы",
+    "refs": "Справочники",
+    "exit": "Выйти"
   },
   "common": {
     "date": "Дата",
     "status": "Статус",
-    "delete": "Удалить"
+    "delete": "Удалить",
+    "name": "Название",
+    "nameKz": "Название (каз)",
+    "nameRu": "Название (рус)",
+    "nameEn": "Название (анг)",
+    "placeholderKz": "На казахском",
+    "placeholderRu": "На русском",
+    "placeholderEn": "На английском",
+    "noName": "Без названия",
+    "image": "Изображение",
+    "units": "Единица измерения",
+    "fieldMustBeFilledIn": "Это поле обязательно для заполнения",
+    "color": "Цвет",
+    "cancel": "Отмена"
+  },
+  "dates": {
+    "sunday": "Воскресенье",
+    "monday": "Понедельник",
+    "tuesday": "Вторник",
+    "wednesday": "Среда",
+    "thursday": "Четверг",
+    "friday": "Пятница",
+    "saturday": "Суббота"
+  },
+  "refs": {
+    "createNewCategory": "Создать новую категорию блюд",
+    "categoriesList": "Список категории блюд",
+    "newCategoryAdded": "Категория успешно добавлена"
   },
   "selling": {
     "createNewSell": "Создать новую продажу блюд",

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import Image from "next/image";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 export interface CategoryFormValues {
     id?: number;
@@ -31,6 +32,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                                                        submitText = 'Сохранить',
                                                    }) => {
     const { units, fetchUnits } = useMeasurementUnitStore();
+    const { t } = useTranslationStore();
 
     useEffect(() => {
         fetchUnits();
@@ -49,11 +51,13 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     interface Errors {
         name_kz: string;
         name_ru: string;
+        name_en: string;
     }
 
     const [errors, setErrors] = useState<Errors>({
         name_kz: '',
         name_ru: '',
+        name_en: ''
     });
 
     useEffect(() => {
@@ -86,16 +90,17 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 
     const validate = () => {
         let valid = true;
-        const newErrors: Errors = { name_kz: '', name_ru: '' };
+        const newErrors: Errors = { name_kz: '', name_ru: '', name_en: '' };
 
         if (!form.name_kz.trim()) {
-            newErrors.name_kz = 'Это поле обязательно для заполнения';
+            newErrors.name_kz = t("common.fieldMustBeFilledIn");
             valid = false;
         }
         if (!form.name_ru.trim()) {
-            newErrors.name_ru = 'Это поле обязательно для заполнения';
+            newErrors.name_ru = t("common.fieldMustBeFilledIn");
             valid = false;
         }
+
         setErrors(newErrors);
         return valid;
     };
@@ -129,39 +134,39 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
             {/* Блок 1: Названия - расположены горизонтально */}
             <div className="flex flex-row gap-6">
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Название (каз):</label>
+                    <label className="text-sm font-medium text-gray-700">{t("common.nameKz")}:</label>
                     <Input
                         type="text"
                         name="name_kz"
                         value={form.name_kz}
                         onChange={handleChange}
-                        placeholder="На казахском"
+                        placeholder={t("common.placeholderKz")}
                         className="kez-input"
                         required
                     />
                     {errors.name_kz && <p className="text-red-500 text-xs mt-1">{errors.name_kz}</p>}
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Название (рус):</label>
+                    <label className="text-sm font-medium text-gray-700">{t("common.nameRu")}:</label>
                     <Input
                         type="text"
                         name="name_ru"
                         value={form.name_ru}
                         onChange={handleChange}
-                        placeholder="На русском"
+                        placeholder={t("common.placeholderRu")}
                         className="kez-input"
                         required
                     />
                     {errors.name_ru && <p className="text-red-500 text-xs mt-1">{errors.name_ru}</p>}
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Название (англ):</label>
+                    <label className="text-sm font-medium text-gray-700">{t("common.nameEn")}:</label>
                     <Input
                         type="text"
                         name="name_en"
                         value={form.name_en}
                         onChange={handleChange}
-                        placeholder="На английском"
+                        placeholder={t("common.placeholderEn")}
                         className="kez-input"
                     />
                 </div>
@@ -170,7 +175,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
             {/* Блок 2: Логотип, цвет и единица измерения - расположены горизонтально */}
             <div className="flex flex-row gap-6">
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Рисунок:</label>
+                    <label className="text-sm font-medium text-gray-700">{t("common.image")}:</label>
                     <Input
                         type="file"
                         name="logo"
@@ -196,7 +201,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                     )}
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Цвет:</label>
+                    <label className="text-sm font-medium text-gray-700">{t("common.color")}:</label>
                     <Input
                         type="color"
                         name="color"
@@ -206,7 +211,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                     />
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Единица измерения:</label>
+                    <label className="text-sm font-medium text-gray-700">{t("common.units")}:</label>
                     <Select
                         value={form.measurement_unit}
                         onValueChange={(value) => setForm({ ...form, measurement_unit: value })}
@@ -229,7 +234,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 
             <div className="flex gap-4">
                 <Button type="submit" className="kez-submit-btn">{submitText}</Button>
-                <Button variant="outline" type="button" onClick={onCancel} className="kez-simple-btn mx-2">Отмена</Button>
+                <Button variant="outline" type="button" onClick={onCancel} className="kez-simple-btn mx-2">{t("common.cancel")}</Button>
             </div>
         </form>
     );

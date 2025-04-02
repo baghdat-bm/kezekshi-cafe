@@ -1,12 +1,45 @@
 {
   "home": {
-    "welcome": "Qosh keldininz!",
-    "greeting": "Assalamualeykum!"
+    "welcome": "Қош келдіңіз!",
+    "greeting": "Ассаламуалейкум!",
+    "loading": "Жүктелуде..."
+  },
+  "sidebar": {
+    "documents": "Құжаттар",
+    "refs": "Анықтамалықтар",
+    "exit": "Шығу"
   },
   "common": {
     "date": "Дата",
     "status": "Статус",
-    "delete": "Жою"
+    "delete": "Жою",
+    "name": "Атауы",
+    "nameKz": "Атауы (қаз)",
+    "nameRu": "Атауы (орыс)",
+    "nameEn": "Атауы (ағыл)",
+    "placeholderKz": "Қазақша",
+    "placeholderRu": "Орысша",
+    "placeholderEn": "Ағылшынша",
+    "noName": "Атауы жоқ",
+    "image": "Суреті",
+    "units": "Өлшем бірлігі",
+    "fieldMustBeFilledIn": "Бұл жолды толтыру қажет",
+    "color": "Түсі",
+    "cancel": "Артқа"
+  },
+  "dates": {
+    "sunday": "Жексенбі",
+    "monday": "Дүйсенбі",
+    "tuesday": "Сейсенбі",
+    "wednesday": "Сәрсенбі",
+    "thursday": "Бейсенбі",
+    "friday": "Жұма",
+    "saturday": "Сенбі"
+  },
+  "refs": {
+    "createNewCategory": "Тағамдардың жаңа санатын жасау",
+    "categoriesList": "Тағам санаттарының тізімі",
+    "newCategoryAdded": "Санат сәтті қосылды"
   },
   "selling": {
     "createNewSell": "Жаңа сатылым қосу",
