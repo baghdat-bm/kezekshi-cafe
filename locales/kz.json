@@ -13,6 +13,10 @@
     "date": "Дата",
     "status": "Статус",
     "delete": "Жою",
+    "cancel": "Артқа",
+    "select": "Таңдаңыз",
+    "save": "Өзгерістерді сақтау",
+    "create": "Қосу",
     "name": "Атауы",
     "nameKz": "Атауы (қаз)",
     "nameRu": "Атауы (орыс)",
@@ -21,15 +25,27 @@
     "placeholderRu": "Орысша",
     "placeholderEn": "Ағылшынша",
     "noName": "Атауы жоқ",
+    "nameSurname": "Аты-жөні",
     "image": "Бейнесі",
     "barcode": "Штрихкод",
     "units": "Өлшем бірлігі",
     "fieldMustBeFilledIn": "Бұл жолды толтыру қажет",
     "color": "Түсі",
-    "cancel": "Артқа",
-    "select": "Таңдаңыз",
-    "save": "Өзгерістерді сақтау",
-    "create": "Қосу"
+    "phone": "Телефон",
+    "photo": "Фото",
+    "accepted": "Қабылданды",
+    "sum": "Сома",
+    "quantity": "Саны",
+    "costPrice": "Құны",
+    "salePrice": "Сату бағасы",
+    "paidAmount": "Төленген сома",
+    "supplier": "Жеткізуші",
+    "warehouse": "Қойма",
+    "dishes": "Тағамдар",
+    "dish": "Тағам",
+    "addDish": "Тағам қосу",
+    "comments": "Eскерту",
+    "actions": "Әрекеттер"
   },
   "dates": {
     "sunday": "Жексенбі",
@@ -62,11 +78,38 @@
     "bank": "Банк",
     "bik": "БИК",
     "corrAccount": "Кор.шот",
-    "checkAccount": "Есеп айырысу шоты"
+    "checkAccount": "Есеп айырысу шоты",
+    "balance": "Баланс",
+    "studentsList": "Оқушылар тізімі",
+    "createNewUnit": "Жаңа өлшем бірлігін қосу",
+    "unitsList": "Өлшем бірліктерінің тізімі",
+    "editUnt": "Өлшем бірлікті өңдеу",
+    "confirmDeleteUnit": "Сіз бұл өлшем бірлігін жойғыңыз келетініне сенімдісіз бе?"
   },
   "selling": {
     "createNewSell": "Жаңа сатылым қосу",
     "confirmDeleteSell": "Сіз бұл сатылымды шынымен жойғыңыз келе ме?",
     "sellList": "Азық-түлік сатылымының тізімі"
+  },
+  "incomingInvoice": {
+    "confirmDeleteInvoice": "Сіз бұл құжатты шынымен жойғыңыз келе ме?",
+    "createNewInvoice": "Жаңа қойма кірісін қосу",
+    "invoicesList": "Қойма кірістері",
+    "shippingCost": "Жеткізу құны",
+    "editInvoice": "Қойма кірісін өңдеу"
+  },
+  "movement": {
+    "confirmDeleteMovement": "Сіз бұл қозғалысты шынымен жойғыңыз келе ме?",
+    "createNewMovement": "Қоймаға жаңа қозғалыс жасау",
+    "editMovement": "Қоймаларға қозғалыстарды өңдеу",
+    "movementsList": "Қоймаларға қозғалыстар тізімі",
+    "warehouseSender": "Жөнелтуші қойма",
+    "warehouseRecipient": "Қабылдаушы қойма"
+  },
+  "writeOff": {
+    "confirmDeleteWriteOff": "Сіз бұл есептен шығаруды шынымен жойғыңыз келе ме?",
+    "createNewWriteOff": "Жаңа есептен шығаруды жасау",
+    "editWriteOff": "",
+    "writeOffsList": "Қоймалардан есептен шығару тізімі"
   }
 }

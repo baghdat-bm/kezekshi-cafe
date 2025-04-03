@@ -4,10 +4,12 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
 import UnitForm, { UnitFormValues } from './UnitForm';
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const UnitCreate = () => {
     const router = useRouter();
     const { addUnit } = useMeasurementUnitStore();
+    const { t } = useTranslationStore();
 
     const handleSubmit = async (data: UnitFormValues) => {
         await addUnit(data);
@@ -20,11 +22,11 @@ const UnitCreate = () => {
 
     return (
         <div>
-            <h1>Создание единицы измерения</h1>
+            <h1>{t("refs.createNewUnit")}</h1>
             <UnitForm
                 onSubmit={handleSubmit}
                 onCancel={handleCancel}
-                submitText="Создать"
+                submitText={t("common.create")}
             />
         </div>
     );

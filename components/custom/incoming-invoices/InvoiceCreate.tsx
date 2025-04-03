@@ -7,6 +7,7 @@ import { useWarehouseStore } from '@/lib/store/warehouses';
 import { useContractorStore } from '@/lib/store/contractors';
 import { useDishStore } from '@/lib/store/dishes';
 import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const InvoiceCreate = () => {
     const router = useRouter();
@@ -15,6 +16,7 @@ const InvoiceCreate = () => {
     const { contractors, fetchContractors } = useContractorStore();
     const { dishes, fetchDishes } = useDishStore();
     const { units, fetchUnits } = useMeasurementUnitStore();
+    const { t } = useTranslationStore();
 
     const [formData, setFormData] = useState({
         date: '',
@@ -102,8 +104,8 @@ const InvoiceCreate = () => {
 
     return (
         <InvoiceForm
-            title="Создать оприходование на склад"
-            submitButtonText="Создать оприходование"
+            title={t("incomingInvoice.createNewInvoice")}
+            submitButtonText={t("common.create")}
             formData={formData}
             setFormData={setFormData}
             handleChange={handleChange}

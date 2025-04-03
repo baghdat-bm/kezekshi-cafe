@@ -49,7 +49,7 @@ const document_navs = [
         icon: ClipboardMinus,
     },
     {
-        kz: "Жылжыту",
+        kz: "Қозғалыстар",
         ru: "Перемещение",
         en: "Moving",
         url: "/operations/movement-dishes",

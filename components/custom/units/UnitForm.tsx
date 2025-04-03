@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 export interface UnitFormValues {
     id?: number;
@@ -41,6 +42,8 @@ const UnitForm: React.FC<UnitFormProps> = ({
         name_ru: '',
     });
 
+    const { t } = useTranslationStore();
+
     useEffect(() => {
         if (initialValues) {
             setForm({
@@ -62,11 +65,11 @@ const UnitForm: React.FC<UnitFormProps> = ({
         const newErrors: Errors = { name_kz: '', name_ru: '' };
 
         if (!form.name_kz.trim()) {
-            newErrors.name_kz = 'Это поле обязательно для заполнения';
+            newErrors.name_kz = t("common.fieldMustBeFilledIn");
             valid = false;
         }
         if (!form.name_ru.trim()) {
-            newErrors.name_ru = 'Это поле обязательно для заполнения';
+            newErrors.name_ru = t("common.fieldMustBeFilledIn");
             valid = false;
         }
         setErrors(newErrors);
@@ -85,7 +88,7 @@ const UnitForm: React.FC<UnitFormProps> = ({
             <div className="flex flex-row gap-6">
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-gray-700">
-                        Название (казахский):
+                        {t("common.nameKz")}:
                     </label>
                     <Input
                         type="text"
@@ -102,7 +105,7 @@ const UnitForm: React.FC<UnitFormProps> = ({
                 </div>
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-gray-700">
-                        Название (русский):
+                        {t("common.nameRu")}:
                     </label>
                     <Input
                         type="text"
@@ -119,7 +122,7 @@ const UnitForm: React.FC<UnitFormProps> = ({
                 </div>
                 <div className="flex flex-col">
                     <label className="text-sm font-medium text-gray-700">
-                        Название (английский):
+                        {t("common.nameEn")}:
                     </label>
                     <Input
                         type="text"
@@ -142,7 +145,7 @@ const UnitForm: React.FC<UnitFormProps> = ({
                     onClick={onCancel}
                     className="kez-simple-btn mx-2"
                 >
-                    Отмена
+                    {t("common.cancel")}
                 </Button>
             </div>
         </form>

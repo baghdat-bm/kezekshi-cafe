@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
 import UnitDeleteButton from './UnitDeleteButton';
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const UnitList = () => {
     const { units, fetchUnits, deleteUnit } = useMeasurementUnitStore();
+    const { language, t } = useTranslationStore();
 
     useEffect(() => {
         fetchUnits();
@@ -16,18 +18,18 @@ const UnitList = () => {
     return (
         <div>
             <Link href="/admin/units/new" className="kez-create-item-btn">
-                Создать новую единицу измерения
+                {t("refs.createNewUnit")}
             </Link>
 
             <Table>
                 <TableCaption className="kez-table-caption">
-                    Список единиц измерения
+                    {t("refs.unitsList")}
                 </TableCaption>
                 <TableHeader>
                     <TableRow className="kez-table-header-row">
                         <TableHead>ID</TableHead>
-                        <TableHead>Название</TableHead>
-                        <TableHead>Удалить</TableHead>
+                        <TableHead>{t("common.name")}</TableHead>
+                        <TableHead>{t("common.delete")}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -40,7 +42,7 @@ const UnitList = () => {
                             </TableCell>
                             <TableCell>
                                 <Link href={`/admin/units/${item.id}`}>
-                                    {item.name || 'Без названия'}
+                                    {item[`name_${language}`] || t("common.noName")}
                                 </Link>
                             </TableCell>
                             <TableCell className="text-center">

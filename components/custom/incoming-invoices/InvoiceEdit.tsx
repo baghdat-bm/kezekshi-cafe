@@ -8,6 +8,7 @@ import { useWarehouseStore } from '@/lib/store/warehouses';
 import { useContractorStore } from '@/lib/store/contractors';
 import { useDishStore } from '@/lib/store/dishes';
 import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const InvoiceEdit = () => {
     const router = useRouter();
@@ -18,6 +19,7 @@ const InvoiceEdit = () => {
     const { contractors, fetchContractors } = useContractorStore();
     const { dishes, fetchDishes } = useDishStore();
     const { units, fetchUnits } = useMeasurementUnitStore();
+    const { t } = useTranslationStore();
 
     const [formData, setFormData] = useState<InvoiceFormData>({
         date: '',
@@ -121,8 +123,8 @@ const InvoiceEdit = () => {
 
     return (
         <InvoiceForm
-            title={`Изменение оприходования на склад (${invoiceId})`}
-            submitButtonText="Сохранить изменения"
+            title={`${t("incomingInvoice.editInvoice")} (${invoiceId})`}
+            submitButtonText={t("common.save")}
             formData={formData}
             setFormData={setFormData}
             handleChange={handleChange}

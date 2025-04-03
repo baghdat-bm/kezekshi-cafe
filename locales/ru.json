@@ -13,6 +13,10 @@
     "date": "Дата",
     "status": "Статус",
     "delete": "Удалить",
+    "cancel": "Отмена",
+    "select": "Выберите",
+    "save": "Сохранить изменения",
+    "create": "Создать",
     "name": "Название",
     "nameKz": "Название (каз)",
     "nameRu": "Название (рус)",
@@ -21,15 +25,27 @@
     "placeholderRu": "На русском",
     "placeholderEn": "На английском",
     "noName": "Без названия",
+    "nameSurname": "ФИО",
     "image": "Изображение",
     "barcode": "Штрихкод",
     "units": "Единица измерения",
     "fieldMustBeFilledIn": "Это поле обязательно для заполнения",
     "color": "Цвет",
-    "cancel": "Отмена",
-    "select": "Выберите",
-    "save": "Сохранить изменения",
-    "create": "Создать"
+    "phone": "Телефон",
+    "photo": "Фото",
+    "accepted": "Принята",
+    "sum": "Сумма",
+    "quantity": "Количество",
+    "costPrice": "Себестоимость",
+    "salePrice": "Цена продажи",
+    "paidAmount": "Оплаченная сумма",
+    "supplier": "Поставщик",
+    "warehouse": "Склад",
+    "dishes": "Блюда",
+    "dish": "Блюдо",
+    "addDish": "Добавить блюдо",
+    "comments": "Комментарий",
+    "actions": "Действия"
   },
   "dates": {
     "sunday": "Воскресенье",
@@ -62,11 +78,38 @@
     "bank": "Банк",
     "bik": "БИК",
     "corrAccount": "Кор.счет",
-    "checkAccount": "Расчетный счет"
+    "checkAccount": "Расчетный счет",
+    "balance": "Баланс",
+    "studentsList": "Список учащихся",
+    "createNewUnit": "Создать новую единицу измерения",
+    "unitsList": "Список единиц измерения",
+    "editUnt": "Редактирование единицы измерения",
+    "confirmDeleteUnit": "Вы уверены, что хотите удалить эту единицу измерения?"
   },
   "selling": {
     "createNewSell": "Создать новую продажу блюд",
     "confirmDeleteSell": "Вы действительно хотите удалить эту продажу?",
     "sellList": "Список продаж блюд"
+  },
+  "incomingInvoice": {
+    "confirmDeleteInvoice": "Вы действительно хотите удалить накладную?",
+    "createNewInvoice": "Создать новое оприходование на склад",
+    "invoicesList": "Список оприходований на склады",
+    "shippingCost": "Стоимость доставки",
+    "editInvoice": "Изменение оприходования на склад"
+  },
+  "movement": {
+    "confirmDeleteMovement": "Вы действительно хотите удалить это перемещение?",
+    "createNewMovement": "Создать новое перемещение на склад",
+    "editMovement": "Редактировать перемещение блюд",
+    "movementsList": "Список перемещений на склады",
+    "warehouseSender": "Склад отправитель",
+    "warehouseRecipient": "Склад получатель"
+  },
+  "writeOff": {
+    "confirmDeleteWriteOff": "Вы действительно хотите удалить это списание?",
+    "createNewWriteOff": "Создать новое списание со склада",
+    "editWriteOff": "",
+    "writeOffsList": "Список списаний со складов"
   }
 }

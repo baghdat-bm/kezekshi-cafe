@@ -13,9 +13,11 @@ import {
 
 import { useStudentStore } from '@/lib/store/students';
 import Image from "next/image";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const StudentList = () => {
     const { students, fetchStudents } = useStudentStore();
+    const { t } = useTranslationStore();
 
     useEffect(() => {
         fetchStudents();
@@ -27,15 +29,15 @@ const StudentList = () => {
         <div>
             <Table>
                 <TableCaption className="kez-table-caption">
-                    Список учащихся
+                    {t("refs.studentsList")}
                 </TableCaption>
                 <TableHeader>
                     <TableRow className="kez-table-header-row">
                         <TableHead>ID</TableHead>
-                        <TableHead>ФИО</TableHead>
-                        <TableHead>Баланс</TableHead>
-                        <TableHead>Телефон</TableHead>
-                        <TableHead>Фото</TableHead>
+                        <TableHead>{t("common.nameSurname")}</TableHead>
+                        <TableHead>{t("refs.balance")}</TableHead>
+                        <TableHead>{t("common.phone")}</TableHead>
+                        <TableHead>{t("common.photo")}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

@@ -6,10 +6,12 @@ import Link from 'next/link';
 import { useIncomingInvoiceStore } from '@/lib/store/incoming-invoices';
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {formatDate} from "@/lib/utils";
-import {CircleX} from "lucide-react";
+import {CheckCheck, CircleOff, CircleX} from "lucide-react";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const InvoiceList = () => {
     const { incomingInvoices, fetchIncomingInvoices, deleteIncomingInvoice } = useIncomingInvoiceStore();
+    const { language, t } = useTranslationStore();
 
     useEffect(() => {
         fetchIncomingInvoices();
@@ -17,7 +19,7 @@ const InvoiceList = () => {
     }, []);
 
     const handleDelete = async (id: number) => {
-        if (window.confirm("Вы действительно хотите удалить накладную?")) {
+        if (window.confirm(t("incomingInvoice.confirmDeleteInvoice"))) {
             await deleteIncomingInvoice(id);
         }
     };
@@ -25,19 +27,19 @@ const InvoiceList = () => {
     return (
         <div>
             <Link href="/operations/incoming-invoices/new" className="kez-create-item-btn">
-                Создать новое оприходование на склад
+                {t("incomingInvoice.createNewInvoice")}
             </Link>
 
             <Table>
                 <TableCaption className="kez-table-caption">
-                    Список оприходований на склады
+                    {t("incomingInvoice.invoicesList")}
                 </TableCaption>
                 <TableHeader>
                     <TableRow className="kez-table-header-row">
                         <TableHead>ID</TableHead>
-                        <TableHead>Дата</TableHead>
-                        <TableHead>Статус</TableHead>
-                        <TableHead>Удалить</TableHead>
+                        <TableHead>{t("common.date")}</TableHead>
+                        <TableHead>{t("common.status")}</TableHead>
+                        <TableHead>{t("common.delete")}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -53,7 +55,10 @@ const InvoiceList = () => {
                                     <span>{formatDate(item.date)}</span>
                                 </Link>
                             </TableCell>
-                            <TableCell>{item.accepted ? "Принята" : "Не принята"}</TableCell>
+                            <TableCell>{item.accepted ?
+                                <CheckCheck size={18} className="text-green-500"/>:
+                                <CircleOff size={18} className="text-gray-500"/>}
+                            </TableCell>
                             <TableCell className="text-center">
                                 <button onClick={() => handleDelete(item.id)}>
                                     <CircleX size={18} className="text-red-500"/>

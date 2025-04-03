@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { useMovementDishesStore } from '@/lib/store/movement-dishes';
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 
-import {CircleX} from "lucide-react";
+import {CheckCheck, CircleOff, CircleX} from "lucide-react";
 import {formatDate} from "@/lib/utils";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const MovementDishesList = () => {
     const { movementsDishes, fetchMovementsDishes, deleteMovementDishes } = useMovementDishesStore();
+    const { t } = useTranslationStore();
 
     useEffect(() => {
         fetchMovementsDishes();
@@ -17,28 +19,27 @@ const MovementDishesList = () => {
     }, []);
 
     const handleDelete = async (id: number) => {
-        if (window.confirm("Вы действительно хотите удалить это перемещение?")) {
+        if (window.confirm(t("movement.confirmDeleteMovement"))) {
             await deleteMovementDishes(id);
         }
     };
 
-
     return (
         <div>
             <Link href="/operations/movement-dishes/new" className="kez-create-item-btn">
-                Создать новое перемещение на склад
+                {t('movement.createNewMovement')}
             </Link>
 
             <Table>
                 <TableCaption className="kez-table-caption">
-                    Список перемещений на склады
+                    {t('movement.movementsList')}
                 </TableCaption>
                 <TableHeader>
                     <TableRow className="kez-table-header-row">
                         <TableHead>ID</TableHead>
-                        <TableHead>Дата</TableHead>
-                        <TableHead>Статус</TableHead>
-                        <TableHead>Удалить</TableHead>
+                        <TableHead>{t('common.date')}</TableHead>
+                        <TableHead>{t('common.status')}</TableHead>
+                        <TableHead>{t('common.delete')}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -54,7 +55,10 @@ const MovementDishesList = () => {
                                     <span>{formatDate(item.date)}</span>
                                 </Link>
                             </TableCell>
-                            <TableCell>{item.accepted ? "Принята" : "Не принята"}</TableCell>
+                            <TableCell>{item.accepted ?
+                                <CheckCheck size={18} className="text-green-500"/>:
+                                <CircleOff size={18} className="text-gray-500"/>}
+                            </TableCell>
                             <TableCell className="text-center">
                                 <button onClick={() => handleDelete(item.id)}>
                                     <CircleX size={18} className="text-red-500"/>

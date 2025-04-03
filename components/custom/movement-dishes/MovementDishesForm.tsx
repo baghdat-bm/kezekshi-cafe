@@ -17,6 +17,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@
 import { CircleX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import {Dish} from "@/lib/store/dishes";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 export type MovementDishesFormData = {
     date: string;
@@ -60,6 +61,7 @@ const MovementDishesForm: React.FC<MovementDishesFormProps> = ({
                                                                    handleSubmit,
                                                                }) => {
     const router = useRouter();
+    const { language, t } = useTranslationStore();
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -69,7 +71,7 @@ const MovementDishesForm: React.FC<MovementDishesFormProps> = ({
             </div>
             <div className="grid gap-4 md:grid-cols-3">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Дата</label>
+                    <label className="block text-sm font-medium text-gray-700">{t("common.date")}</label>
                     <Input
                         type="datetime-local"
                         name="date"
@@ -80,7 +82,7 @@ const MovementDishesForm: React.FC<MovementDishesFormProps> = ({
                     />
                 </div>
                 <div className="flex flex-col">
-                    <label className="mb-1">Принята:</label>
+                    <label className="mb-1">{t("common.accepted")}:</label>
                     <Checkbox
                         name="accepted"
                         checked={formData.accepted}
@@ -95,7 +97,7 @@ const MovementDishesForm: React.FC<MovementDishesFormProps> = ({
             {/* Блок 2: Склад отправитель, Склад получатель */}
             <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Склад отправитель</label>
+                    <label className="block text-sm font-medium text-gray-700">{t("movement.warehouseSender")}</label>
                     <Select
                         value={formData.warehouse_from}
                         onValueChange={(value) => handleSelectChange('warehouse_from', value)}
@@ -114,7 +116,7 @@ const MovementDishesForm: React.FC<MovementDishesFormProps> = ({
                     </Select>
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Склад получатель</label>
+                    <label className="block text-sm font-medium text-gray-700">{t("movement.warehouseRecipient")}</label>
                     <Select
                         value={formData.warehouse_to}
                         onValueChange={(value) => handleSelectChange('warehouse_to', value)}
@@ -135,14 +137,14 @@ const MovementDishesForm: React.FC<MovementDishesFormProps> = ({
             </div>
 
             {/* Блок 3: Таблица для movement_dish_items */}
-            <h2 className="kez-info-text">Блюда</h2>
+            <h2 className="kez-info-text">{t("common.dishes")}</h2>
             <div className="mb-4 border p-4">
                 <Table className="w-full">
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Блюдо</TableHead>
-                            <TableHead>Количество</TableHead>
-                            <TableHead>Действия</TableHead>
+                            <TableHead>{t("common.dish")}</TableHead>
+                            <TableHead>{t("common.quantity")}</TableHead>
+                            <TableHead>{t("common.actions")}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -160,7 +162,7 @@ const MovementDishesForm: React.FC<MovementDishesFormProps> = ({
                                         <SelectContent className="kez-select-content">
                                             {dishes.map((dish) => (
                                                 <SelectItem key={dish.id} value={String(dish.id)} className="kez-select-item">
-                                                    {dish.name_ru || dish.name_en || dish.name}
+                                                    {dish[`name_${language}`]}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
@@ -184,13 +186,13 @@ const MovementDishesForm: React.FC<MovementDishesFormProps> = ({
                     </TableBody>
                 </Table>
                 <Button className="kez-simple-btn mt-2" type="button" onClick={handleAddItem}>
-                    Добавить блюдо
+                    {t("common.addDish")}
                 </Button>
             </div>
 
             {/* Блок 4: Комментарий */}
             <div>
-                <label className="block text-sm font-medium text-gray-700">Комментарий</label>
+                <label className="block text-sm font-medium text-gray-700">{t("common.comments")}</label>
                 <Textarea
                     name="commentary"
                     value={formData.commentary}
@@ -203,7 +205,7 @@ const MovementDishesForm: React.FC<MovementDishesFormProps> = ({
             <div className="pt-1">
                 <Button type="submit" className="kez-submit-btn">{submitButtonText}</Button>
                 <Button className="kez-simple-btn mx-2" type="button" onClick={() => router.push('/operations/movement-dishes')}>
-                    Отмена
+                    {t("common.cancel")}
                 </Button>
             </div>
         </form>

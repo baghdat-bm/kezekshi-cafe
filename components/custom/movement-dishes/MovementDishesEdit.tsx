@@ -5,6 +5,7 @@ import { useMovementDishesStore } from '@/lib/store/movement-dishes';
 import { useWarehouseStore } from '@/lib/store/warehouses';
 import { useDishStore } from '@/lib/store/dishes';
 import MovementDishesForm, { MovementDishesFormData } from './MovementDishesForm';
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const MovementDishesEdit = () => {
     const router = useRouter();
@@ -13,6 +14,7 @@ const MovementDishesEdit = () => {
     const { selectedMovementDishes, fetchMovementDishes, updateMovementDishes } = useMovementDishesStore();
     const { warehouses, fetchWarehouses } = useWarehouseStore();
     const { dishes, fetchDishes } = useDishStore();
+    const { t } = useTranslationStore();
 
     const [formData, setFormData] = useState<MovementDishesFormData>({
         date: '',
@@ -103,8 +105,8 @@ const MovementDishesEdit = () => {
     return (
         <div>
             <MovementDishesForm
-                title={`Редактировать перемещение блюд (${documentId})`}
-                submitButtonText="Сохранить изменения"
+                title={`${t("movement.editMovement")} (${documentId})`}
+                submitButtonText={t("common.save")}
                 formData={formData}
                 setFormData={setFormData}
                 warehouses={warehouses}

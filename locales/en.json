@@ -13,6 +13,10 @@
     "date": "Date",
     "status": "Status",
     "delete": "Remove",
+    "cancel": "Cancel",
+    "select": "Select",
+    "save": "Save changes",
+    "create": "Create",
     "name": "Name",
     "nameKz": "Name (kaz)",
     "nameRu": "Name (rus)",
@@ -21,15 +25,27 @@
     "placeholderRu": "In Russian",
     "placeholderEn": "In English",
     "noName": "Untitled",
+    "nameSurname": "FCs",
     "image": "Image",
     "barcode": "Barcode",
     "units": "Unit of measurement",
     "fieldMustBeFilledIn": "This field must be filled in",
     "color": "Color",
-    "cancel": "Cancel",
-    "select": "Select",
-    "save": "Save changes",
-    "create": "Create"
+    "phone": "Phone",
+    "photo": "Photo",
+    "accepted": "Accepted",
+    "sum": "Amount",
+    "quantity": "Quantity",
+    "costPrice": "Cost price",
+    "salePrice": "Sale price",
+    "paidAmount": "The amount paid",
+    "supplier": "The supplier",
+    "warehouse": "Warehouse",
+    "dishes": "Dishes",
+    "dish": "Dish",
+    "addDish": "Add dish",
+    "comments": "Comment",
+    "actions": "Actions"
   },
   "dates": {
     "sunday": "Sunday",
@@ -62,11 +78,38 @@
     "bank": "Bank",
     "bik": "BIK",
     "corrAccount": "Corr.account",
-    "checkAccount": "Payment account"
+    "checkAccount": "Payment account",
+    "balance": "Balance",
+    "studentsList": "List of students",
+    "createNewUnit": "Create a new unit of measurement",
+    "unitsList": "List of units of measurement",
+    "editUnt": "Editing the unit of measurement",
+    "confirmDeleteUnit": "Are you sure you want to delete this unit of measurement?"
   },
   "selling": {
     "createNewSell": "Create new sell",
     "confirmDeleteSell": "Do you really want to delete this sale?",
     "sellList": "List of food sales"
+  },
+  "incomingInvoice": {
+    "confirmDeleteInvoice": "Do you really want to delete the invoice?",
+    "createNewInvoice": "Create a new invoice",
+    "invoicesList": "Incoming invoices list",
+    "shippingCost": "Shipping cost",
+    "editInvoice": "Edit an invoice"
+  },
+  "movement": {
+    "confirmDeleteMovement": "Do you really want to delete this move?",
+    "createNewMovement": "Create a new move to the warehouse",
+    "editMovement": "Edit the movement of dishes",
+    "movementsList": "List of shipments to warehouses",
+    "warehouseSender": "Sender Warehouse",
+    "warehouseRecipient": "Recipient Warehouse"
+  },
+  "writeOff": {
+    "confirmDeleteWriteOff": "Do you really want to delete this write off?",
+    "createNewWriteOff": "Create a new write off from the warehouse",
+    "editWriteOff": "",
+    "writeOffsList": "List of write offs from warehouses"
   }
 }

@@ -5,11 +5,13 @@ import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useWriteOffFromWarehouseStore } from '@/lib/store/write-off-from-warehouses';
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
-import {CircleX} from "lucide-react";
+import {CheckCheck, CircleOff, CircleX} from "lucide-react";
 import {formatDate} from "@/lib/utils";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const WriteOffFromWarehouseList = () => {
     const { writeOffFromWarehouses, fetchWriteOffFromWarehouses, deleteWriteOffFromWarehouse } = useWriteOffFromWarehouseStore();
+    const { t } = useTranslationStore();
 
     useEffect(() => {
         fetchWriteOffFromWarehouses();
@@ -17,7 +19,7 @@ const WriteOffFromWarehouseList = () => {
     }, []);
 
     const handleDelete = async (id: number) => {
-        if (window.confirm("Вы действительно хотите удалить это списание?")) {
+        if (window.confirm(t("writeOff.confirmDeleteWriteOff"))) {
             await deleteWriteOffFromWarehouse(id);
         }
     };
@@ -25,20 +27,20 @@ const WriteOffFromWarehouseList = () => {
     return (
         <div>
             <Link href="/operations/write-offs/new" className="kez-create-item-btn">
-                Создать новое списание со склада
+                {t("writeOff.createNewWriteOff")}
             </Link>
 
 
             <Table>
                 <TableCaption className="kez-table-caption">
-                    Список списаний со складов
+                    {t("writeOff.writeOffsList")}
                 </TableCaption>
                 <TableHeader>
                     <TableRow className="kez-table-header-row">
                         <TableHead>ID</TableHead>
-                        <TableHead>Дата</TableHead>
-                        <TableHead>Статус</TableHead>
-                        <TableHead>Удалить</TableHead>
+                        <TableHead>{t("common.date")}</TableHead>
+                        <TableHead>{t("common.status")}</TableHead>
+                        <TableHead>{t("common.delete")}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -54,7 +56,10 @@ const WriteOffFromWarehouseList = () => {
                                     <span>{formatDate(item.date)}</span>
                                 </Link>
                             </TableCell>
-                            <TableCell>{item.accepted ? "Принята" : "Не принята"}</TableCell>
+                            <TableCell>{item.accepted ?
+                                <CheckCheck size={18} className="text-green-500"/>:
+                                <CircleOff size={18} className="text-gray-500"/>}
+                            </TableCell>
                             <TableCell className="text-center">
                                 <button onClick={() => handleDelete(item.id)}>
                                     <CircleX size={18} className="text-red-500"/>

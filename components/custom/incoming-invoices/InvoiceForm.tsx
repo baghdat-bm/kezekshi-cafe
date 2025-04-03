@@ -13,6 +13,7 @@ import {Contractor} from "@/lib/store/contractors";
 import {Warehouse} from "@/lib/store/warehouses";
 import {Dish} from "@/lib/store/dishes";
 import {MeasurementUnit} from "@/lib/store/measurement-units";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 export type InvoiceDishItem = {
     dish: string;
@@ -69,6 +70,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                                                      units,
                                                  }) => {
     const router = useRouter();
+    const { language, t } = useTranslationStore();
 
     return (
         <div>
@@ -78,7 +80,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                 <div className="mb-4">
                     <div className="grid grid-cols-3 gap-4">
                         <div>
-                            <label>Дата:</label>
+                            <label>{t("common.date")}:</label>
                             <Input
                                 type="datetime-local"
                                 name="date"
@@ -89,7 +91,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                             />
                         </div>
                         <div className="flex flex-col">
-                            <label className="mb-1">Принята:</label>
+                            <label className="mb-1">{t("common.accepted")}:</label>
                             <Checkbox
                                 name="accepted"
                                 checked={formData.accepted}
@@ -102,7 +104,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                     </div>
                     <div className="grid grid-cols-3 gap-4 mt-4">
                         <div>
-                            <label>Сумма:</label>
+                            <label>{t("common.sum")}:</label>
                             <Input
                                 type="number"
                                 step="0.01"
@@ -114,7 +116,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                             />
                         </div>
                         <div>
-                            <label>Стоимость доставки:</label>
+                            <label>{t("incomingInvoice.shippingCost")}:</label>
                             <Input
                                 type="number"
                                 step="0.01"
@@ -126,7 +128,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                             />
                         </div>
                         <div>
-                            <label>Оплаченная сумма:</label>
+                            <label>{t("incomingInvoice.shippingCost")}:</label>
                             <Input
                                 type="number"
                                 step="0.01"
@@ -143,7 +145,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                 {/* Блок 2: Две колонки для поставщика и склада */}
                 <div className="mb-4 grid grid-cols-2 gap-4">
                     <div>
-                        <label>Поставщик:</label>
+                        <label>{t("common.supplier")}:</label>
                         <Select
                             value={formData.supplier}
                             onValueChange={(value) => handleSelectChange('supplier', value)}
@@ -162,7 +164,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                         </Select>
                     </div>
                     <div>
-                        <label>Склад:</label>
+                        <label>{t("common.warehouse")}:</label>
                         <Select
                             value={formData.warehouse}
                             onValueChange={(value) => handleSelectChange('warehouse', value)}
@@ -183,18 +185,18 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                 </div>
 
                 {/* Блок 3: Область с таблицей блюд (визуально выделена) */}
-                <h2 className="kez-info-text">Блюда</h2>
+                <h2 className="kez-info-text">{t("common.dishes")}</h2>
                 <div className="mb-4 border p-4">
 
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Блюдо</TableHead>
-                                <TableHead>Количество</TableHead>
-                                <TableHead>Ед. измерения</TableHead>
-                                <TableHead>Себестоимость</TableHead>
-                                <TableHead>Цена продажи</TableHead>
-                                <TableHead>Удалить</TableHead>
+                                <TableHead>{t("common.dish")}</TableHead>
+                                <TableHead>{t("common.quantity")}</TableHead>
+                                <TableHead>{t("common.units")}</TableHead>
+                                <TableHead>{t("common.costPrice")}</TableHead>
+                                <TableHead>{t("common.salePrice")}</TableHead>
+                                <TableHead>{t("common.delete")}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -212,7 +214,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                                             <SelectContent className="kez-select-content">
                                                 {dishes.map(dish => (
                                                     <SelectItem key={dish.id} value={String(dish.id)} className="kez-select-item">
-                                                        {dish.name_ru || dish.name_en || dish.name}
+                                                        {dish[`name_${language}`]}
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>
@@ -240,7 +242,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                                             <SelectContent className="kez-select-content">
                                                 {units.map(unit => (
                                                     <SelectItem key={unit.id} value={String(unit.id)} className="kez-select-item">
-                                                        {unit.name_ru || unit.name_en || unit.name}
+                                                        {unit[`name_${language}`]}
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>
@@ -274,13 +276,13 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                         </TableBody>
                     </Table>
                     <Button className="kez-simple-btn mt-2" type="button" onClick={handleAddItem}>
-                        Добавить блюдо
+                        {t("common.addDish")}
                     </Button>
                 </div>
 
                 {/* Блок 4: Поле комментария */}
                 <div className="mb-4">
-                    <label>Комментарий:</label>
+                    <label>{t("common.comments")}:</label>
                     <Textarea
                         name="commentary"
                         value={formData.commentary}
@@ -295,7 +297,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                         {submitButtonText}
                     </Button>
                     <Button className="kez-simple-btn mx-2" type="button" onClick={() => router.push('/operations/incoming-invoices')}>
-                        Отмена
+                        {t("common.cancel")}
                     </Button>
                 </div>
             </form>

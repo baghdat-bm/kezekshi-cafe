@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
 import UnitForm, { UnitFormValues } from './UnitForm';
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const UnitEdit = () => {
     const router = useRouter();
@@ -11,6 +12,7 @@ const UnitEdit = () => {
     const unitId = Number(params.id);
 
     const { selectedUnit, fetchUnit, updateUnit } = useMeasurementUnitStore();
+    const { t } = useTranslationStore();
 
     useEffect(() => {
         if (unitId) {
@@ -28,7 +30,7 @@ const UnitEdit = () => {
     };
 
     if (!selectedUnit) {
-        return <div>Загрузка...</div>;
+        return <div>{t("home.loading")}</div>;
     }
 
     const initialValues: UnitFormValues = {
@@ -40,12 +42,12 @@ const UnitEdit = () => {
 
     return (
         <div>
-            <h1>Редактирование единицы измерения</h1>
+            <h1>{t("refs.editUnt")} ({selectedUnit.id})</h1>
             <UnitForm
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
                 onCancel={handleCancel}
-                submitText="Сохранить изменения"
+                submitText={t("common.save")}
             />
         </div>
     );

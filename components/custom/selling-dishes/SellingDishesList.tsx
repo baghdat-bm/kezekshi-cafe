@@ -56,7 +56,8 @@ const SellingDishesList = () => {
                             </TableCell>
                             <TableCell>{item.accepted ?
                                 <CheckCheck size={18} className="text-green-500"/>:
-                                <CircleOff size={18} className="text-gray-500"/>}</TableCell>
+                                <CircleOff size={18} className="text-gray-500"/>}
+                            </TableCell>
                             <TableCell className="text-center">
                                 <button onClick={() => handleDelete(item.id)}>
                                     <CircleX size={18} className="text-red-500"/>

@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {CircleX} from "lucide-react";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 interface UnitDeleteButtonProps {
     id: number;
@@ -9,8 +10,9 @@ interface UnitDeleteButtonProps {
 }
 
 const UnitDeleteButton: React.FC<UnitDeleteButtonProps> = ({ id, onDelete }) => {
+    const { t } = useTranslationStore();
     const handleDelete = async () => {
-        if (confirm('Вы уверены, что хотите удалить эту единицу измерения?')) {
+        if (confirm(t("refs.confirmDeleteUnit"))) {
             await onDelete(id);
         }
     };
