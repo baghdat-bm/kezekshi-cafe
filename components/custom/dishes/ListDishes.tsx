@@ -6,11 +6,13 @@ import { useDishStore } from '@/lib/store/dishes';
 import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
 import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {CircleX} from "lucide-react";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 
 const ListDishes = () => {
     const { dishes, fetchDishes, deleteDish } = useDishStore();
     const { units, fetchUnits } = useMeasurementUnitStore();
+    const { language, t } = useTranslationStore();
 
     useEffect(() => {
         fetchDishes();
@@ -18,7 +20,7 @@ const ListDishes = () => {
     }, [fetchDishes, fetchUnits]);
 
     const handleDelete = async (id: number) => {
-        const isConfirmed = window.confirm("Вы уверены, что хотите удалить это блюдо?");
+        const isConfirmed = window.confirm(t("refs.confirmDeleteDish"));
         if (!isConfirmed) return;
         try {
             await deleteDish(id);
@@ -31,25 +33,25 @@ const ListDishes = () => {
     const getUnitName = (unitId: number | null | undefined) => {
         if (!unitId) return '-';
         const unit = units.find((u) => u.id === unitId);
-        return unit ? unit.name_ru || unit.name : '-';
+        return unit ? unit[`name_${language}`] || unit.name : '-';
     };
 
     return (
         <div>
             <Link href="/admin/dishes/new" className="kez-create-item-btn">
-                Создать новое блюдо
+                {t("refs.createNewDish")}
             </Link>
 
             <Table>
                 <TableCaption className="kez-table-caption">
-                    Список блюд
+                    {t("refs.dishesList")}
                 </TableCaption>
                 <TableHeader>
                     <TableRow className="kez-table-header-row">
                         <TableHead>ID</TableHead>
-                        <TableHead>Название</TableHead>
-                        <TableHead>Единица измерения</TableHead>
-                        <TableHead>Удалить</TableHead>
+                        <TableHead>{t("common.name")}</TableHead>
+                        <TableHead>{t("common.units")}</TableHead>
+                        <TableHead>{t("common.delete")}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -62,7 +64,7 @@ const ListDishes = () => {
                             </TableCell>
                             <TableCell>
                                 <Link href={`/admin/dishes/${item.id}`}>
-                                    {item.name || 'Без названия'}
+                                    {item[`name_${language}`] || t("common.noName")}
                                 </Link>
                             </TableCell>
                             <TableCell>

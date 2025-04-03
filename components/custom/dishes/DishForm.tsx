@@ -9,6 +9,7 @@ import { useDishCategoryStore } from '@/lib/store/dish-categories';
 // Для выбора единицы измерения
 import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
 import Image from "next/image";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 export interface DishFormValues {
     id?: number;
@@ -36,6 +37,7 @@ const DishForm: React.FC<DishFormProps> = ({
                                            }) => {
     const { categories, fetchCategories } = useDishCategoryStore();
     const { units, fetchUnits } = useMeasurementUnitStore();
+    const { language, t } = useTranslationStore();
 
     useEffect(() => {
         fetchCategories();
@@ -96,11 +98,11 @@ const DishForm: React.FC<DishFormProps> = ({
         const newErrors: Errors = { name_kz: '', name_ru: '' };
 
         if (!form.name_kz.trim()) {
-            newErrors.name_kz = 'Это поле обязательно для заполнения';
+            newErrors.name_kz = t("common.fieldMustBeFilledIn");
             valid = false;
         }
         if (!form.name_ru.trim()) {
-            newErrors.name_ru = 'Это поле обязательно для заполнения';
+            newErrors.name_ru = t("common.fieldMustBeFilledIn");
             valid = false;
         }
         setErrors(newErrors);
@@ -139,7 +141,7 @@ const DishForm: React.FC<DishFormProps> = ({
             {/* Блок 1: Поля для названий */}
             <div className="flex flex-row gap-6">
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Название (каз):</label>
+                    <label className="text-sm font-medium text-gray-700">{t("common.nameKz")}:</label>
                     <Input
                         type="text"
                         name="name_kz"
@@ -152,7 +154,7 @@ const DishForm: React.FC<DishFormProps> = ({
                     {errors.name_kz && <p className="text-red-500 text-xs mt-1">{errors.name_kz}</p>}
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Название (рус):</label>
+                    <label className="text-sm font-medium text-gray-700">{t("common.nameRu")}:</label>
                     <Input
                         type="text"
                         name="name_ru"
@@ -165,7 +167,7 @@ const DishForm: React.FC<DishFormProps> = ({
                     {errors.name_ru && <p className="text-red-500 text-xs mt-1">{errors.name_ru}</p>}
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Название (англ):</label>
+                    <label className="text-sm font-medium text-gray-700">{t("common.nameEn")}:</label>
                     <Input
                         type="text"
                         name="name_en"
@@ -180,27 +182,27 @@ const DishForm: React.FC<DishFormProps> = ({
             {/* Блок 2: Поля для категории, логотипа и цвета */}
             <div className="flex flex-row gap-6">
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Категория:</label>
+                    <label className="text-sm font-medium text-gray-700">{t("refs.category")}:</label>
                     <Select
                         value={form.category}
                         onValueChange={(value) => setForm({ ...form, category: value })}
                     >
                         <SelectTrigger className="kez-input">
                             {form.category
-                                ? categories.find((cat) => String(cat.id) === form.category)?.name
-                                : 'Выберите категорию'}
+                                ? categories.find((cat) => String(cat.id) === form.category)?.[`name_${language}`]
+                                : t("refs.selectCategory")}
                         </SelectTrigger>
                         <SelectContent className="kez-select-content">
                             {categories.map((cat) => (
                                 <SelectItem key={cat.id} value={String(cat.id)} className="kez-select-item">
-                                    {cat.name}
+                                    {cat[`name_${language}`]}
                                 </SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Рисунок:</label>
+                    <label className="text-sm font-medium text-gray-700">{t("common.image")}:</label>
                     <Input
                         type="file"
                         name="logo"
@@ -213,6 +215,7 @@ const DishForm: React.FC<DishFormProps> = ({
                             src={URL.createObjectURL(form.logo)}
                             alt="Превью логотипа"
                             className="mt-2 w-24 h-24 object-cover"
+                            width={500} height={500}
                             unoptimized={true}
                         />
                     )}
@@ -221,6 +224,7 @@ const DishForm: React.FC<DishFormProps> = ({
                             src={form.logo}
                             alt="Логотип блюда"
                             className="mt-2 w-24 h-24 object-cover"
+                            width={500} height={500}
                             unoptimized={true}
                         />
                     )}
@@ -230,7 +234,7 @@ const DishForm: React.FC<DishFormProps> = ({
             {/* Блок 3: Поля для штрихкода и единицы измерения */}
             <div className="flex flex-row gap-6">
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Штрихкод:</label>
+                    <label className="text-sm font-medium text-gray-700">{t("common.barcode")}:</label>
                     <Input
                         type="text"
                         name="barcode"
@@ -241,20 +245,20 @@ const DishForm: React.FC<DishFormProps> = ({
                     />
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Единица измерения:</label>
+                    <label className="text-sm font-medium text-gray-700">{t("common.units")}:</label>
                     <Select
                         value={form.measurement_unit}
                         onValueChange={(value) => setForm({ ...form, measurement_unit: value })}
                     >
                         <SelectTrigger className="kez-input">
                             {form.measurement_unit
-                                ? units.find((u) => String(u.id) === form.measurement_unit)?.name
-                                : 'Выберите единицу'}
+                                ? units.find((u) => String(u.id) === form.measurement_unit)?.[`name_${language}`]
+                                : t("refs.selectUnit")}
                         </SelectTrigger>
                         <SelectContent className="kez-select-content">
                             {units.map((unit) => (
                                 <SelectItem key={unit.id} value={String(unit.id)} className="kez-select-item">
-                                    {unit.name}
+                                    {unit[`name_${language}`]}
                                 </SelectItem>
                             ))}
                         </SelectContent>
@@ -272,7 +276,7 @@ const DishForm: React.FC<DishFormProps> = ({
                     onClick={onCancel}
                     className="kez-simple-btn mx-2"
                 >
-                    Отмена
+                    {t("common.cancel")}
                 </Button>
             </div>
         </form>

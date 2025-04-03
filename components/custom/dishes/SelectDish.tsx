@@ -5,6 +5,7 @@ import {useState, useEffect} from "react";
 import {useDishCategoryStore} from "@/lib/store/dish-categories";
 import {useDishStore, Dish} from "@/lib/store/dishes";
 import clsx from "clsx";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 
 interface SelectDishProps {
@@ -15,6 +16,7 @@ export default function SelectDish({onSelectDish}: SelectDishProps) {
     const {categories, fetchCategories} = useDishCategoryStore();
     const {dishesExt, fetchDishesExt} = useDishStore();
     const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+    const { language, t } = useTranslationStore();
 
     useEffect(() => {
         fetchCategories();
@@ -25,7 +27,7 @@ export default function SelectDish({onSelectDish}: SelectDishProps) {
     // Подсчет количества блюд в каждой категории
     const categoryDishCount = categories.map((category) => ({
         id: category.id,
-        name: category.name,
+        name: category[`name_${language}`],
         color: category.color,
         count: dishesExt.filter((dish) => dish.category === category.id).length,
     }));
@@ -52,7 +54,7 @@ export default function SelectDish({onSelectDish}: SelectDishProps) {
                             selectedCategory === null && "bg-gray-200"
                         )}
                     >
-                        <span>Все категории</span>
+                        <span>{t("refs.allCategories")}</span>
                         <span className="text-gray-600 text-sm bg-gray-200 px-2 py-1 rounded-full">
               {totalDishes}
             </span>
@@ -111,13 +113,13 @@ export default function SelectDish({onSelectDish}: SelectDishProps) {
 
                                 {/* Текст под изображением */}
                                 <div className="text-center">
-                                    <p>{dish.name_ru}</p>
-                                    <p className="font-semibold">{dish.price} тг.</p>
+                                    <p>{dish[`name_${language}`]}</p>
+                                    <p className="font-semibold">{dish.price} ₸</p>
                                 </div>
                             </div>
                         ))
                     ) : (
-                        <p className="text-gray-500">Нет блюд в этой категории</p>
+                        <p className="text-gray-500">{t("refs.noDishInThisCategory")}</p>
                     )}
                 </div>
             </div>

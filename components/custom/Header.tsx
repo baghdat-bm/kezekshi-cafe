@@ -59,7 +59,6 @@ const Header = () => {
             </button>
 
             <div className="flex items-center space-x-4">
-                <span>Столовая - справа</span>
                 <span>{t(`dates.${dayOfWeek}`)}</span>
                 <span>{dateString}</span>
                 <span>{timeString}</span>

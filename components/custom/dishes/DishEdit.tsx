@@ -4,11 +4,13 @@ import React, { useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useDishStore } from '@/lib/store/dishes';
 import DishForm, { DishFormValues } from './DishForm';
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const DishEdit = () => {
     const router = useRouter();
     const params = useParams();
     const dishId = Number(params.id);
+    const { t } = useTranslationStore();
 
     const { selectedDish, fetchDish, updateDish } = useDishStore();
 
@@ -28,7 +30,7 @@ const DishEdit = () => {
     };
 
     if (!selectedDish) {
-        return <div>Загрузка...</div>;
+        return <div>{t("home.loading")}</div>;
     }
 
     const initialValues: DishFormValues = {
@@ -44,12 +46,12 @@ const DishEdit = () => {
 
     return (
         <div>
-            <h1>Редактирование блюда</h1>
+            <h1>{t("refs.editDish")} ({selectedDish.id})</h1>
             <DishForm
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
                 onCancel={handleCancel}
-                submitText="Сохранить изменения"
+                submitText={t("common.save")}
             />
         </div>
     );
