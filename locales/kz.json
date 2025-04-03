@@ -25,7 +25,10 @@
     "units": "Өлшем бірлігі",
     "fieldMustBeFilledIn": "Бұл жолды толтыру қажет",
     "color": "Түсі",
-    "cancel": "Артқа"
+    "cancel": "Артқа",
+    "select": "Таңдаңыз",
+    "save": "Өзгерістерді сақтау",
+    "create": "Қосу"
   },
   "dates": {
     "sunday": "Жексенбі",
@@ -38,8 +41,18 @@
   },
   "refs": {
     "createNewCategory": "Тағамдардың жаңа санатын жасау",
+    "editCategory": "Тағам санатын өзгерту",
     "categoriesList": "Тағам санаттарының тізімі",
-    "newCategoryAdded": "Санат сәтті қосылды"
+    "newCategoryAdded": "Санат сәтті қосылды",
+    "addCategory": "Санат қосу",
+    "createNewContractor": "Жаңа жеткізушіні қосу",
+    "contractorsList": "Жеткізушілер тізімі",
+    "editContractor": "Жеткізушіні өңдеу",
+    "confirmDeleteContractor": "Сіз бұл жеткізушіні жойғыңыз келетініне сенімдісіз бе?",
+    "bank": "Банк",
+    "bik": "БИК",
+    "corrAccount": "Кор.шот",
+    "checkAccount": "Есеп айырысу шоты"
   },
   "selling": {
     "createNewSell": "Жаңа сатылым қосу",

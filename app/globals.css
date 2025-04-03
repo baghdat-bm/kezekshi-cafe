@@ -41,6 +41,14 @@
     --sidebar-border: transparent;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
+  input::placeholder {
+    @apply text-gray-400;
+  }
+
+  input:focus::placeholder {
+    @apply text-transparent; /* скрыть placeholder при фокусе */
+  }
 }
 
 @layer base {

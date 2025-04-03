@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {CircleX} from "lucide-react";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 interface ContractorDeleteButtonProps {
     id: number;
@@ -9,8 +10,10 @@ interface ContractorDeleteButtonProps {
 }
 
 const ContractorDeleteButton: React.FC<ContractorDeleteButtonProps> = ({ id, onDelete }) => {
+    const { t } = useTranslationStore();
+
     const handleDelete = async () => {
-        if (confirm('Вы уверены, что хотите удалить этого поставщика?')) {
+        if (confirm(t("refs.confirmDeleteContractor"))) {
             await onDelete(id);
         }
     };

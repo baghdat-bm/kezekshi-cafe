@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useContractorStore } from '@/lib/store/contractors';
 import ContractorForm, { ContractorFormValues } from './ContractorForm';
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const ContractorEdit = () => {
     const router = useRouter();
@@ -11,6 +12,7 @@ const ContractorEdit = () => {
     const contractorId = Number(params.id);
 
     const { selectedContractor, fetchContractor, updateContractor } = useContractorStore();
+    const { t } = useTranslationStore();
 
     useEffect(() => {
         if (contractorId) {
@@ -28,7 +30,7 @@ const ContractorEdit = () => {
     };
 
     if (!selectedContractor) {
-        return <div>Загрузка...</div>;
+        return <div>{t("home.loading")}</div>;
     }
 
     const initialValues: ContractorFormValues = {
@@ -42,12 +44,12 @@ const ContractorEdit = () => {
 
     return (
         <div>
-            <h1>Редактирование поставщика</h1>
+            <h1>{t("refs.editContractor")}</h1>
             <ContractorForm
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
                 onCancel={handleCancel}
-                submitText="Сохранить изменения"
+                submitText={t("common.save")}
             />
         </div>
     );

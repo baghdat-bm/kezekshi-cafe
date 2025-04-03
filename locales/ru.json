@@ -25,7 +25,10 @@
     "units": "Единица измерения",
     "fieldMustBeFilledIn": "Это поле обязательно для заполнения",
     "color": "Цвет",
-    "cancel": "Отмена"
+    "cancel": "Отмена",
+    "select": "Выберите",
+    "save": "Сохранить изменения",
+    "create": "Создать"
   },
   "dates": {
     "sunday": "Воскресенье",
@@ -38,8 +41,18 @@
   },
   "refs": {
     "createNewCategory": "Создать новую категорию блюд",
+    "editCategory": "Изменение категории блюда",
     "categoriesList": "Список категории блюд",
-    "newCategoryAdded": "Категория успешно добавлена"
+    "newCategoryAdded": "Категория успешно добавлена",
+    "addCategory": "Добавить категорию",
+    "createNewContractor": "Добавить нового поставщика",
+    "contractorsList": "Список поставщиков",
+    "editContractor": "Редактирование поставщика",
+    "confirmDeleteContractor": "Вы уверены, что хотите удалить этого поставщика?",
+    "bank": "Банк",
+    "bik": "БИК",
+    "corrAccount": "Кор.счет",
+    "checkAccount": "Расчетный счет"
   },
   "selling": {
     "createNewSell": "Создать новую продажу блюд",

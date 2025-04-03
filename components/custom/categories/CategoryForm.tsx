@@ -32,7 +32,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                                                        submitText = 'Сохранить',
                                                    }) => {
     const { units, fetchUnits } = useMeasurementUnitStore();
-    const { t } = useTranslationStore();
+    const { language, t } = useTranslationStore();
 
     useEffect(() => {
         fetchUnits();
@@ -188,6 +188,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                             src={URL.createObjectURL(form.logo)}
                             alt="Превью логотипа"
                             className="mt-2 w-24 h-24 object-cover"
+                            width={500} height={500}
                             unoptimized={true}
                         />
                     )}
@@ -196,6 +197,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                             src={form.logo}
                             alt="Логотип категории"
                             className="mt-2 w-24 h-24 object-cover"
+                            width={500} height={500}
                             unoptimized={true}
                         />
                     )}
@@ -218,13 +220,13 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
                     >
                         <SelectTrigger className="kez-input">
                             {form.measurement_unit
-                                ? units.find(u => String(u.id) === form.measurement_unit)?.name
-                                : 'Выберите'}
+                                ? units.find(u => String(u.id) === form.measurement_unit)?.[`name_${language}`]
+                                : t("common.select")}
                         </SelectTrigger>
                         <SelectContent className="kez-select-content">
                             {units.map((unit) => (
                                 <SelectItem key={unit.id} value={String(unit.id)} className="kez-select-item">
-                                    {unit.name}
+                                    {unit[`name_${language}`]}
                                 </SelectItem>
                             ))}
                         </SelectContent>
@@ -234,7 +236,9 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 
             <div className="flex gap-4">
                 <Button type="submit" className="kez-submit-btn">{submitText}</Button>
-                <Button variant="outline" type="button" onClick={onCancel} className="kez-simple-btn mx-2">{t("common.cancel")}</Button>
+                <Button variant="outline" type="button" onClick={onCancel} className="kez-simple-btn mx-2">
+                    {t("common.cancel")}
+                </Button>
             </div>
         </form>
     );

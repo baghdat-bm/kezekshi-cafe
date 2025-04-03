@@ -13,9 +13,11 @@ import {
 } from "@/components/ui/table"
 import { useContractorStore } from '@/lib/store/contractors';
 import ContractorDeleteButton from './ContractorDeleteButton';
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const ContractorList = () => {
     const { contractors, fetchContractors, deleteContractor } = useContractorStore();
+    const { t } = useTranslationStore();
 
     useEffect(() => {
         fetchContractors();
@@ -24,18 +26,18 @@ const ContractorList = () => {
     return (
         <div>
             <Link href="/admin/contractors/new" className="kez-create-item-btn">
-                Добавить нового поставщика
+                {t("refs.createNewContractor")}
             </Link>
 
             <Table>
                 <TableCaption className="kez-table-caption">
-                    Список поставщиков
+                    {t("refs.contractorsList")}
                 </TableCaption>
                 <TableHeader>
                     <TableRow className="kez-table-header-row">
                         <TableHead>ID</TableHead>
-                        <TableHead>Название</TableHead>
-                        <TableHead>Удалить</TableHead>
+                        <TableHead>{t("common.name")}</TableHead>
+                        <TableHead>{t("common.delete")}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -48,7 +50,7 @@ const ContractorList = () => {
                             </TableCell>
                             <TableCell>
                                 <Link href={`/admin/contractors/${item.id}`}>
-                                    {item.name || 'Без названия'}
+                                    {item.name || t("common.noName")}
                                 </Link>
                             </TableCell>
                             <TableCell className="text-center">

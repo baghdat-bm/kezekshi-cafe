@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 export interface ContractorFormValues {
     id?: number;
@@ -41,6 +42,8 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
 
     const [errors, setErrors] = useState<Errors>({ name: '' });
 
+    const { t } = useTranslationStore();
+
     useEffect(() => {
         if (initialValues) {
             setForm({
@@ -64,7 +67,7 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
         const newErrors: Errors = { name: '' };
 
         if (!form.name.trim()) {
-            newErrors.name = 'Это поле обязательно для заполнения';
+            newErrors.name = t("common.fieldMustBeFilledIn");
             valid = false;
         }
         setErrors(newErrors);
@@ -82,13 +85,13 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
             {/* Блок 1: Поле для названия */}
             <div className="flex flex-row gap-6">
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Название:</label>
+                    <label className="text-sm font-medium text-gray-700">{t("common.name")}:</label>
                     <Input
                         type="text"
                         name="name"
                         value={form.name}
                         onChange={handleChange}
-                        placeholder="Введите название"
+                        placeholder={t("common.name")}
                         className="kez-input"
                         required
                     />
@@ -99,24 +102,24 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
             {/* Блок 2: Поля для банка и БИК */}
             <div className="flex flex-row gap-6">
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Банк:</label>
+                    <label className="text-sm font-medium text-gray-700">{t("refs.bank")}:</label>
                     <Input
                         type="text"
                         name="bank"
                         value={form.bank}
                         onChange={handleChange}
-                        placeholder="Введите банк"
+                        placeholder={t("common.name")}
                         className="kez-input"
                     />
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">БИК:</label>
+                    <label className="text-sm font-medium text-gray-700">{t("refs.bik")}:</label>
                     <Input
                         type="text"
                         name="bik"
                         value={form.bik}
                         onChange={handleChange}
-                        placeholder="Введите БИК"
+                        placeholder="БИК"
                         className="kez-input"
                     />
                 </div>
@@ -125,24 +128,24 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
             {/* Блок 3: Поля для корр. счета и расчетного счета */}
             <div className="flex flex-row gap-6">
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Кор.счет:</label>
+                    <label className="text-sm font-medium text-gray-700">{t("refs.corrAccount")}:</label>
                     <Input
                         type="text"
                         name="corr_account"
                         value={form.corr_account}
                         onChange={handleChange}
-                        placeholder="Введите корр. счет"
+                        placeholder="корр. счет"
                         className="kez-input"
                     />
                 </div>
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium text-gray-700">Расчетный счет:</label>
+                    <label className="text-sm font-medium text-gray-700">{t("refs.checkAccount")}:</label>
                     <Input
                         type="text"
                         name="check_account"
                         value={form.check_account}
                         onChange={handleChange}
-                        placeholder="Введите расчетный счет"
+                        placeholder="расчетный счет"
                         className="kez-input"
                     />
                 </div>
@@ -151,7 +154,7 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
             <div className="flex gap-4">
                 <Button type="submit" className="kez-submit-btn">{submitText}</Button>
                 <Button variant="outline" type="button" onClick={onCancel} className="kez-simple-btn mx-2">
-                    Отмена
+                    {t("common.cancel")}
                 </Button>
             </div>
         </form>

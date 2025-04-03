@@ -31,7 +31,7 @@ const CategoryCreate = () => {
             <CategoryForm
                 onSubmit={handleSubmit}
                 onCancel={handleCancel}
-                submitText="Добавить категорию"
+                submitText={t("refs.addCategory")}
             />
         </div>
     );

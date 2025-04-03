@@ -4,11 +4,13 @@ import React, { useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useDishCategoryStore } from '@/lib/store/dish-categories';
 import CategoryForm, { CategoryFormValues } from './CategoryForm';
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const CategoryEdit = () => {
     const router = useRouter();
     const params = useParams();
     const categoryId = Number(params.id);
+    const { t } = useTranslationStore();
 
     const { selectedCategory, fetchCategory, updateCategory } = useDishCategoryStore();
 
@@ -32,7 +34,7 @@ const CategoryEdit = () => {
     };
 
     if (!selectedCategory) {
-        return <div>Загрузка...</div>;
+        return <div>{t("home.loading")}</div>;
     }
 
     const initialValues: CategoryFormValues = {
@@ -49,12 +51,12 @@ const CategoryEdit = () => {
 
     return (
         <div>
-            <h1>Редактирование категории блюда</h1>
+            <h1>{t("refs.editCategory")} ({selectedCategory.id})</h1>
             <CategoryForm
                 initialValues={initialValues}
                 onSubmit={handleSubmit}
                 onCancel={handleCancel}
-                submitText="Сохранить изменения"
+                submitText={t("common.save")}
             />
         </div>
     );

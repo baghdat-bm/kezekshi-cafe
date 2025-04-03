@@ -4,10 +4,12 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useContractorStore } from '@/lib/store/contractors';
 import ContractorForm, { ContractorFormValues } from './ContractorForm';
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const ContractorCreate = () => {
     const router = useRouter();
     const { addContractor } = useContractorStore();
+    const { t } = useTranslationStore();
 
     const handleSubmit = async (data: ContractorFormValues) => {
         await addContractor(data);
@@ -20,8 +22,8 @@ const ContractorCreate = () => {
 
     return (
         <div>
-            <h1>Создание поставщика</h1>
-            <ContractorForm onSubmit={handleSubmit} onCancel={handleCancel} submitText="Создать" />
+            <h1>{t("refs.createNewContractor")}</h1>
+            <ContractorForm onSubmit={handleSubmit} onCancel={handleCancel} submitText={t("common.create")} />
         </div>
     );
 };
