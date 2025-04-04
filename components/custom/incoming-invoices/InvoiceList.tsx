@@ -11,7 +11,7 @@ import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const InvoiceList = () => {
     const { incomingInvoices, fetchIncomingInvoices, deleteIncomingInvoice } = useIncomingInvoiceStore();
-    const { language, t } = useTranslationStore();
+    const { t } = useTranslationStore();
 
     useEffect(() => {
         fetchIncomingInvoices();
