@@ -7,6 +7,7 @@ import { useWarehouseStore } from '@/lib/store/warehouses';
 import { useStudentStore } from '@/lib/store/students';
 import { useDishStore } from '@/lib/store/dishes';
 import SellingForm from './SellingForm';
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const SellingDishesCreate = () => {
     const router = useRouter();
@@ -14,6 +15,7 @@ const SellingDishesCreate = () => {
     const { warehouses, fetchWarehouses } = useWarehouseStore();
     const { students, fetchStudents } = useStudentStore();
     const { dishes, fetchDishes } = useDishStore();
+    const { t } = useTranslationStore();
 
     const [formData, setFormData] = useState({
         date: '',
@@ -99,7 +101,7 @@ const SellingDishesCreate = () => {
     return (
         <div>
             <SellingForm
-                title="Создать продажу блюд"
+                title={t("selling.createNewSell")}
                 formData={formData}
                 setFormData={setFormData}
                 warehouses={warehouses}
@@ -111,7 +113,7 @@ const SellingDishesCreate = () => {
                 handleAddItem={handleAddItem}
                 handleRemoveItem={handleRemoveItem}
                 handleSubmit={handleSubmit}
-                submitButtonText="Создать продажу"
+                submitButtonText={t("common.create")}
             />
         </div>
     );

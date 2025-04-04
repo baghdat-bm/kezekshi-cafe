@@ -6,6 +6,7 @@ import { useWarehouseStore } from '@/lib/store/warehouses';
 import { useWritingOffReasonStore } from '@/lib/store/writing-off-reasons';
 import { useDishStore } from '@/lib/store/dishes';
 import WriteOffFromWarehouseForm, { WriteOffFormData } from './WriteOffFromWarehouseForm';
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 const WriteOffFromWarehouseCreate = () => {
     const router = useRouter();
@@ -13,6 +14,7 @@ const WriteOffFromWarehouseCreate = () => {
     const { warehouses, fetchWarehouses } = useWarehouseStore();
     const { writingOffReasons, fetchWritingOffReasons } = useWritingOffReasonStore();
     const { dishes, fetchDishes } = useDishStore();
+    const { t } = useTranslationStore();
 
     const [formData, setFormData] = useState<WriteOffFormData>({
         date: '',
@@ -87,8 +89,8 @@ const WriteOffFromWarehouseCreate = () => {
     return (
         <div>
             <WriteOffFromWarehouseForm
-                title="Создать списание со склада"
-                submitButtonText="Создать списание"
+                title={t("writeOff.createNewWriteOff")}
+                submitButtonText={t("common.create")}
                 formData={formData}
                 setFormData={setFormData}
                 warehouses={warehouses}

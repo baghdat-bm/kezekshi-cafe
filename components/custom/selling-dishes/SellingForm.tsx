@@ -18,6 +18,7 @@ import {Select, SelectTrigger, SelectValue, SelectContent, SelectItem} from "@/c
 import { CircleX, CirclePlus } from "lucide-react";
 import {useRouter} from "next/navigation";
 import {Dish, useDishStore} from "@/lib/store/dishes";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 export type DishItem = {
     dish: string;
@@ -69,6 +70,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
                                                      submitButtonText,
                                                  }) => {
     const router = useRouter();
+    const { language, t } = useTranslationStore();
     // const dishLockRef = useRef(new Set<string>());
     // const lastDishRef = useRef<{ dishId: string; time: number }>({ dishId: "", time: 0 });
 
@@ -131,7 +133,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
                 {/* Блок 1: Номер, Дата, Принята */}
                 <div className="grid gap-4 md:grid-cols-3">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Дата</label>
+                        <label className="block text-sm font-medium text-gray-700">{t("common.date")}</label>
                         <Input
                             type="datetime-local"
                             name="date"
@@ -142,7 +144,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
                         />
                     </div>
                     <div className="flex flex-col">
-                        <label className="mb-1">Принята:</label>
+                        <label className="mb-1">{t("common.accepted")}:</label>
                         <Checkbox
                             name="accepted"
                             checked={formData.accepted}
@@ -157,7 +159,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
                 {/* Блок 2: Сумма, Оплаченная сумма */}
                 <div className="grid gap-4 md:grid-cols-2">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Сумма</label>
+                        <label className="block text-sm font-medium text-gray-700">{t("common.sum")}</label>
                         <Input
                             type="number"
                             step="0.01"
@@ -169,7 +171,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
                         />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Оплаченная сумма</label>
+                        <label className="block text-sm font-medium text-gray-700">{t("common.paidAmount")}</label>
                         <Input
                             type="number"
                             step="0.01"
@@ -185,7 +187,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
                 {/* Блок 3: Учащийся, Склад (с использованием Select) */}
                 <div className="grid gap-4 md:grid-cols-2">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Учащийся</label>
+                        <label className="block text-sm font-medium text-gray-700">{t("common.student")}</label>
                         <Select
                             value={formData.student}
                             onValueChange={(value) => handleSelectChange("student", value)}
@@ -204,7 +206,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
                         </Select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Склад</label>
+                        <label className="block text-sm font-medium text-gray-700">{t("common.warehouse")}</label>
                         <Select
                             value={formData.warehouse}
                             onValueChange={(value) => handleSelectChange("warehouse", value)}
@@ -225,15 +227,15 @@ const SellingForm: React.FC<SellingFormProps> = ({
                 </div>
 
                 {/* Блок 4: Таблица с блюдами (с использованием Select для выбора блюда) */}
-                <h2 className="kez-info-text">Блюда</h2>
+                <h2 className="kez-info-text">{t("common.dishes")}</h2>
 
                 <Table>
                     <TableHeader className="border border-gray-300">
                         <TableRow className="border border-gray-300 text-gray-500">
-                            <TableHead className="p-3 font-bold px-10">Блюдо</TableHead>
-                            <TableHead className="p-3 font-bold">Кол-во</TableHead>
-                            <TableHead className="p-3 font-bold">Цена</TableHead>
-                            <TableHead className="p-3 font-bold">Сумма</TableHead>
+                            <TableHead className="p-3 font-bold px-10">{t("common.dish")}</TableHead>
+                            <TableHead className="p-3 font-bold">{t("common.quantity")}</TableHead>
+                            <TableHead className="p-3 font-bold">{t("common.price")}</TableHead>
+                            <TableHead className="p-3 font-bold">{t("common.sum")}</TableHead>
                             <TableHead className="p-3 font-bold"></TableHead>
                         </TableRow>
                     </TableHeader>
@@ -253,7 +255,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
                                             {dishes.map((dish) => (
                                                 <SelectItem key={dish.id} value={String(dish.id)}
                                                             className="kez-select-item">
-                                                    {dish.name_ru || dish.name_en || dish.name}
+                                                    { dish[`name_${language}`] }
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
@@ -298,13 +300,13 @@ const SellingForm: React.FC<SellingFormProps> = ({
                     </TableBody>
                 </Table>
                 <Button className="kez-simple-btn" type="button" onClick={handleAddItem}>
-                    <CirclePlus className="text-green-600"/> Добавить блюдо
+                    <CirclePlus className="text-green-600"/> {t("common.addDish")}
                 </Button>
 
 
                 {/* Блок 5: Комментарий */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Комментарий</label>
+                    <label className="block text-sm font-medium text-gray-700">{t("common.comments")}</label>
                     <Textarea
                         name="commentary"
                         value={formData.commentary}
@@ -327,7 +329,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
 
             {/* Правая часть - Подбор блюд */}
             <div className="w-3/5 border border-gray-200 rounded-md p-4 bg-gray-50">
-                <h2 className="font-semibold text-lg mb-2">Выберите блюдо:</h2>
+                <h2 className="font-semibold text-lg mb-2">{t("refs.selectDish")}:</h2>
                 <SelectDish onSelectDish={handleAddDish}/>
             </div>
         </div>

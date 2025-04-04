@@ -39,13 +39,15 @@
     "costPrice": "Құны",
     "salePrice": "Сату бағасы",
     "paidAmount": "Төленген сома",
+    "price": "Бағасы",
     "supplier": "Жеткізуші",
     "warehouse": "Қойма",
     "dishes": "Тағамдар",
     "dish": "Тағам",
     "addDish": "Тағам қосу",
     "comments": "Eскерту",
-    "actions": "Әрекеттер"
+    "actions": "Әрекеттер",
+    "student": "Оқушы"
   },
   "dates": {
     "sunday": "Жексенбі",
@@ -70,6 +72,7 @@
     "createNewDish": "Жаңа тағам қосу",
     "editDish": "Тағамды өңдеу",
     "dishesList": "Тағамдар тізімі",
+    "selectDish": "Тағамды таңдаңыз",
     "selectUnit": "Өлшем бірлік таңдаңыз",
     "createNewContractor": "Жаңа жеткізушіні қосу",
     "contractorsList": "Жеткізушілер тізімі",
@@ -88,8 +91,9 @@
   },
   "selling": {
     "createNewSell": "Жаңа сатылым қосу",
+    "editSell": "Сатылымды өңдеу",
     "confirmDeleteSell": "Сіз бұл сатылымды шынымен жойғыңыз келе ме?",
-    "sellList": "Азық-түлік сатылымының тізімі"
+    "sellList": "Тағамдар сатылымдарының тізімі"
   },
   "incomingInvoice": {
     "confirmDeleteInvoice": "Сіз бұл құжатты шынымен жойғыңыз келе ме?",
@@ -109,7 +113,8 @@
   "writeOff": {
     "confirmDeleteWriteOff": "Сіз бұл есептен шығаруды шынымен жойғыңыз келе ме?",
     "createNewWriteOff": "Жаңа есептен шығаруды жасау",
-    "editWriteOff": "",
-    "writeOffsList": "Қоймалардан есептен шығару тізімі"
+    "editWriteOff": "Есептен шығаруды өңдеу",
+    "writeOffsList": "Қоймалардан есептен шығару тізімі",
+    "writingOffReason": "Есептен шығарудың себебі"
   }
 }

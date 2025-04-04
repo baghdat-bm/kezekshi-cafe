@@ -39,13 +39,15 @@
     "costPrice": "Себестоимость",
     "salePrice": "Цена продажи",
     "paidAmount": "Оплаченная сумма",
+    "price": "Цена",
     "supplier": "Поставщик",
     "warehouse": "Склад",
     "dishes": "Блюда",
     "dish": "Блюдо",
     "addDish": "Добавить блюдо",
     "comments": "Комментарий",
-    "actions": "Действия"
+    "actions": "Действия",
+    "student": "Учащийся"
   },
   "dates": {
     "sunday": "Воскресенье",
@@ -70,6 +72,7 @@
     "createNewDish": "Создать новое блюдо",
     "editDish": "Редактирование блюда",
     "dishesList": "Список блюд",
+    "selectDish": "Выберите блюдо",
     "selectUnit": "Выберите единицу",
     "createNewContractor": "Добавить нового поставщика",
     "contractorsList": "Список поставщиков",
@@ -88,6 +91,7 @@
   },
   "selling": {
     "createNewSell": "Создать новую продажу блюд",
+    "editSell": "Редактировать продажу блюд",
     "confirmDeleteSell": "Вы действительно хотите удалить эту продажу?",
     "sellList": "Список продаж блюд"
   },
@@ -109,7 +113,8 @@
   "writeOff": {
     "confirmDeleteWriteOff": "Вы действительно хотите удалить это списание?",
     "createNewWriteOff": "Создать новое списание со склада",
-    "editWriteOff": "",
-    "writeOffsList": "Список списаний со складов"
+    "editWriteOff": "Изменения списания со склада",
+    "writeOffsList": "Список списаний со складов",
+    "writingOffReason": "Причина списания"
   }
 }

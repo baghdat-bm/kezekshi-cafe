@@ -17,6 +17,8 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@
 import { CircleX } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import {Dish} from "@/lib/store/dishes";
+import useTranslationStore from "@/lib/store/useTranslationStore";
+import {WritingOffReason} from "@/lib/store/writing-off-reasons";
 
 export type WriteOffFormData = {
     date: string;
@@ -36,7 +38,7 @@ type WriteOffFormProps = {
     formData: WriteOffFormData;
     setFormData: React.Dispatch<React.SetStateAction<WriteOffFormData>>;
     warehouses: Array<{ id: number; name: string }>;
-    writingOffReasons: Array<{ id: number; name: string }>;
+    writingOffReasons: Array<WritingOffReason>;
     dishes: Dish[];
     handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
     handleSelectChange: (name: string, value: string) => void;
@@ -62,6 +64,7 @@ const WriteOffFromWarehouseForm: React.FC<WriteOffFormProps> = ({
                                                                     handleSubmit,
                                                                 }) => {
     const router = useRouter();
+    const { language, t } = useTranslationStore();
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -71,7 +74,7 @@ const WriteOffFromWarehouseForm: React.FC<WriteOffFormProps> = ({
             </div>
             <div className="grid gap-4 md:grid-cols-3">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Дата</label>
+                    <label className="block text-sm font-medium text-gray-700">{t("common.date")}</label>
                     <Input
                         type="datetime-local"
                         name="date"
@@ -82,7 +85,7 @@ const WriteOffFromWarehouseForm: React.FC<WriteOffFormProps> = ({
                     />
                 </div>
                 <div className="flex flex-col">
-                    <label className="mb-1">Принята:</label>
+                    <label className="mb-1">{t("common.accepted")}:</label>
                     <Checkbox
                         name="accepted"
                         checked={formData.accepted}
@@ -97,7 +100,7 @@ const WriteOffFromWarehouseForm: React.FC<WriteOffFormProps> = ({
             {/* Блок 2: Склад, Причина списания (Select) */}
             <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Склад</label>
+                    <label className="block text-sm font-medium text-gray-700">{t("common.warehouse")}</label>
                     <Select
                         value={formData.warehouse}
                         onValueChange={(value) => handleSelectChange('warehouse', value)}
@@ -116,7 +119,7 @@ const WriteOffFromWarehouseForm: React.FC<WriteOffFormProps> = ({
                     </Select>
                 </div>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700">Причина списания</label>
+                    <label className="block text-sm font-medium text-gray-700">{t("writeOff.writingOffReason")}</label>
                     <Select
                         value={formData.writing_off_reason}
                         onValueChange={(value) => handleSelectChange('writing_off_reason', value)}
@@ -128,7 +131,7 @@ const WriteOffFromWarehouseForm: React.FC<WriteOffFormProps> = ({
                         <SelectContent className="kez-select-content">
                             {writingOffReasons.map((reason) => (
                                 <SelectItem key={reason.id} value={String(reason.id)} className="kez-select-item">
-                                    {reason.name}
+                                    {reason[`name_${language}`]}
                                 </SelectItem>
                             ))}
                         </SelectContent>
@@ -137,14 +140,14 @@ const WriteOffFromWarehouseForm: React.FC<WriteOffFormProps> = ({
             </div>
 
             {/* Блок 3: Таблица для позиций списания */}
-            <h2 className="kez-info-text">Блюда</h2>
+            <h2 className="kez-info-text">{t("common.dishes")}</h2>
             <div className="mb-4 border p-4">
                 <Table className="w-full">
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Блюдо</TableHead>
-                            <TableHead>Количество</TableHead>
-                            <TableHead>Удалить</TableHead>
+                            <TableHead>{t("common.dish")}</TableHead>
+                            <TableHead>{t("common.quantity")}</TableHead>
+                            <TableHead>{t("common.delete")}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -162,7 +165,7 @@ const WriteOffFromWarehouseForm: React.FC<WriteOffFormProps> = ({
                                         <SelectContent className="kez-select-content">
                                             {dishes.map((dish) => (
                                                 <SelectItem key={dish.id} value={String(dish.id)} className="kez-select-item">
-                                                    {dish.name_ru || dish.name_en || dish.name}
+                                                    { dish[`name_${language}`] }
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
@@ -186,13 +189,13 @@ const WriteOffFromWarehouseForm: React.FC<WriteOffFormProps> = ({
                     </TableBody>
                 </Table>
                 <Button className="kez-simple-btn mt-2" type="button" onClick={handleAddItem}>
-                    Добавить блюдо
+                    {t("common.addDish")}
                 </Button>
             </div>
 
             {/* Блок 4: Комментарий */}
             <div>
-                <label className="block text-sm font-medium text-gray-700">Комментарий</label>
+                <label className="block text-sm font-medium text-gray-700">{t("common.comments")}</label>
                 <Textarea
                     name="commentary"
                     value={formData.commentary}
@@ -205,7 +208,7 @@ const WriteOffFromWarehouseForm: React.FC<WriteOffFormProps> = ({
             <div className="pt-1">
                 <Button type="submit" className="kez-submit-btn">{submitButtonText}</Button>
                 <Button className="kez-simple-btn mx-2" type="button" onClick={() => router.push('/operations/write-offs')}>
-                    Отмена
+                    {t("common.cancel")}
                 </Button>
             </div>
         </form>
