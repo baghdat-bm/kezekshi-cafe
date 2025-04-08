@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {useMemo, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {Checkbox} from "@/components/ui/checkbox";
@@ -19,6 +19,7 @@ import { CircleX, CirclePlus } from "lucide-react";
 import {useRouter} from "next/navigation";
 import {Dish, useDishStore} from "@/lib/store/dishes";
 import useTranslationStore from "@/lib/store/useTranslationStore";
+import {Student} from "@/lib/store/students";
 
 export type DishItem = {
     dish: string;
@@ -44,7 +45,7 @@ type SellingFormProps = {
     formData: SellingFormData;
     setFormData: React.Dispatch<React.SetStateAction<SellingFormData>>;
     warehouses: Array<{ id: number; name: string }>;
-    students: Array<{ id: number; full_name: string }>;
+    students: Student[];
     dishes: Dish[];
     handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
     handleSelectChange: (name: string, value: string) => void;
@@ -71,19 +72,35 @@ const SellingForm: React.FC<SellingFormProps> = ({
                                                  }) => {
     const router = useRouter();
     const { language, t } = useTranslationStore();
-    // const dishLockRef = useRef(new Set<string>());
-    // const lastDishRef = useRef<{ dishId: string; time: number }>({ dishId: "", time: 0 });
+    // Состояние для фильтра по IIN/имени
+    const [query, setQuery] = useState('');
+    // Состояние для управления раскрытием списка
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    // Фильтрация списка студентов по iin или имени (без учета регистра)
+    const filteredStudents = useMemo(() => {
+        if (!query) return students;
+        return students.filter((st) => {
+            const iinMatch = st.iin && st.iin.includes(query);
+            const nameMatch = st.full_name.toLowerCase().includes(query.toLowerCase());
+            return iinMatch || nameMatch;
+        });
+    }, [query, students]);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setQuery(value);
+        // Если пользователь что-то вводит, открываем список
+        if (value.length > 0) {
+            setIsDropdownOpen(true);
+        } else {
+            setIsDropdownOpen(false);
+        }
+    };
 
     // 🛠 Функция добавления блюда в таблицу
     const handleAddDish = (dish: Dish) => {
         const dishIdStr = dish.id.toString();
-        // const now = Date.now();
-        // // Если тот же dish добавляется повторно слишком быстро – пропускаем обновление
-        // if (lastDishRef.current.dishId === dishIdStr && now - lastDishRef.current.time < 100) {
-        //     console.log("Duplicate call ignored for dish:", dishIdStr);
-        //     return;
-        // }
-        // lastDishRef.current = { dishId: dishIdStr, time: now };
 
         setFormData((prev) => {
             const existingIndex = prev.selling_dish_items.findIndex(
@@ -188,18 +205,42 @@ const SellingForm: React.FC<SellingFormProps> = ({
                 <div className="grid gap-4 md:grid-cols-2">
                     <div>
                         <label className="block text-sm font-medium text-gray-700">{t("common.student")}</label>
+
+                        <label className="block text-sm font-medium text-gray-700">
+                            Найти учащегося по ИИН или по имени
+                        </label>
+                        <Input
+                            type="text"
+                            placeholder="Введите ИИН или имя учащегося"
+                            value={query}
+                            onChange={handleInputChange}
+                            className="kez-input mb-4"
+                        />
+
                         <Select
+                            open={isDropdownOpen}
+                            onOpenChange={setIsDropdownOpen}
                             value={formData.student}
-                            onValueChange={(value) => handleSelectChange("student", value)}
+                            onValueChange={(value) => {
+                                handleSelectChange("student", value);
+                                setIsDropdownOpen(false);
+                            }}
                             required
                         >
                             <SelectTrigger className="kez-input">
                                 <SelectValue placeholder="Выберите учащегося"/>
                             </SelectTrigger>
+                            {/*<SelectContent className="kez-select-content">*/}
+                            {/*    {students.map((st) => (*/}
+                            {/*        <SelectItem key={st.id} value={String(st.id)} className="kez-select-item">*/}
+                            {/*            {st.full_name}*/}
+                            {/*        </SelectItem>*/}
+                            {/*    ))}*/}
+                            {/*</SelectContent>*/}
                             <SelectContent className="kez-select-content">
-                                {students.map((st) => (
+                                {filteredStudents.map((st) => (
                                     <SelectItem key={st.id} value={String(st.id)} className="kez-select-item">
-                                        {st.full_name}
+                                        {st.full_name} {st.iin && `(${st.iin})`}
                                     </SelectItem>
                                 ))}
                             </SelectContent>
