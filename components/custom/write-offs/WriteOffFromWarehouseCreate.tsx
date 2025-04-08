@@ -18,7 +18,7 @@ const WriteOffFromWarehouseCreate = () => {
 
     const [formData, setFormData] = useState<WriteOffFormData>({
         date: '',
-        accepted: false,
+        accepted: true,
         warehouse: '',
         writing_off_reason: '',
         commentary: '',

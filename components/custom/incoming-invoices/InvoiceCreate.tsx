@@ -20,7 +20,7 @@ const InvoiceCreate = () => {
 
     const [formData, setFormData] = useState({
         date: '',
-        accepted: false,
+        accepted: true,
         warehouse: '',
         supplier: '',
         commentary: '',

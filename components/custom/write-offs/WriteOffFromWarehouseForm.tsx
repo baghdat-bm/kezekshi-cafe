@@ -72,6 +72,7 @@ const WriteOffFromWarehouseForm: React.FC<WriteOffFormProps> = ({
             <div>
                 <h1 className="kez-info-text">{title}</h1>
             </div>
+            {formData.date && (
             <div className="grid gap-4 md:grid-cols-3">
                 <div>
                     <label className="block text-sm font-medium text-gray-700">{t("common.date")}</label>
@@ -95,7 +96,7 @@ const WriteOffFromWarehouseForm: React.FC<WriteOffFormProps> = ({
                         className="kez-input"
                     />
                 </div>
-            </div>
+            </div> )}
 
             {/* Блок 2: Склад, Причина списания (Select) */}
             <div className="grid gap-4 md:grid-cols-2">

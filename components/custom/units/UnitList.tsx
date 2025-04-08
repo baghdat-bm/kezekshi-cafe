@@ -46,7 +46,7 @@ const UnitList = () => {
                                 </Link>
                             </TableCell>
                             <TableCell className="text-center">
-                                <UnitDeleteButton id={item.id} onDelete={deleteUnit} />
+                                <UnitDeleteButton id={item.id} onDelete={deleteUnit}/>
                             </TableCell>
                         </TableRow>
                     ))}

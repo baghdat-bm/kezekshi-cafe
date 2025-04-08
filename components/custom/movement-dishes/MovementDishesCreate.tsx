@@ -16,7 +16,7 @@ const MovementDishesCreate = () => {
 
     const [formData, setFormData] = useState<MovementDishesFormData>({
         date: '',
-        accepted: false,
+        accepted: true,
         warehouse_from: '',
         warehouse_to: '',
         commentary: '',

@@ -19,7 +19,7 @@ const SellingDishesCreate = () => {
 
     const [formData, setFormData] = useState({
         date: '',
-        accepted: false,
+        accepted: true,
         warehouse: '',
         student: '',
         amount: 0,

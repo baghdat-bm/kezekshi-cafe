@@ -78,6 +78,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
             <form onSubmit={handleSubmit} className="mt-2">
                 {/* Блок 1: Два ряда по три колонки */}
                 <div className="mb-4">
+                    {formData.date && (
                     <div className="grid grid-cols-3 gap-4">
                         <div>
                             <label>{t("common.date")}:</label>
@@ -101,7 +102,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({
                                 className="kez-input"
                             />
                         </div>
-                    </div>
+                    </div> )}
                     <div className="grid grid-cols-3 gap-4 mt-4">
                         <div>
                             <label>{t("common.sum")}:</label>

@@ -131,6 +131,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
                 <h1 className="kez-info-text">{title}</h1>
 
                 {/* Блок 1: Номер, Дата, Принята */}
+                {formData.date && (
                 <div className="grid gap-4 md:grid-cols-3">
                     <div>
                         <label className="block text-sm font-medium text-gray-700">{t("common.date")}</label>
@@ -139,7 +140,6 @@ const SellingForm: React.FC<SellingFormProps> = ({
                             name="date"
                             value={formData.date}
                             onChange={handleChange}
-                            required
                             className="kez-input"
                         />
                     </div>
@@ -154,7 +154,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
                             className="kez-input"
                         />
                     </div>
-                </div>
+                </div>)}
 
                 {/* Блок 2: Сумма, Оплаченная сумма */}
                 <div className="grid gap-4 md:grid-cols-2">
