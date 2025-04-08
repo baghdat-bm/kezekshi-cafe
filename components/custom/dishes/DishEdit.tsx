@@ -5,12 +5,14 @@ import { useRouter, useParams } from 'next/navigation';
 import { useDishStore } from '@/lib/store/dishes';
 import DishForm, { DishFormValues } from './DishForm';
 import useTranslationStore from "@/lib/store/useTranslationStore";
+import {useGlobalStore} from "@/lib/store/globalStore";
 
 const DishEdit = () => {
     const router = useRouter();
     const params = useParams();
     const dishId = Number(params.id);
     const { t } = useTranslationStore();
+    const { setLoading } = useGlobalStore();
 
     const { selectedDish, fetchDish, updateDish } = useDishStore();
 
@@ -21,8 +23,17 @@ const DishEdit = () => {
     }, [dishId, fetchDish]);
 
     const handleSubmit = async (formData: FormData) => {
-        await updateDish(dishId, formData);
-        router.push('/admin/dishes');
+        setLoading(true);
+
+        try {
+            await updateDish(dishId, formData);
+            router.push('/admin/dishes');
+        } catch (error) {
+            console.error("Ошибка в updateDish:", error);
+            // Можно добавить уведомление об ошибке
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleCancel = () => {

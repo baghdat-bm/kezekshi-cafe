@@ -6,6 +6,7 @@ import {useDishCategoryStore} from "@/lib/store/dish-categories";
 import {useDishStore, Dish} from "@/lib/store/dishes";
 import clsx from "clsx";
 import useTranslationStore from "@/lib/store/useTranslationStore";
+import {useGlobalStore} from "@/lib/store/globalStore";
 
 
 interface SelectDishProps {
@@ -17,10 +18,12 @@ export default function SelectDish({onSelectDish}: SelectDishProps) {
     const {dishesExt, fetchDishesExt} = useDishStore();
     const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
     const { language, t } = useTranslationStore();
+    const { setLoading } = useGlobalStore();
 
     useEffect(() => {
+        setLoading(true);
         fetchCategories();
-        fetchDishesExt();
+        fetchDishesExt().then(() => setLoading(false));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

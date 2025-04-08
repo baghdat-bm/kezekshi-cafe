@@ -7,6 +7,7 @@ import { useWritingOffReasonStore } from '@/lib/store/writing-off-reasons';
 import { useDishStore } from '@/lib/store/dishes';
 import WriteOffFromWarehouseForm, { WriteOffFormData } from './WriteOffFromWarehouseForm';
 import useTranslationStore from "@/lib/store/useTranslationStore";
+import {useGlobalStore} from "@/lib/store/globalStore";
 
 const WriteOffFromWarehouseEdit = () => {
     const router = useRouter();
@@ -17,6 +18,7 @@ const WriteOffFromWarehouseEdit = () => {
     const { writingOffReasons, fetchWritingOffReasons } = useWritingOffReasonStore();
     const { dishes, fetchDishes } = useDishStore();
     const { t } = useTranslationStore();
+    const { setLoading } = useGlobalStore();
 
     const [formData, setFormData] = useState<WriteOffFormData>({
         date: '',
@@ -93,7 +95,7 @@ const WriteOffFromWarehouseEdit = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
+        setLoading(true);
         const payload = {
             ...formData,
             warehouse: Number(formData.warehouse),
@@ -104,8 +106,15 @@ const WriteOffFromWarehouseEdit = () => {
             })),
         };
 
-        await updateWriteOffFromWarehouse(Number(documentId), payload);
-        router.push('/operations/write-offs');
+        try {
+            await updateWriteOffFromWarehouse(Number(documentId), payload);
+            router.push('/operations/write-offs');
+        } catch (error) {
+            console.error("Ошибка в updateWriteOffFromWarehouse:", error);
+            // Можно добавить уведомление об ошибке
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (

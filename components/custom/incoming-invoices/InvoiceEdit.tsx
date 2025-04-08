@@ -9,6 +9,7 @@ import { useContractorStore } from '@/lib/store/contractors';
 import { useDishStore } from '@/lib/store/dishes';
 import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
 import useTranslationStore from "@/lib/store/useTranslationStore";
+import { useGlobalStore } from '@/lib/store/globalStore';
 
 const InvoiceEdit = () => {
     const router = useRouter();
@@ -20,6 +21,7 @@ const InvoiceEdit = () => {
     const { dishes, fetchDishes } = useDishStore();
     const { units, fetchUnits } = useMeasurementUnitStore();
     const { t } = useTranslationStore();
+    const { setLoading } = useGlobalStore();
 
     const [formData, setFormData] = useState<InvoiceFormData>({
         date: '',
@@ -101,6 +103,7 @@ const InvoiceEdit = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true);
         const payload = {
             ...formData,
             warehouse: Number(formData.warehouse),
@@ -117,8 +120,15 @@ const InvoiceEdit = () => {
             })),
         };
 
-        await updateIncomingInvoice(Number(invoiceId), payload);
-        router.push('/operations/incoming-invoices');
+        try {
+            await updateIncomingInvoice(Number(invoiceId), payload);
+            router.push('/operations/incoming-invoices');
+        } catch (error) {
+            console.error("Ошибка при обновлении:", error);
+            // Можно добавить уведомление об ошибке
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (

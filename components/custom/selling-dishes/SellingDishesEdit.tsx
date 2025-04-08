@@ -8,6 +8,7 @@ import { useStudentStore } from '@/lib/store/students';
 import { useDishStore } from '@/lib/store/dishes';
 import SellingForm from './SellingForm';
 import useTranslationStore from "@/lib/store/useTranslationStore";
+import {useGlobalStore} from "@/lib/store/globalStore";
 
 const SellingDishesEdit = () => {
     const router = useRouter();
@@ -18,6 +19,7 @@ const SellingDishesEdit = () => {
     const { students, fetchStudents } = useStudentStore();
     const { dishes, fetchDishes } = useDishStore();
     const { t } = useTranslationStore();
+    const { setLoading } = useGlobalStore();
 
     const [formData, setFormData] = useState({
         date: '',
@@ -103,7 +105,7 @@ const SellingDishesEdit = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
+        setLoading(true);
         const payload = {
             ...formData,
             warehouse: Number(formData.warehouse),
@@ -118,8 +120,15 @@ const SellingDishesEdit = () => {
             })),
         };
 
-        await updateSellingDishes(Number(documentId), payload);
-        router.push('/operations/selling-dishes');
+        try {
+            await updateSellingDishes(Number(documentId), payload);
+            router.push('/operations/selling-dishes');
+        } catch (error) {
+            console.error("Ошибка в updateSellingDishes:", error);
+            // Можно добавить уведомление об ошибке
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (

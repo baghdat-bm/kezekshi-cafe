@@ -6,6 +6,7 @@ import { useWarehouseStore } from '@/lib/store/warehouses';
 import { useDishStore } from '@/lib/store/dishes';
 import MovementDishesForm, { MovementDishesFormData } from './MovementDishesForm';
 import useTranslationStore from "@/lib/store/useTranslationStore";
+import {useGlobalStore} from "@/lib/store/globalStore";
 
 const MovementDishesEdit = () => {
     const router = useRouter();
@@ -15,6 +16,7 @@ const MovementDishesEdit = () => {
     const { warehouses, fetchWarehouses } = useWarehouseStore();
     const { dishes, fetchDishes } = useDishStore();
     const { t } = useTranslationStore();
+    const { setLoading } = useGlobalStore();
 
     const [formData, setFormData] = useState<MovementDishesFormData>({
         date: '',
@@ -87,7 +89,7 @@ const MovementDishesEdit = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
+        setLoading(true);
         const payload = {
             ...formData,
             warehouse_from: Number(formData.warehouse_from),
@@ -98,8 +100,15 @@ const MovementDishesEdit = () => {
             })),
         };
 
-        await updateMovementDishes(Number(documentId), payload);
-        router.push('/operations/movement-dishes');
+        try {
+            await updateMovementDishes(Number(documentId), payload);
+            router.push('/operations/movement-dishes');
+        } catch (error) {
+            console.error("Ошибка в updateMovementDishes:", error);
+            // Можно добавить уведомление об ошибке
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (

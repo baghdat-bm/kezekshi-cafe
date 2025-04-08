@@ -5,6 +5,8 @@ import { useAuthStore } from "@/lib/store/auth";
 import { usePathname, useRouter } from "next/navigation";
 import useTranslationStore from "@/lib/store/useTranslationStore";
 import { useCookies } from 'next-client-cookies';
+import {useGlobalStore} from "@/lib/store/globalStore";
+import Spinner from "@/components/custom/Spinner";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading, refreshAccessToken } = useAuthStore();
@@ -14,6 +16,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   const { setLanguage } = useTranslationStore();
 
   const cookies = useCookies();
+  const globalLoading = useGlobalStore(state => state.loading);
 
   // При первом рендере загружаем переводы для языка по умолчанию
   useEffect(() => {
@@ -50,5 +53,16 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     return <div className="flex justify-center items-center h-screen">Загрузка...</div>;
   }
 
-  return <>{children}</>;
+  return (
+      // Оборачиваем контент в контейнер с relative позиционированием
+      <div className="relative">
+        {/* Если глобальное состояние loading = true, отображаем спиннер поверх всего */}
+        {globalLoading && (
+            <div className="absolute inset-0 z-50 flex items-center justify-center bg-white bg-opacity-60">
+              <Spinner/>
+            </div>
+        )}
+        {children}
+      </div>
+  );
 }

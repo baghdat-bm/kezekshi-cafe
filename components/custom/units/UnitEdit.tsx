@@ -5,6 +5,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { useMeasurementUnitStore } from '@/lib/store/measurement-units';
 import UnitForm, { UnitFormValues } from './UnitForm';
 import useTranslationStore from "@/lib/store/useTranslationStore";
+import {useGlobalStore} from "@/lib/store/globalStore";
 
 const UnitEdit = () => {
     const router = useRouter();
@@ -13,6 +14,7 @@ const UnitEdit = () => {
 
     const { selectedUnit, fetchUnit, updateUnit } = useMeasurementUnitStore();
     const { t } = useTranslationStore();
+    const { setLoading } = useGlobalStore();
 
     useEffect(() => {
         if (unitId) {
@@ -21,8 +23,17 @@ const UnitEdit = () => {
     }, [unitId, fetchUnit]);
 
     const handleSubmit = async (data: UnitFormValues) => {
-        await updateUnit(unitId, data);
-        router.push('/admin/units');
+        setLoading(true);
+
+        try {
+            await updateUnit(unitId, data);
+            router.push('/admin/units');
+        } catch (error) {
+            console.error("Ошибка в updateUnit:", error);
+            // Можно добавить уведомление об ошибке
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleCancel = () => {
