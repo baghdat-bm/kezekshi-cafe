@@ -23,7 +23,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
     title: "Kezekshi Kassa",
-    description: "Developed by baghdat.bm@gmail.com",
+    description: "Developer baghdat.bm@gmail.com",
 };
 
 export default async function RootLayout({
@@ -34,7 +34,6 @@ export default async function RootLayout({
 
     const cookieStore = await cookies()
     const defaultOpen = cookieStore.get("sidebar_state")?.value === "true"
-
 
     return (
         <html lang="ru">

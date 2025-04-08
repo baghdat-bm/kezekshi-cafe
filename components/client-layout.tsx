@@ -4,21 +4,29 @@ import { useEffect } from "react";
 import { useAuthStore } from "@/lib/store/auth";
 import { usePathname, useRouter } from "next/navigation";
 import useTranslationStore from "@/lib/store/useTranslationStore";
+import { useCookies } from 'next-client-cookies';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading, refreshAccessToken } = useAuthStore();
   const pathname = usePathname();
   const router = useRouter();
 
-  const { language, setLanguage } = useTranslationStore();
+  const { setLanguage } = useTranslationStore();
+
+  const cookies = useCookies();
 
   // При первом рендере загружаем переводы для языка по умолчанию
   useEffect(() => {
+    const defaultLanguage = cookies.get("language_state") || "kz"
+
     // Если переводы еще не загружены, запускаем загрузку
-    if (Object.keys(useTranslationStore.getState().translations).length === 0) {
-      setLanguage(language);
-    }
-  }, [language, setLanguage]);
+    // if (Object.keys(useTranslationStore.getState().translations).length === 0) {
+    //   setLanguage(defaultLanguage);
+    // }
+    useTranslationStore.getState();
+    setLanguage(defaultLanguage);
+
+  }, [setLanguage]);
 
 
   useEffect(() => {

@@ -9,6 +9,9 @@ interface TranslationStore {
   t: (key: string) => string;
 }
 
+const LANGUAGE_COOKIE_NAME = "language_state"
+const LANGUAGE_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
+
 const useTranslationStore = create<TranslationStore>((set, get) => ({
   language: 'kz',
   translations: {},
@@ -22,6 +25,9 @@ const useTranslationStore = create<TranslationStore>((set, get) => ({
     } catch (error) {
       console.error('Ошибка при загрузке переводов:', error);
     }
+
+    // This sets the cookie to keep the sidebar state.
+    document.cookie = `${LANGUAGE_COOKIE_NAME}=${lang}; path=/; max-age=${LANGUAGE_COOKIE_MAX_AGE}`
   },
   // Функция t принимает ключ в формате "home.welcome" и ищет значение в объекте translations
   t: (key: string): string => {
