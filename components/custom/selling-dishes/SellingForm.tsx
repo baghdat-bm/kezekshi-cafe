@@ -218,8 +218,8 @@ const SellingForm: React.FC<SellingFormProps> = ({
                         />
 
                         <Select
-                            open={isDropdownOpen}
-                            onOpenChange={setIsDropdownOpen}
+                            // open={isDropdownOpen}
+                            // onOpenChange={setIsDropdownOpen}
                             value={formData.student}
                             onValueChange={(value) => {
                                 handleSelectChange("student", value);
