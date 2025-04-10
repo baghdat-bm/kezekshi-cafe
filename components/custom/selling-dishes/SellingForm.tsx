@@ -75,7 +75,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
     // Состояние для фильтра по IIN/имени
     const [query, setQuery] = useState('');
     // Состояние для управления раскрытием списка
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     // Фильтрация списка студентов по iin или имени (без учета регистра)
     const filteredStudents = useMemo(() => {
@@ -91,11 +91,11 @@ const SellingForm: React.FC<SellingFormProps> = ({
         const value = e.target.value;
         setQuery(value);
         // Если пользователь что-то вводит, открываем список
-        if (value.length > 0) {
-            setIsDropdownOpen(true);
-        } else {
-            setIsDropdownOpen(false);
-        }
+        // if (value.length > 0) {
+        //     setIsDropdownOpen(true);
+        // } else {
+        //     setIsDropdownOpen(false);
+        // }
     };
 
     // 🛠 Функция добавления блюда в таблицу
@@ -223,7 +223,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
                             value={formData.student}
                             onValueChange={(value) => {
                                 handleSelectChange("student", value);
-                                setIsDropdownOpen(false);
+                                // setIsDropdownOpen(false);
                             }}
                             required
                         >

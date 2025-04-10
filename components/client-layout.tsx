@@ -29,7 +29,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     useTranslationStore.getState();
     setLanguage(defaultLanguage);
 
-  }, [setLanguage]);
+  }, [cookies, setLanguage]);
 
 
   useEffect(() => {
