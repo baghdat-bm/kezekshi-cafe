@@ -44,7 +44,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       if (isAuthenticated === false && pathname !== "/login") {
         router.push("/login");
       } else if (isAuthenticated && pathname === "/login") {
-        router.push("/");
+        // router.push("/");
       }
     }
   }, [isLoading, isAuthenticated, pathname, router]);

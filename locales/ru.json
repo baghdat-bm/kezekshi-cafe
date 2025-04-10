@@ -2,7 +2,11 @@
   "home": {
     "welcome": "Добро пожаловать!",
     "greeting": "Приветствие!",
-    "loading": "Загрузка..."
+    "loading": "Загрузка...",
+    "enter": "Войти",
+    "authorization": "Авторизация",
+    "userName": "имя пользователя",
+    "password": "пароль"
   },
   "sidebar": {
     "documents": "Документы",

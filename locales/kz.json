@@ -2,7 +2,11 @@
   "home": {
     "welcome": "Қош келдіңіз!",
     "greeting": "Ассаламуалейкум!",
-    "loading": "Жүктелуде..."
+    "loading": "Жүктелуде...",
+    "enter": "Кіру",
+    "authorization": "Авторизация",
+    "userName": "пайдаланушы аты",
+    "password": "құпиясөз"
   },
   "sidebar": {
     "documents": "Құжаттар",

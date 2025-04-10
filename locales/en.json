@@ -2,7 +2,11 @@
   "home": {
     "welcome": "Welcome!",
     "greeting": "Hello, world!",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "enter": "Enter",
+    "authorization": "Authorization",
+    "userName": "user name",
+    "password": "password"
   },
   "sidebar": {
     "documents": "Documents",

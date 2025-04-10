@@ -10,7 +10,10 @@ export default function HomePage() {
     const erronOnRefreshToken = useAuthStore((state) => state.erronOnRefreshToken);
     const { t } = useTranslationStore();
 
-    if (erronOnRefreshToken) router.push("/login");
+    if (erronOnRefreshToken) {
+        console.log(erronOnRefreshToken);
+        router.push("/login")
+    }
 
     if (!token) return <p>{t("home.loading")}</p>;
     

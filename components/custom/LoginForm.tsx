@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import useTranslationStore from "@/lib/store/useTranslationStore";
 
 export default function CustomLoginForm() {
   const [username, setUsername] = useState("");
@@ -15,6 +16,7 @@ export default function CustomLoginForm() {
   const [error, setError] = useState("");
   const { login } = useAuthStore();
   const router = useRouter();
+  const { t } = useTranslationStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,10 +38,10 @@ export default function CustomLoginForm() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <Card className="w-96">
+    <div className="flex flex-col items-center justify-center h-screen">
+      <Card className="w-96 bg-gray-100 mb-80">
         <CardHeader>
-          <CardTitle>Вход</CardTitle>
+          <CardTitle>{t("home.authorization")}</CardTitle>
         </CardHeader>
         <CardContent>
           {error && (
@@ -48,20 +50,20 @@ export default function CustomLoginForm() {
             </Alert>
           )}
           <form onSubmit={handleSubmit}>
-            <div className="space-y-4">
-              <Input 
+            <div className="space-y-4 flex flex-col items-center">
+              <Input className="bg-white"
                 type="text"
-                placeholder="Имя пользователя"
+                placeholder={t("home.userName")}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
-              <Input 
+              <Input className="bg-white"
                 type="password"
-                placeholder="Пароль"
+                placeholder={t("home.password")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Button type="submit" className="w-full">Войти</Button>
+              <Button type="submit" className="w-40 bg-blue-200 rounded-2xl">{t("home.enter")}</Button>
             </div>
           </form>
         </CardContent>
