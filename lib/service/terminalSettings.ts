@@ -1,9 +1,9 @@
 import axios from "axios";
 import {useAuthStore} from '@/lib/store/auth';
-import {API_BASE_URL} from "@/lib/service/base";
-import {Student} from "@/lib/store/students";
+import {API_DOCS_URL} from "@/lib/service/base";
+import {TerminalSettings} from "@/lib/store/useTerminalSettings";
 
-const API_URL = `${API_BASE_URL}/students/`;
+const API_URL = `${API_DOCS_URL}/terminal-settings/`;
 
 // сервис для получения списка элементов
 export const fetchItems = async () => {
@@ -16,7 +16,7 @@ export const fetchItems = async () => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при загрузке списка учащихся:', error);
+        console.error('Ошибка при загрузке настроек терминала:', error);
         return [];
     }
 };
@@ -32,13 +32,13 @@ export const fetchItem = async (id: number) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при загрузке учащегося:', error);
+        console.error('Ошибка при загрузке настройки терминала:', error);
         return [];
     }
 };
 
 // Создание нового элемента
-export const createItem = async (itemData: Partial<Student>) => {
+export const createItem = async (itemData: Partial<TerminalSettings>) => {
     const token = useAuthStore.getState().accessToken;
     try {
         const response = await axios.post(`${API_URL}`, itemData, {
@@ -46,13 +46,13 @@ export const createItem = async (itemData: Partial<Student>) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при создании учащегося:', error);
+        console.error('Ошибка при создании настройки терминала:', error);
         throw error;
     }
 };
 
 // Обновление элемента
-export const updateItem = async (id: number, itemData: Partial<Student>) => {
+export const updateItem = async (id: number, itemData: Partial<TerminalSettings>) => {
     const token = useAuthStore.getState().accessToken;
     try {
         const response = await axios.put(`${API_URL}${id}/`, itemData, {
@@ -60,7 +60,7 @@ export const updateItem = async (id: number, itemData: Partial<Student>) => {
         });
         return response.data;
     } catch (error) {
-        console.error('Ошибка при обновлении учащегося:', error);
+        console.error('Ошибка при обновлении настройки терминала:', error);
         throw error;
     }
 };
@@ -73,7 +73,7 @@ export const deleteItem = async (id: number) => {
             headers: {Authorization: `Bearer ${token}`},
         });
     } catch (error) {
-        console.error('Ошибка при удалении учащегося:', error);
+        console.error('Ошибка при удалении настройки терминала:', error);
         throw error;
     }
 };

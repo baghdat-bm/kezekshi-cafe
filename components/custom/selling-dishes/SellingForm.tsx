@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useMemo, useState} from "react";
+import React, {useMemo, useState, useEffect} from "react";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {Checkbox} from "@/components/ui/checkbox";
@@ -20,6 +20,7 @@ import {useRouter} from "next/navigation";
 import {Dish, useDishStore} from "@/lib/store/dishes";
 import useTranslationStore from "@/lib/store/useTranslationStore";
 import {Student} from "@/lib/store/students";
+import {useTerminalSettingsStore} from "@/lib/store/useTerminalSettings";
 
 export type DishItem = {
     dish: string;
@@ -76,6 +77,7 @@ const SellingForm: React.FC<SellingFormProps> = ({
     const [query, setQuery] = useState('');
     // Состояние для управления раскрытием списка
     // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const {terminalSettingsList, fetchTerminalSettingsList} = useTerminalSettingsStore();
 
     // Фильтрация списка студентов по iin или имени (без учета регистра)
     const filteredStudents = useMemo(() => {
@@ -140,13 +142,17 @@ const SellingForm: React.FC<SellingFormProps> = ({
         }
     };
 
+    useEffect(() => {
+            fetchTerminalSettingsList();
+        }, [fetchTerminalSettingsList]
+    )
 
     return (
         <div className="flex space-x-6">
             {/* Левая часть - форма */}
             <form onSubmit={handleSubmit} className="space-y-6 w-2/5">
                 <h1 className="kez-info-text">{title}</h1>
-
+                {terminalSettingsList[0] && (<p>{terminalSettingsList[0].username}</p>)}
                 {/* Блок 1: Номер, Дата, Принята */}
                 {formData.date && (
                 <div className="grid gap-4 md:grid-cols-3">
